@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { CaretDown } from '@phosphor-icons/react'
 
 export default function HeroScrollSection() {
   return (
@@ -62,14 +61,6 @@ export default function HeroScrollSection() {
             </motion.div>
           </motion.div>
 
-          <motion.div
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <span className="text-white/60 text-sm font-lato tracking-widest uppercase">Scroll down</span>
-            <CaretDown size={28} weight="fill" className="text-white/70" />
-          </motion.div>
         </div>
 
       </div>
