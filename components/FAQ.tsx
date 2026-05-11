@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     question: 'What areas do you serve?',
-    answer: 'We currently serve the Connecticut area. Contact us to confirm whether we cover your specific route.',
+    answer: 'We currently serve Massachusetts and surrounding areas. Contact us to confirm whether we cover your specific route.',
   },
   {
     question: 'How is pricing determined?',

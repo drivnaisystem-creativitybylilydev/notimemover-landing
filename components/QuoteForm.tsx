@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import LocationAutocomplete from '@/components/LocationAutocomplete'
 
 interface FormData {
   movingFrom: string
@@ -39,6 +40,18 @@ export default function QuoteForm() {
     phone: '',
   })
   const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem('ntm_quote_step1')
+    if (saved) {
+      try {
+        const data = JSON.parse(saved)
+        setFormData(prev => ({ ...prev, ...data }))
+        setStep(2)
+      } catch {}
+      sessionStorage.removeItem('ntm_quote_step1')
+    }
+  }, [])
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -180,14 +193,13 @@ export default function QuoteForm() {
                   <label className="block text-sm font-semibold text-brown-dark mb-2 font-montserrat">
                     Moving From
                   </label>
-                  <input
-                    type="text"
+                  <LocationAutocomplete
                     name="movingFrom"
-                    placeholder="e.g., New York, NY"
                     value={formData.movingFrom}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3.5 text-base border-2 border-gray-200 rounded-lg focus:border-orange-brand focus:outline-none transition-all duration-200 focus:shadow-md focus:shadow-orange-brand/10 bg-white hover:border-gray-300"
+                    placeholder="e.g., Boston, MA"
                     autoFocus
+                    className="w-full px-4 py-3.5 text-base border-2 border-gray-200 rounded-lg focus:border-orange-brand focus:outline-none transition-all duration-200 focus:shadow-md focus:shadow-orange-brand/10 bg-white hover:border-gray-300"
+                    onChange={val => setFormData(prev => ({ ...prev, movingFrom: val }))}
                   />
                 </div>
 
@@ -195,13 +207,12 @@ export default function QuoteForm() {
                   <label className="block text-sm font-semibold text-brown-dark mb-2 font-montserrat">
                     Moving To
                   </label>
-                  <input
-                    type="text"
+                  <LocationAutocomplete
                     name="movingTo"
-                    placeholder="e.g., San Francisco, CA"
                     value={formData.movingTo}
-                    onChange={handleInputChange}
+                    placeholder="e.g., Worcester, MA"
                     className="w-full px-4 py-3.5 text-base border-2 border-gray-200 rounded-lg focus:border-orange-brand focus:outline-none transition-all duration-200 focus:shadow-md focus:shadow-orange-brand/10 bg-white hover:border-gray-300"
+                    onChange={val => setFormData(prev => ({ ...prev, movingTo: val }))}
                   />
                 </div>
 

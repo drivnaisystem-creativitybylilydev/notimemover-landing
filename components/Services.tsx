@@ -2,7 +2,7 @@
 
 import { useRef } from 'react'
 import { motion, useInView, type Variants } from 'framer-motion'
-import { Truck, Package, MapPin } from '@phosphor-icons/react'
+import { Truck, MapPin, Package, Storefront, Wrench, Lightning } from '@phosphor-icons/react'
 
 interface Service {
   title: string
@@ -12,19 +12,34 @@ interface Service {
 
 const services: Service[] = [
   {
-    title: 'Local Moving',
-    description: 'Fast, reliable local moves within your region. Same-day quotes and flexible scheduling.',
-    icon: <Truck size={48} weight="duotone" />,
+    title: 'Local Moves',
+    description: 'Fast, reliable local moves within Connecticut. Same-day quotes and flexible scheduling.',
+    icon: <Truck size={40} weight="duotone" />,
   },
   {
     title: 'Long Distance',
-    description: 'Cross-country moves with professional handling. Real-time tracking and full insurance coverage.',
-    icon: <MapPin size={48} weight="duotone" />,
+    description: 'Cross-state moves with professional handling, real-time updates, and full insurance coverage.',
+    icon: <MapPin size={40} weight="duotone" />,
   },
   {
-    title: 'Packing & Storage',
-    description: 'Complete packing services and secure storage solutions. Climate-controlled facilities.',
-    icon: <Package size={48} weight="duotone" />,
+    title: 'Commercial Moves',
+    description: 'Office and business relocations handled efficiently — minimal downtime, maximum care.',
+    icon: <Storefront size={40} weight="duotone" />,
+  },
+  {
+    title: 'Packing & Unpacking',
+    description: 'We pack, wrap, and unpack your belongings so you can focus on settling in.',
+    icon: <Package size={40} weight="duotone" />,
+  },
+  {
+    title: 'Labor Only',
+    description: 'Need extra hands? We load, unload, and carry — you handle the truck.',
+    icon: <Wrench size={40} weight="duotone" />,
+  },
+  {
+    title: 'Last-Minute Moves',
+    description: 'Life happens fast. Call us and we will do everything we can to make it work.',
+    icon: <Lightning size={40} weight="duotone" />,
   },
 ]
 
@@ -40,11 +55,11 @@ const containerVariants: Variants = {
 }
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 50 },
+  hidden: { opacity: 0, y: 32 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: 'easeOut' },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
   },
 }
 
@@ -53,19 +68,19 @@ export default function Services() {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="services" ref={ref} className="w-full py-20 sm:py-32 bg-cream">
+    <section id="services" ref={ref} className="w-full py-20 sm:py-28 bg-neutral-cream">
       <div className="container-max">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-14"
         >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl text-brown-dark mb-4">
-            Our Services
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-bold text-brown-dark mb-4">
+            Everything You Need for a Smooth Move
           </h2>
-          <p className="text-lg text-brown-dark/70 max-w-2xl mx-auto font-lato">
-            Comprehensive moving solutions tailored to your needs
+          <p className="text-lg text-neutral-muted max-w-2xl mx-auto font-lato">
+            From single rooms to full offices — handled carefully, every time.
           </p>
         </motion.div>
 
@@ -73,35 +88,27 @@ export default function Services() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'show' : 'hidden'}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {services.map((service, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
-              whileHover={{ rotateX: 5, rotateY: 5, scale: 1.02 }}
-              style={{
-                perspective: '1000px',
-              }}
-              className="group relative p-8 rounded-2xl bg-white border-2 border-brown-dark/10 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
+              whileHover={{ y: -4, boxShadow: '0 8px 30px rgba(0,0,0,0.10)' }}
+              className="group relative p-8 rounded-xl bg-white border border-neutral-sand shadow-sm hover:border-l-4 hover:border-l-orange-brand transition-all duration-300 cursor-pointer"
             >
-              <div className="flex flex-col items-center text-center">
-                <div className="text-orange-brand mb-6 group-hover:scale-110 transition-transform duration-300">
-                  {service.icon}
-                </div>
-                <h3 className="text-2xl text-brown-dark mb-4">
-                  {service.title}
-                </h3>
-                <p className="text-brown-dark/70 font-lato leading-relaxed mb-6">
-                  {service.description}
-                </p>
-                <a
-                  href="/quote"
-                  className="text-orange-brand font-semibold hover:gap-2 flex items-center gap-1 transition-all"
-                >
-                  Learn More →
-                </a>
+              <div className="text-brown-dark mb-5 group-hover:scale-110 transition-transform duration-300">
+                {service.icon}
               </div>
+              <h3 className="text-xl font-bold font-montserrat text-brown-dark mb-3">
+                {service.title}
+              </h3>
+              <p className="text-neutral-muted font-lato leading-relaxed mb-5 text-sm">
+                {service.description}
+              </p>
+              <a href="/quote" className="text-orange-brand font-semibold font-montserrat text-sm flex items-center gap-1 hover:gap-2 transition-all">
+                Learn More →
+              </a>
             </motion.div>
           ))}
         </motion.div>

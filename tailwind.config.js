@@ -10,10 +10,25 @@ module.exports = {
         cream: '#FDF8F3',
         'brown-dark': '#2A1405',
         'orange-brand': '#E87020',
+        brand: {
+          orange: '#E87020',
+          'orange-dark': '#C55E15',
+          brown: '#3B1F0A',
+          mahogany: '#6B3A1F',
+          amber: '#F9A55A',
+        },
+        neutral: {
+          cream: '#FAF7F2',
+          linen: '#F3EDE4',
+          sand: '#EDE4D8',
+          body: '#1C1208',
+          muted: '#6B5E52',
+        },
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],
         lato: ['Lato', 'sans-serif'],
+        playfair: ['Playfair Display', 'serif'],
       },
       fontSize: {
         xs: ['12px', '16px'],

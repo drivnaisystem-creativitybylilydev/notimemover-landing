@@ -1,66 +1,74 @@
 'use client'
 
-import Link from 'next/link'
 import { motion } from 'framer-motion'
+import HeroStep1Form from '@/components/HeroStep1Form'
 
 export default function HeroScrollSection() {
   return (
-    <div className="h-screen overflow-hidden">
-      <div className="relative h-full">
+    <div className="min-h-screen overflow-hidden">
+      <div className="relative min-h-screen">
 
         <div className="absolute inset-0">
           <img src="/hero-bg.png" alt="" className="w-full h-full object-cover object-center" />
         </div>
-        <div className="absolute inset-0 bg-black/50" />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to right, rgba(59,31,10,0.92) 0%, rgba(59,31,10,0.75) 55%, rgba(59,31,10,0.55) 100%)' }}
+        />
 
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4">
-          <motion.div
-            className="text-center max-w-4xl"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
-          >
-            <motion.h1
-              className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-montserrat font-bold mb-4 sm:mb-6 leading-tight drop-shadow-lg"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-            >
-              We Move You Fast.
-              <br />
-              <span className="text-orange-brand drop-shadow-lg">No Time Wasted.</span>
-            </motion.h1>
+        <div className="relative z-10 min-h-screen flex items-center px-6 sm:px-12 lg:px-20 py-32">
+          <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-            <motion.p
-              className="text-base sm:text-xl text-white/90 mb-8 sm:mb-12 leading-relaxed max-w-2xl mx-auto font-lato drop-shadow px-2 sm:px-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-            >
-              Serving families and businesses with speed, care, and faith.
-            </motion.p>
+            {/* Left: Copy */}
+            <div className="text-white">
 
+              {/* Faith tagline */}
+              <motion.p
+                className="font-playfair italic text-brand-amber text-sm mb-5"
+                initial={{ opacity: 0, x: -24 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7, ease: 'easeOut', delay: 0.3 }}
+              >
+                Galatians 5:13 — Serve one another through love.
+              </motion.p>
+
+              <motion.h1
+                className="font-playfair font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl mb-5 leading-[1.1] drop-shadow-lg"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.5 }}
+              >
+                We Move You{' '}
+                <span className="text-brand-amber">Fast</span>
+                <span className="text-brand-amber">.</span><br />
+                Handled with{' '}
+                <span className="text-brand-amber">Care</span>
+                <span className="text-brand-amber">.</span>
+              </motion.h1>
+
+              <motion.p
+                className="text-base sm:text-lg text-neutral-linen mb-8 leading-relaxed max-w-lg font-lato"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+              >
+                Faith-driven moving for Massachusetts families — same-day quotes,
+                on-time crews, <span className="text-brand-amber font-semibold">zero stress</span>.
+              </motion.p>
+
+
+            </div>
+
+            {/* Right: Step 1 form */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-3 sm:gap-6 justify-center px-4 sm:px-0"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
+              transition={{ duration: 0.7, delay: 0.6 }}
             >
-              <Link
-                href="/quote"
-                className="px-8 py-4 bg-orange-brand text-white font-montserrat font-semibold rounded-lg shadow-xl hover:shadow-2xl hover:bg-orange-brand/90 hover:-translate-y-0.5 transition-all duration-300 active:scale-95"
-              >
-                Book Your Move
-              </Link>
-              <a
-                href="#services"
-                className="px-8 py-4 border-2 border-white text-white font-montserrat font-semibold rounded-lg hover:bg-white hover:text-brown-dark transition-all duration-300 active:scale-95"
-              >
-                Learn More
-              </a>
+              <HeroStep1Form />
             </motion.div>
-          </motion.div>
 
+          </div>
         </div>
 
       </div>
