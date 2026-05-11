@@ -1,0 +1,7 @@
+/.git
+/.github
+/skills
+/docs
+.DS_Store
+.env.local
+.env.*.local
