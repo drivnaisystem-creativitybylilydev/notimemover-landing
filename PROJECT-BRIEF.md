@@ -1,52 +1,47 @@
-# NoTimeMoving - Landing Page Project
+# NoTimeMover — Project Brief
 
 ## Client
 NoTimeStorage (existing client, $165/mo retainer)
 
-## Project Scope
-Phase 1 MVP Landing Page - $300
-- Validation tool for new moving marketplace concept
-- Simple quote form
-- Lead capture
-- Mobile-first design
+## Scope (Phase 1)
+Mobile-first landing page + 5-step booking flow. Demand-test MVP.
+- $300–$350 fixed quote
+- Dark Uber/Muvr-style aesthetic
+- No payment processor
 
-## Business Model
-Two-sided marketplace connecting people who need movers with moving companies.
+## Product
+Moving marketplace. Customer sets their own price; backend matches them with a mover.
 
-**Phase 1 (This Build):** Simple landing page with quote form
-**Phase 2 (Future $2K+ build):** Full marketplace platform
+## User flow
+1. Land on `/` → dark hero: `Move Anywhere / You Set The Price` + animated stick figures
+2. Tap `Get a Quote` → fullscreen 5-step booking modal:
+   - Pickup + Dropoff
+   - Home size (Studio/1BR · 2BR · 3BR)
+   - Budget slider
+   - 3-tier price selection (Your / Premium / Save)
+   - Contact info (name, email, phone)
+3. Submit → confirmation screen, lead persisted to backend
 
-## Target Audience
-- Primary: People planning a move (residential)
-- Secondary: Moving companies looking for jobs (future)
+## Design
+- Black `#000` background, dark coffee brown `#2A1405`/`#4b2e1e` accents, white text
+- Montserrat sans-serif throughout
+- iPhone-first (375px primary)
+- No marketing-page sections (no Stats, Services, HowItWorks, FAQ, Testimonials)
 
-## User Flow
-1. Land on homepage
-2. See two options:
-   - "Need Storage?" → redirects to NoTimeStorage.com
-   - "Get Moving Quote" → proceeds to quote form
-3. Quote form (3 steps):
-   - Step 1: Where are you moving? (From/To)
-   - Step 2: How much stuff? (Size selection)
-   - Step 3: Contact info (Name/Email/Phone)
-4. Thank you page with estimated price range
+## Hidden pricing
+- Tiers: Studio `$300 base + $40 eq`, 2BR `$500 + $60`, 3BR `$915 + $85`
+- Gas: miles × $2.50 (miles stubbed at 25 mi)
+- `Your Price` = budget + equipment + gas
+- `Premium` = base + equipment + gas
+- `Save` = round(base × 0.85)  — labor only
 
-## Design Direction
-- Professional, trustworthy, modern
-- Purple/blue color scheme (moving industry standard)
-- Clean, minimal, mobile-first
-- Looks like a real SaaS product, not a template
-- Trust signals: "Fast Response", "Licensed Movers", "Best Prices"
+## Tech
+- Next.js 14 · Tailwind · Framer Motion · TypeScript · Vercel
 
-## Tech Stack
-- Next.js + React
-- Tailwind CSS
-- TypeScript (optional)
-- Form submits to console (Phase 1) - will connect to backend in Phase 2
-- Deploy: Vercel
+## Sibling project
+`notimestoragewebsite/` gets a `StorageMovingModal` popup that routes "Moving" users to this site. Delivered as a paste-in snippet.
 
-## Timeline
-Deliver in 2-3 days
-
-## Budget
-$300 (Phase 1)
+## Phase 2 (not in current quote)
+- Google Distance Matrix API for real mileage
+- Automated email drip post-submission
+- Mover-side dashboard + matching logic

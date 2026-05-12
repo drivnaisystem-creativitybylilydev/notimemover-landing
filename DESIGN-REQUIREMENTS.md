@@ -1,4 +1,4 @@
-# Design Requirements - NoTimeMoving
+# Design Requirements - NoTimeMover (PRE-PIVOT — see PROJECT-BRIEF.md for current direction)
 
 ## Brand Identity (UPDATED - Based on Light Variant)
 - Professional, trustworthy, modern with warmth
@@ -54,7 +54,7 @@
 
 ### 1. Navbar
 - Transparent on hero, white background on scroll
-- Logo: SVG (no PNG) - NoTimeMoving logo
+- Logo: SVG (no PNG) - NoTimeMover logo
 - Links: Services, About, Reviews, Contact
 - CTA: Orange "Get a Quote" button
 - Sticky position
@@ -131,6 +131,6 @@
 
 ## Assets Needed
 - Hero video (generate via Higgsfield)
-- NoTimeMoving logo (SVG)
+- NoTimeMover logo (SVG)
 - Service icons
 - Testimonial photos (optional)

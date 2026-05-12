@@ -20,8 +20,8 @@ const STATE_ABBREVS: Record<string, string> = {
 
 interface Suggestion {
   label: string
-  city: string
-  state: string
+  primary: string
+  secondary: string
 }
 
 interface Props {
@@ -39,10 +39,28 @@ function formatResult(item: any): Suggestion | null {
   const stateFull = addr.state
   if (!city || !stateFull) return null
   const state = STATE_ABBREVS[stateFull] ?? stateFull
-  return { label: `${city}, ${state}`, city, state }
+  const houseNumber = addr.house_number
+  const road = addr.road
+
+  let primary = ''
+  if (road && houseNumber) primary = `${houseNumber} ${road}`
+  else if (road) primary = road
+  else primary = city
+
+  const secondary = road ? `${city}, ${state}` : state
+
+  const label = road ? `${primary}, ${secondary}` : `${city}, ${state}`
+  return { label, primary, secondary }
 }
 
-export default function LocationAutocomplete({ name, value, placeholder, className, autoFocus, onChange }: Props) {
+export default function LocationAutocomplete({
+  name,
+  value,
+  placeholder,
+  className = '',
+  autoFocus,
+  onChange,
+}: Props) {
   const [query, setQuery] = useState(value)
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [loading, setLoading] = useState(false)
@@ -51,14 +69,13 @@ export default function LocationAutocomplete({ name, value, placeholder, classNa
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // keep query in sync if parent resets value
   useEffect(() => { setQuery(value) }, [value])
 
   const fetchSuggestions = useCallback(async (q: string) => {
-    if (q.length < 2) { setSuggestions([]); return }
+    if (q.length < 3) { setSuggestions([]); setOpen(false); return }
     setLoading(true)
     try {
-      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&countrycodes=us&addressdetails=1`
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=8&countrycodes=us&addressdetails=1`
       const res = await fetch(url, { headers: { 'Accept-Language': 'en' } })
       const data = await res.json()
       const seen = new Set<string>()
@@ -99,12 +116,11 @@ export default function LocationAutocomplete({ name, value, placeholder, classNa
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!open) return
     if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIndex(i => Math.min(i + 1, suggestions.length - 1)) }
-    if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex(i => Math.max(i - 1, -1)) }
+    if (e.key === 'ArrowUp')   { e.preventDefault(); setActiveIndex(i => Math.max(i - 1, -1)) }
     if (e.key === 'Enter' && activeIndex >= 0) { e.preventDefault(); select(suggestions[activeIndex]) }
-    if (e.key === 'Escape') { setOpen(false); setActiveIndex(-1) }
+    if (e.key === 'Escape')    { setOpen(false); setActiveIndex(-1) }
   }
 
-  // close on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -127,24 +143,25 @@ export default function LocationAutocomplete({ name, value, placeholder, classNa
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         onFocus={() => suggestions.length > 0 && setOpen(true)}
-        className={className}
+        className={className || 'input-field'}
       />
       {loading && (
-        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neutral-muted animate-pulse">
-          ...
+        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-white/50">
+          …
         </span>
       )}
       {open && suggestions.length > 0 && (
-        <ul className="absolute z-50 left-0 right-0 top-full mt-1 bg-white border border-neutral-sand rounded-lg shadow-lg overflow-hidden text-sm">
+        <ul className="absolute z-50 left-0 right-0 top-full mt-2 bg-coffee/95 backdrop-blur-md border border-line rounded-2xl shadow-2xl overflow-hidden max-h-72 overflow-y-auto">
           {suggestions.map((s, i) => (
             <li
               key={s.label}
               onMouseDown={() => select(s)}
-              className={`px-4 py-2.5 cursor-pointer font-lato transition-colors ${
-                i === activeIndex ? 'bg-orange-brand/10 text-brown-dark' : 'hover:bg-neutral-linen text-brown-dark'
+              className={`px-5 py-3 cursor-pointer transition-colors border-b border-line/40 last:border-b-0 ${
+                i === activeIndex ? 'bg-coffee-deep' : 'hover:bg-coffee-deep/60'
               }`}
             >
-              {s.label}
+              <div className="text-white text-sm font-medium">{s.primary}</div>
+              <div className="text-white/50 text-xs mt-0.5">{s.secondary}</div>
             </li>
           ))}
         </ul>

@@ -1,4 +1,4 @@
-# NoTimeMoving Color Palette
+# NoTimeMover Color Palette (PRE-PIVOT — see PROJECT-BRIEF.md for current direction)
 
 ## Primary Colors
 

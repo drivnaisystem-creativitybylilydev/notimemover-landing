@@ -1,188 +1,66 @@
-# NoTimeMoving Landing Page
+# NoTimeMover Landing Page
 
-A professional, mobile-first landing page for the NoTimeMoving moving & storage marketplace.
+Mobile-first, iPhone-priority landing page for **NoTimeMover** — a moving marketplace where the customer sets their own price and gets matched with a mover.
 
-## Features
+This is Phase 1, a demand-test MVP. No payment processor. Backend bookings handled separately by the client.
 
-- **Responsive Design**: Mobile-first design that looks great on all devices (375px → 1920px+)
-- **Two-Page Structure**:
-  - Homepage (`/`) - Hero section, trust signals, how it works, and footer
-  - Quote Form (`/quote`) - 3-step multi-screen form with progress indicator
-- **Form Features**:
-  - Step 1: Moving locations & date
-  - Step 2: Home size selection with instant price estimates
-  - Step 3: Contact information
-  - Thank you page with submitted data summary
-  - Full form validation
-- **Professional Design**:
-  - Deep Blue (#1E40AF) primary color
-  - Purple (#7C3AED) secondary for CTAs
-  - Orange (#F59E0B) accent color
-  - Clean typography and generous whitespace
-  - Smooth animations and transitions
+## What it does
 
-## Tech Stack
+1. Single dark hero: `Move Anywhere / You Set The Price` with animated stick figures
+2. `Get a Quote` CTA opens a fullscreen 5-step booking flow:
+   1. Pickup + dropoff (autocomplete)
+   2. Home size — Studio/1BR · 2BR · 3BR (hidden base/equipment pricing)
+   3. Budget slider with size-based default
+   4. 3-tier pricing — Your Price · Premium (recommended) · Save (labor only)
+   5. Contact info — name, email, phone
+3. Submit posts the lead to a stub endpoint and shows a confirmation screen.
 
-- **Framework**: Next.js 14 (App Router)
-- **Styling**: Tailwind CSS 3
-- **Language**: TypeScript
-- **Deployment**: Vercel
+## Pricing logic (hidden from user)
 
-## Getting Started
+```
+gas = miles × $2.50           (miles stubbed at 25 until Distance Matrix API wired)
+tiers = {
+  studio  : { base: 300, equipment: 40, defaultBudget: 400 }
+  twoBed  : { base: 500, equipment: 60, defaultBudget: 600 }
+  threeBed: { base: 915, equipment: 85, defaultBudget: 900 }
+}
 
-### Installation
+yourPrice = budget + equipment + gas
+premium   = base   + equipment + gas
+save      = round(base × 0.85)   // labor only — no equipment, no gas
+```
+
+## Tech stack
+
+- Next.js 14 (App Router)
+- Tailwind CSS
+- Framer Motion (animations, stick figures, modal transitions)
+- TypeScript
+- Deploy: Vercel
+
+## Design direction
+
+- All black `#000` background, dark coffee brown surfaces (`#2A1405`, `#4b2e1e`), white text
+- Uber / Muvr.io minimalism — no marketing-page bloat
+- iPhone-first; designed at 375px and scaled up
+- Generous tap targets, big sticky CTAs
+
+## Getting started
 
 ```bash
 npm install
-```
-
-### Development
-
-Start the development server:
-
-```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open <http://localhost:3000>.
 
-### Build
+## Companion: NoTimeStorage popup
 
-Create an optimized production build:
+The sibling site `notimestoragewebsite` shows a popup on load: *"Looking for storage or moving?"*. Storage stays on that site; Moving redirects to this one. The popup component is delivered as a standalone snippet — see `components/StorageMovingModal.tsx`.
 
-```bash
-npm run build
-npm start
-```
+## Roadmap
 
-## Project Structure
-
-```
-.
-├── app/
-│   ├── layout.tsx          # Root layout with metadata
-│   ├── page.tsx            # Homepage
-│   ├── quote/
-│   │   └── page.tsx        # Quote form page
-│   └── globals.css         # Global styles & Tailwind imports
-├── components/
-│   ├── Hero.tsx            # Hero section with CTAs
-│   ├── TrustSignals.tsx    # Trust badges section
-│   ├── HowItWorks.tsx      # 3-step process section
-│   ├── Footer.tsx          # Site footer
-│   └── QuoteForm.tsx       # Multi-step quote form
-├── tailwind.config.js      # Tailwind configuration
-├── tsconfig.json           # TypeScript configuration
-└── package.json            # Dependencies & scripts
-```
-
-## Components
-
-### Hero
-Large hero section with main headline, subheadline, and two CTAs:
-- "Need Storage?" - Links to https://notimestorage.com
-- "Get Moving Quote" - Links to /quote
-
-### TrustSignals
-Three trust badges highlighting key benefits:
-- 24-Hour Response Time
-- Licensed & Insured Movers
-- Best Price Guarantee
-
-### HowItWorks
-3-step process visualization:
-1. Tell us where you're moving
-2. Get instant estimate
-3. Book your move
-
-### QuoteForm
-Multi-step form with client-side state management:
-- Progress indicator shows step and completion percentage
-- Form validation on each step
-- Price estimates shown for each home size
-- Thank you page on submission
-- Console logging of form data (ready for backend integration)
-
-## Color Scheme
-
-| Color | Value | Usage |
-|-------|-------|-------|
-| Primary | #1E40AF | Trust, reliability |
-| Secondary | #7C3AED | Primary CTA, modern |
-| Accent | #F59E0B | Energy, action |
-| Gray Scale | Tailwind defaults | Text, backgrounds |
-
-## Typography
-
-- **Headings**: Bold, 32-72px (responsive)
-- **Body**: 16-18px, high readability
-- **Font Stack**: System fonts for optimal performance
-
-## Mobile Optimization
-
-- Minimum tap targets: 48x48px
-- Full-width form fields on mobile
-- Vertical button stacking on small screens
-- Touch-friendly input sizes (no zoom on iOS)
-- Fast load time (<2s target)
-
-## Form Data
-
-When a quote is submitted, the form data is logged to the browser console:
-
-```javascript
-{
-  movingFrom: "New York, NY",
-  movingTo: "San Francisco, CA",
-  moveDate: "2024-06-15",
-  size: "2br",
-  name: "John Doe",
-  email: "john@example.com",
-  phone: "(555) 123-4567"
-}
-```
-
-**Phase 2**: This will be connected to a backend API/database.
-
-## Deployment
-
-### Deploy to Vercel
-
-1. Push code to GitHub
-2. Connect repo to Vercel dashboard
-3. Deploy automatically on push
-
-Or deploy manually:
-
-```bash
-npm i -g vercel
-vercel
-```
-
-### Performance
-
-- **First Load JS**: ~98kB
-- **Static Prerendering**: All pages prerendered
-- **Optimizations**:
-  - CSS-in-JS with Tailwind
-  - Image optimization (WebP format)
-  - Minimal JavaScript bundle
-  - Gzip compression
-
-## Accessibility
-
-- WCAG AA compliant
-- Semantic HTML
-- Proper heading hierarchy
-- Form labels associated with inputs
-- Focus states visible
-- Sufficient color contrast
-
-## Future Enhancements (Phase 2+)
-
-- Backend API integration
-- Database for quote storage
-- Email notifications
-- Marketplace platform
-- Moving company dashboard
-- Advanced pricing logic
+- Google Distance Matrix API for real mileage (Phase 2)
+- Automated emails post-submission (Phase 2 — client to confirm)
+- Mover-side dashboard + matching (Phase 3+)
+- Payment processor (later)

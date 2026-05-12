@@ -7,28 +7,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        cream: '#FDF8F3',
-        'brown-dark': '#2A1405',
-        'orange-brand': '#E87020',
-        brand: {
-          orange: '#E87020',
-          'orange-dark': '#C55E15',
-          brown: '#3B1F0A',
-          mahogany: '#6B3A1F',
-          amber: '#F9A55A',
-        },
-        neutral: {
-          cream: '#FAF7F2',
-          linen: '#F3EDE4',
-          sand: '#EDE4D8',
-          body: '#1C1208',
-          muted: '#6B5E52',
-        },
+        // NoTimeMover dark palette (per client PDF)
+        ink: '#000000',         // page background
+        coffee: '#2A1405',      // primary surface / accent
+        'coffee-deep': '#4b2e1e', // secondary surface / recommended highlight
+        'coffee-light': '#6B3A1F',
+        bone: '#F5F1EB',        // muted off-white for body copy
+        line: '#1F1A17',        // subtle borders on dark bg
       },
       fontFamily: {
-        montserrat: ['Montserrat', 'sans-serif'],
-        lato: ['Lato', 'sans-serif'],
-        playfair: ['Playfair Display', 'serif'],
+        montserrat: ['var(--font-montserrat)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-montserrat)', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         xs: ['12px', '16px'],
@@ -40,7 +29,8 @@ module.exports = {
         '3xl': ['30px', '36px'],
         '4xl': ['36px', '44px'],
         '5xl': ['48px', '54px'],
-        '6xl': ['60px', '72px'],
+        '6xl': ['60px', '64px'],
+        '7xl': ['72px', '76px'],
       },
       spacing: {
         '4xs': '4px',
@@ -54,13 +44,13 @@ module.exports = {
         '2xl': '80px',
       },
       animation: {
-        'fade-in': 'fadeIn 0.3s ease-in-out',
-        'bounce-subtle': 'bounce-subtle 2s infinite',
+        'fade-in': 'fadeIn 0.3s ease-out',
+        'sway': 'sway 4s ease-in-out infinite',
       },
       keyframes: {
-        'bounce-subtle': {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-8px)' },
+        sway: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-4px)' },
         },
       },
     },
