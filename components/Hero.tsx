@@ -174,19 +174,26 @@ export default function Hero() {
           <div className="orb orb-a" />
           <div className="orb orb-b" />
 
-          {/* Centered scene */}
+          {/* Centered scene — mobile: shorter max-height + bottom-anchored so it doesn’t fight the headline */}
           <motion.div
-            className="absolute inset-x-0 top-[18%] bottom-0 flex justify-center"
+            className="absolute inset-x-0 top-[20%] bottom-0 flex justify-center items-end pb-1 sm:items-stretch sm:pb-0 sm:top-[18%]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.5 }}
             transition={{ duration: 1.4, delay: 0.5, ease: SPRING }}
           >
-            <StickFigures className="w-full max-w-[1400px] h-full" />
+            <StickFigures className="w-full max-w-[min(100%,440px)] sm:max-w-[1400px] h-auto max-h-[min(38vh,210px)] sm:max-h-none sm:h-full" />
           </motion.div>
 
-          {/* Readability vignette over the SVG, behind text block */}
+          {/* Readability vignette — slightly tighter + lower focal ellipse on narrow screens */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 sm:hidden"
+            style={{
+              background:
+                'radial-gradient(ellipse 74% 62% at 50% 46%, rgba(5,5,5,0.88) 0%, rgba(5,5,5,0.52) 40%, rgba(5,5,5,0) 74%)',
+            }}
+          />
+          <div
+            className="absolute inset-0 hidden sm:block"
             style={{
               background:
                 'radial-gradient(ellipse 60% 55% at 50% 48%, rgba(5,5,5,0.82) 0%, rgba(5,5,5,0.55) 35%, rgba(5,5,5,0) 70%)',
@@ -215,33 +222,37 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: SPRING, delay: 0.45 }}
           >
-            <span className="inline-flex items-center gap-2 text-[13px] sm:text-[14px] uppercase tracking-[0.16em] font-semibold text-white/80">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-                className="text-coffee-light -ml-0.5"
-              >
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" />
-              </svg>
-              <span>Massachusetts</span>
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-                className="text-coffee-light"
-              >
-                <path d="M12 1.5L3.75 5v6.25c0 5.4 3.52 10.44 8.25 11.75 4.73-1.31 8.25-6.35 8.25-11.75V5L12 1.5zm-1.4 14.55L7.05 12.5l1.4-1.4 2.15 2.15 4.95-4.95 1.4 1.4-6.35 6.35z" />
-              </svg>
-              <span>Licensed &amp; Insured</span>
+            <span className="flex flex-col items-center gap-2 sm:inline-flex sm:flex-row sm:gap-2">
+              <span className="inline-flex items-center justify-center gap-2 text-[10px] sm:text-[13px] uppercase tracking-[0.14em] sm:tracking-[0.16em] font-semibold text-white/80 leading-none">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  className="text-coffee-light shrink-0 sm:w-4 sm:h-4 w-[14px] h-[14px]"
+                >
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" />
+                </svg>
+                Massachusetts
+              </span>
+              <span className="inline-flex items-center justify-center gap-2 text-[10px] sm:text-[13px] uppercase tracking-[0.14em] sm:tracking-[0.16em] font-semibold text-white/80 leading-none">
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  className="text-coffee-light shrink-0 sm:w-[14px] sm:h-[14px]"
+                >
+                  <path d="M12 1.5L3.75 5v6.25c0 5.4 3.52 10.44 8.25 11.75 4.73-1.31 8.25-6.35 8.25-11.75V5L12 1.5zm-1.4 14.55L7.05 12.5l1.4-1.4 2.15 2.15 4.95-4.95 1.4 1.4-6.35 6.35z" />
+                </svg>
+                Licensed &amp; Insured
+              </span>
             </span>
           </motion.div>
 
-          <h1 className="mt-14 sm:mt-20 leading-[0.95] tracking-[-0.04em] font-semibold">
+          <h1 className="mt-12 sm:mt-14 md:mt-20 leading-[0.95] tracking-[-0.04em] font-semibold">
             <BlurReveal
               delay={0.25}
               className="block text-white text-[clamp(48px,11vw,112px)]"
