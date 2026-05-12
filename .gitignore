@@ -10,6 +10,9 @@
 /.next/
 /out/
 
+# TypeScript incremental build cache
+*.tsbuildinfo
+
 # Production
 /build
 
@@ -35,6 +38,8 @@ yarn-error.log*
 *.swp
 *.swo
 *~
-node_modules/\n.next/\n.env*.local\n*.mp4
+# Project-specific
+*.mp4
 skills/
 .claude/
+.cursor/

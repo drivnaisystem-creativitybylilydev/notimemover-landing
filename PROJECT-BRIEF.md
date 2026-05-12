@@ -1,7 +1,7 @@
 # NoTimeMover — Project Brief
 
 ## Client
-NoTimeStorage (existing client, $165/mo retainer)
+**NoTimeStorage** — existing client; **$90/mo retainer** for [notimestorage.co](https://notimestorage.co/). **NoTimeMover** is a separate fixed-scope build (see quote below).
 
 ## Scope (Phase 1)
 Mobile-first landing page + 5-step booking flow. Demand-test MVP.
@@ -13,18 +13,18 @@ Mobile-first landing page + 5-step booking flow. Demand-test MVP.
 Moving marketplace. Customer sets their own price; backend matches them with a mover.
 
 ## User flow
-1. Land on `/` → dark hero: `Move Anywhere / You Set The Price` + animated stick figures
+1. Land on `/` → dark hero: `Move Anywhere / You Set The Price` + animated hero illustration (moving route / truck scene)
 2. Tap `Get a Quote` → fullscreen 5-step booking modal:
    - Pickup + Dropoff
    - Home size (Studio/1BR · 2BR · 3BR)
    - Budget slider
    - 3-tier price selection (Your / Premium / Save)
    - Contact info (name, email, phone)
-3. Submit → confirmation screen, lead persisted to backend
+3. Submit → confirmation screen; **Phase 1 does not persist leads** (stub / console — real inbox or database is Phase 2).
 
 ## Design
-- Black `#000` background, dark coffee brown `#2A1405`/`#4b2e1e` accents, white text
-- Montserrat sans-serif throughout
+- Page background `#050505` (ink), coffee browns `#2A1405` / `#4b2e1e` / `#6B3A1F` / `#8B5230`, white text
+- Geist Sans (UI), Geist Mono (mono), Instrument Serif (accent headline line)
 - iPhone-first (375px primary)
 - No marketing-page sections (no Stats, Services, HowItWorks, FAQ, Testimonials)
 
@@ -39,7 +39,8 @@ Moving marketplace. Customer sets their own price; backend matches them with a m
 - Next.js 14 · Tailwind · Framer Motion · TypeScript · Vercel
 
 ## Sibling project
-`notimestoragewebsite/` gets a `StorageMovingModal` popup that routes "Moving" users to this site. Delivered as a paste-in snippet.
+
+**NoTimeStorage** ([notimestorage.co](https://notimestorage.co/)) gets a `StorageMovingModal` paste-in snippet (see `client-scope/storage-modal-snippet/`) that routes “Moving” visitors to the deployed NoTimeMover URL.
 
 ## Phase 2 (not in current quote)
 - Google Distance Matrix API for real mileage

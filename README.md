@@ -6,9 +6,9 @@ This is Phase 1, a demand-test MVP. No payment processor. Backend bookings handl
 
 ## What it does
 
-1. Single dark hero: `Move Anywhere / You Set The Price` with animated stick figures
+1. Single dark hero: `Move Anywhere / You Set The Price` with animated hero illustration
 2. `Get a Quote` CTA opens a fullscreen 5-step booking flow:
-   1. Pickup + dropoff (autocomplete)
+   1. Pickup + dropoff (structured address: street, city, state, ZIP)
    2. Home size — Studio/1BR · 2BR · 3BR (hidden base/equipment pricing)
    3. Budget slider with size-based default
    4. 3-tier pricing — Your Price · Premium (recommended) · Save (labor only)
@@ -54,9 +54,21 @@ npm run dev
 
 Open <http://localhost:3000>.
 
+## Troubleshooting — blank page on localhost
+
+If `localhost:3000` loads but the page is completely blank (HTML present, no styles, no content), it's almost always because `npm run build` and `npm run dev` were run at the same time. They share the `.next/` folder and corrupt each other. Recovery:
+
+```bash
+lsof -ti:3000 -ti:3001 | xargs kill -9 2>/dev/null   # kill stale next-server
+rm -rf .next                                          # nuke build cache
+npm run dev                                           # one fresh server
+```
+
+If the new dev server says `Port 3000 is in use, trying 3001 instead`, there's still a zombie process — kill it and re-run, otherwise links pointing at `:3000` will look broken. Full notes in [`AGENTS.md`](AGENTS.md).
+
 ## Companion: NoTimeStorage popup
 
-The sibling site `notimestoragewebsite` shows a popup on load: *"Looking for storage or moving?"*. Storage stays on that site; Moving redirects to this one. The popup component is delivered as a standalone snippet — see `components/StorageMovingModal.tsx`.
+The sibling site **NoTimeStorage** is live at [notimestorage.co](https://notimestorage.co/). The plan is to show a popup on load: *“Looking for storage or moving?”* — storage stays on that site; moving sends people to **NoTimeMover**. The standalone snippet lives in [`client-scope/storage-modal-snippet/`](client-scope/storage-modal-snippet/) (`StorageMovingModal.tsx` + integration README). Pass `moverUrl` pointing at your deployed NoTimeMover URL when you integrate.
 
 ## Roadmap
 
