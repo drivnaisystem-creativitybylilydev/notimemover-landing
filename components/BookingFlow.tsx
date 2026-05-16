@@ -9,6 +9,7 @@ import {
   BUDGET_MIN,
   BUDGET_MAX,
   calculatePricing,
+  formatUSD,
 } from '@/lib/pricing'
 import { getMiles } from '@/lib/distance'
 
@@ -76,6 +77,7 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
   const [form, setForm] = useState<FormState>(initialState)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   useEffect(() => {
     if (isOpen) document.body.style.overflow = 'hidden'
@@ -97,6 +99,7 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
     setForm(initialState)
     setSubmitting(false)
     setSubmitted(false)
+    setSubmitError(null)
   }
 
   const tryClose = () => {
@@ -141,6 +144,7 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
 
   const submit = async () => {
     setSubmitting(true)
+    setSubmitError(null)
     const payload = {
       pickup: form.pickup,
       pickupFormatted: formatAddress(form.pickup),
@@ -157,17 +161,28 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
       phone: form.phone,
       submittedAt: new Date().toISOString(),
     }
-    console.log('[NoTimeMover] Lead submitted:', payload)
     try {
-      await fetch('/api/lead', {
+      const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
-      }).catch(() => {})
-    } catch {}
-    await new Promise(r => setTimeout(r, 600))
-    setSubmitting(false)
-    setSubmitted(true)
+      })
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string }
+      if (!res.ok || !data.ok) {
+        setSubmitError(
+          typeof data.error === 'string'
+            ? data.error
+            : 'Could not save your request. Please try again or call us directly.',
+        )
+        return
+      }
+      await new Promise(r => setTimeout(r, 450))
+      setSubmitted(true)
+    } catch {
+      setSubmitError('Network error—check your connection and try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   if (!isOpen) return null
@@ -187,7 +202,7 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
         {/* DOPPELRAND OUTER SHELL */}
         <motion.div
           key="shell"
-          className="relative w-full sm:w-auto sm:max-w-lg h-[100dvh] sm:h-auto sm:max-h-[92dvh] sm:m-4 flex"
+          className="relative mx-auto w-full max-w-lg h-[100dvh] sm:h-auto sm:max-h-[92dvh] sm:m-4 flex min-w-0"
           initial={{ y: 80, opacity: 0, scale: 0.985 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: 48, opacity: 0, scale: 0.99 }}
@@ -250,31 +265,84 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
                       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.6, ease: SPRING }}
-                      className="text-center py-10"
+                      className="w-full pb-2"
                     >
-                      <div
-                        className="w-16 h-16 mx-auto mb-7 rounded-full flex items-center justify-center"
-                        style={{
-                          background: 'linear-gradient(180deg, #6B3A1F 0%, #4B2E1E 100%)',
-                          boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.18), 0 0 40px -10px rgba(107,58,31,0.7)',
-                        }}
-                      >
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                      </div>
-                      <h2 className="text-[28px] font-semibold tracking-tight mb-2">You&rsquo;re booked.</h2>
-                      <p className="text-white/55 text-[15px]">We&rsquo;ll be in touch shortly to confirm the details.</p>
-                      {form.selectedTier && pricing && (
-                        <div className="mt-8 inline-flex items-center gap-2 rounded-full px-4 py-2 bg-white/5 border border-white/10">
-                          <span className="text-xs uppercase tracking-[0.2em] text-white/40">Locked in</span>
-                          <span className="text-white font-semibold tabular-nums">
-                            <NumberFlow value={pricing[form.selectedTier as keyof typeof pricing]} format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }} />
-                          </span>
+                      <div className="w-full max-w-none text-center mb-8">
+                        <div
+                          className="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center"
+                          style={{
+                            background: 'linear-gradient(180deg, #6B3A1F 0%, #4B2E1E 100%)',
+                            boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.18), 0 0 40px -10px rgba(107,58,31,0.7)',
+                          }}
+                        >
+                          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                         </div>
-                      )}
+                        <h2 className="text-[28px] sm:text-[32px] font-semibold tracking-tight leading-[1.1] text-white px-2">
+                          You&rsquo;re booked.
+                        </h2>
+                        <p className="text-white/55 text-[15px] leading-relaxed mt-3 max-w-lg mx-auto px-2">
+                          We&rsquo;ll be in touch shortly to confirm the details.
+                        </p>
+                      </div>
+
+                      <div
+                        className="w-full rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-6 text-left space-y-5"
+                        style={{ boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06)' }}
+                      >
+                        <div className="grid gap-5 sm:grid-cols-2">
+                          <div>
+                            <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Pickup</div>
+                            <p className="text-[14px] text-white/90 leading-snug">{formatAddress(form.pickup)}</p>
+                          </div>
+                          <div>
+                            <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Dropoff</div>
+                            <p className="text-[14px] text-white/90 leading-snug">{formatAddress(form.dropoff)}</p>
+                          </div>
+                        </div>
+                        <div className="h-px bg-white/[0.08]" />
+                        <div className="grid gap-4 sm:grid-cols-2">
+                          <div>
+                            <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Move size</div>
+                            <p className="text-[14px] text-white/85">{form.size ? TIERS[form.size as TierKey].label : '—'}</p>
+                          </div>
+                          <div>
+                            <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Route (est. mi)</div>
+                            <p className="text-[14px] text-white/85 tabular-nums">{form.miles}</p>
+                          </div>
+                          <div>
+                            <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Your selection</div>
+                            <p className="text-[14px] text-white/85 capitalize">{form.selectedTier ? form.selectedTier.replace(/([A-Z])/g, ' $1').trim() : '—'}</p>
+                          </div>
+                          {form.selectedTier && pricing && (
+                            <div>
+                              <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Locked amount</div>
+                              <p className="text-[22px] font-semibold text-white tabular-nums tracking-tight">
+                                {formatUSD(pricing[form.selectedTier as keyof typeof pricing])}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                        <div className="h-px bg-white/[0.08]" />
+                        <div className="grid gap-4 sm:grid-cols-3">
+                          <div>
+                            <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Name</div>
+                            <p className="text-[14px] text-white/85">{form.name}</p>
+                          </div>
+                          <div>
+                            <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Email</div>
+                            <p className="text-[14px] text-white/85 break-all">{form.email}</p>
+                          </div>
+                          <div>
+                            <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Phone</div>
+                            <p className="text-[14px] text-white/85 tabular-nums">{form.phone}</p>
+                          </div>
+                        </div>
+                      </div>
                     </motion.div>
                   ) : (
                     <motion.div
                       key={`step-${step}`}
+                      className="w-full min-w-0"
                       initial={{ opacity: 0, x: 18, filter: 'blur(6px)' }}
                       animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
                       exit={{ opacity: 0, x: -18, filter: 'blur(6px)' }}
@@ -291,23 +359,26 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
               </div>
 
               {/* Footer */}
-              {!submitted && (
-                <div className="px-5 sm:px-7 pb-6 pt-3 sm:pb-7" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-                  {step < TOTAL_STEPS ? (
-                    <PrimaryPill
-                      onClick={next}
-                      disabled={!canAdvance}
-                      label={step === 3 ? 'See Pricing' : 'Continue'}
-                    />
-                  ) : (
-                    <PrimaryPill
-                      onClick={submit}
-                      disabled={!canAdvance || submitting}
-                      label={submitting ? 'Sending…' : 'Submit Request'}
-                    />
-                  )}
-                </div>
-              )}
+              <div className="px-5 sm:px-7 pb-6 pt-3 sm:pb-7" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                {submitError && !submitted && step === TOTAL_STEPS && (
+                  <p className="text-[13px] text-red-400/95 mb-3 text-center leading-relaxed">{submitError}</p>
+                )}
+                {submitted ? (
+                  <PrimaryPill onClick={tryClose} label="Done" />
+                ) : step < TOTAL_STEPS ? (
+                  <PrimaryPill
+                    onClick={next}
+                    disabled={!canAdvance}
+                    label={step === 3 ? 'See Pricing' : 'Continue'}
+                  />
+                ) : (
+                  <PrimaryPill
+                    onClick={submit}
+                    disabled={!canAdvance || submitting}
+                    label={submitting ? 'Sending…' : 'Submit Request'}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </motion.div>
@@ -635,7 +706,7 @@ function Step4({
                       : 'inset 0 1px 1px rgba(255,255,255,0.08)',
                   }}
                 >
-                  <TierRow tier={t} active={active} />
+                  <TierRow tier={t} />
                 </button>
               </motion.div>
             )
@@ -653,7 +724,7 @@ function Step4({
               }`}
               style={active ? { boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.08)' } : {}}
             >
-              <TierRow tier={t} active={active} />
+              <TierRow tier={t} />
             </motion.button>
           )
         })}
@@ -666,7 +737,6 @@ function TierRow({
   tier,
 }: {
   tier: { label: string; sub: string; price: number; recommended?: boolean }
-  active: boolean
 }) {
   return (
     <div className="flex items-center justify-between">
@@ -694,7 +764,7 @@ function TierRow({
 
 function Step5({ form, setForm }: { form: FormState; setForm: React.Dispatch<React.SetStateAction<FormState>> }) {
   return (
-    <div>
+    <div className="w-full min-w-0">
       <StepHeader title="Almost done." sub="Where can we reach you?" />
       <motion.div
         className="space-y-4"

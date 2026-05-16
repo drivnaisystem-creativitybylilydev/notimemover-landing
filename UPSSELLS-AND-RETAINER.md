@@ -2,6 +2,32 @@
 
 Reference for scope beyond the demand-test landing + realistic ongoing pricing.
 
+## Client-facing scope & upsell recap (paste)
+
+**Commercial terms captured in-thread:** `$350` build (paid + signed agreement before next work begins), **`$49`/mo retainer after a 30‑day free trial**. Use the block below in DMs when drawing the line between what’s included vs add-ons.
+
+---
+
+We can switch the button to something faster like **Book your move.**
+
+**Addresses:** Right now it’s **manual on purpose** so the demo stays accurate. Next step is Google-style autocomplete **+** real drive miles — that’s a **separate small project** with its own setup **+** API cost.
+
+**Leads:** For day one I’d do **instant email to you** **+** a **Google Sheet or Airtable** as the log. A CRM can wait until you know your follow-up rhythm unless you already want pipeline features.
+
+Re: **“what could make it better”** — lots on the table: real lead capture **+** anti-spam, tracking, maps/miles, branded follow-up emails, automations, then much bigger stuff like matching. **All of that is extra scope** beyond the **`$350` build.**
+
+I only start the next work after **`$350` is paid + agreement signed**, plus a **monthly retainer of `$49`**. The retainer kicks in **after a 30‑day free trial**. The **`$350`** is for **final edits**, **taking the site live**, **connecting everything so you get notified about bookings**, and the **Google Sheets integration**.
+
+**Anything more** will be an extensive build and **a bigger investment.**
+
+We could sit down sometime **this week** and talk through your vision for the **initial phase** of NoTimeMover and **what makes sense to build now** — I wouldn’t want to charge you to build something **you don’t need yet**; that just doesn’t make sense. I can also share a **list of what I see as valuable in the startup phase**, including **how that would affect pricing**.
+
+---
+
+**Mapping client lines → add-ons:** “Maps/miles” → item 2 + `PHASE-2-GEOCODER.md`. “Lead capture + anti-spam” / Sheet vs Airtable → item 1. Branded customer email / drip → item 4. Tracking → item 5. Matching / dashboard → item 8. SMS → item 7.
+
+_Internal note:_ the **`~$99/mo`** framing below is a common market anchor for landing upkeep; **`$49` + trial** is a deliberate client-facing package — tighten written limits (time bank / # of tweaks) before it creates scope creep.
+
 ## Natural upsells (ordered roughly by client value)
 
 1. **Lead capture backend** — POST quotes to Airtable, Google Sheet, Supabase, or email-to-you via Resend/SendGrid. Includes spam protection (honeypot, Turnstile).

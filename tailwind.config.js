@@ -66,6 +66,9 @@ module.exports = {
         'sway': 'sway 4.5s cubic-bezier(0.45, 0, 0.55, 1) infinite',
         'orb-a': 'orbA 28s ease-in-out infinite',
         'orb-b': 'orbB 34s ease-in-out infinite',
+        /** Duplicated row → -50% seamless loop */
+        'mass-marquee-fast': 'massMarquee 8s linear infinite',
+        'mass-marquee-slow': 'massMarquee 28s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -83,6 +86,10 @@ module.exports = {
         orbB: {
           '0%, 100%': { transform: 'translate3d(0%, 0%, 0) scale(1.05)' },
           '50%':      { transform: 'translate3d(-10%, 8%, 0) scale(0.95)' },
+        },
+        massMarquee: {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-50%)' },
         },
       },
     },
