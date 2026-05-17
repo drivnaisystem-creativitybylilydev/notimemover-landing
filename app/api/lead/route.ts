@@ -137,7 +137,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ ok: true })
   } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err)
     console.error('[api/lead] Sheets append failed:', err)
-    return NextResponse.json({ ok: false, error: 'Could not save lead' }, { status: 502 })
+    return NextResponse.json({ ok: false, error: 'Could not save lead', debug: msg }, { status: 502 })
   }
 }
