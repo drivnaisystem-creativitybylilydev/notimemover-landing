@@ -42,14 +42,8 @@ interface FormState {
 const TOTAL_STEPS = 5
 const SPRING = [0.32, 0.72, 0, 1] as const
 
-const US_STATES = [
-  'AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN','IA',
-  'KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM',
-  'NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA',
-  'WV','WI','WY',
-] as const
 
-const emptyAddress: Address = { street: '', city: '', state: '', zip: '' }
+const emptyAddress: Address = { street: '', city: '', state: 'MA', zip: '' }
 
 const initialState: FormState = {
   pickup: { ...emptyAddress },
@@ -500,24 +494,8 @@ function AddressBlock({
           placeholder="City"
         />
         <div className="grid grid-cols-5 gap-3">
-          <div className="col-span-2 relative">
-            <select
-              value={value.state}
-              onChange={onChange('state')}
-              className="input-field appearance-none pr-10 cursor-pointer"
-              aria-label="State"
-            >
-              <option value="" disabled>State</option>
-              {US_STATES.map(s => (
-                <option key={s} value={s}>{s}</option>
-              ))}
-            </select>
-            <svg
-              className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-white/40"
-              width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
+          <div className="col-span-2">
+            <div className="input-field flex items-center text-white/50 cursor-default select-none">MA</div>
           </div>
           <input
             type="text"
