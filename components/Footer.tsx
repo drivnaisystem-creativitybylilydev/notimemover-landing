@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function Footer() {
   return (
     <footer
@@ -9,8 +11,15 @@ export default function Footer() {
           <span className="text-white">NoTime</span>
           <span className="text-coffee-light">Mover</span>
         </div>
-        <div className="text-[11px] uppercase tracking-[0.22em] text-white/30 text-center sm:text-right font-medium">
-          Licensed &amp; Insured &nbsp;·&nbsp; &copy; {new Date().getFullYear()} NoTimeMover
+        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-4">
+            <Link href="/privacy" className="text-[11px] uppercase tracking-[0.22em] text-white/30 hover:text-white/60 transition-colors font-medium">Privacy</Link>
+            <span className="text-white/15">·</span>
+            <Link href="/terms" className="text-[11px] uppercase tracking-[0.22em] text-white/30 hover:text-white/60 transition-colors font-medium">Terms</Link>
+          </div>
+          <div className="text-[11px] uppercase tracking-[0.22em] text-white/30 text-center sm:text-right font-medium">
+            Licensed &amp; Insured &nbsp;·&nbsp; &copy; {new Date().getFullYear()} NoTimeMover
+          </div>
         </div>
       </div>
     </footer>
