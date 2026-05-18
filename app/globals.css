@@ -151,13 +151,16 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 32px rgba(139, 82, 48, 0.22);
   animation: coffee-shimmer 7s ease-in-out infinite;
+  will-change: background-position;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .text-coffee-shimmer {
+  .text-coffee-shimmer,
+  .orb-a,
+  .orb-b {
     animation: none;
-    background-position: 50% 50%;
   }
+  .text-coffee-shimmer { background-position: 50% 50%; }
 }
 
 /* Ambient orb backdrops (Hero) */

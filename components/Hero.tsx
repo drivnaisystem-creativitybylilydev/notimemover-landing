@@ -1,10 +1,12 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { AnimatePresence, motion } from 'framer-motion'
-import StickFigures from '@/components/StickFigures'
-import BookingFlow from '@/components/BookingFlow'
 import LandingSections from '@/components/LandingSections'
+
+const StickFigures = dynamic(() => import('@/components/StickFigures'), { ssr: false })
+const BookingFlow = dynamic(() => import('@/components/BookingFlow'), { ssr: false })
 
 const SPRING = [0.32, 0.72, 0, 1] as const
 const STORAGE_SITE_URL = 'https://notimestorage.co'

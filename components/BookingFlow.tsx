@@ -538,9 +538,9 @@ function AddressBlock({
             <div
               className="absolute z-50 top-full mt-1 left-0 right-0 rounded-2xl overflow-hidden"
               style={{
-                background: 'rgba(18,10,4,0.98)',
+                background: '#0A0606',
                 border: '1px solid rgba(255,255,255,0.09)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.65)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.8)',
               }}
             >
               {suggestions.map((s, i) => (
