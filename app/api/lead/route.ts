@@ -116,7 +116,16 @@ export async function POST(req: Request) {
     )
   }
 
-  privateKey = privateKey.replace(/\\n/g, '\n')
+  // Normalize key: strip accidental surrounding quotes, convert literal \n to newlines,
+  // then reformat PEM body to ensure 64-char line breaks (handles copy-paste corruption)
+  privateKey = privateKey.replace(/^["']|["']$/g, '').replace(/\\n/g, '\n')
+  if (!privateKey.includes('\n')) {
+    const m = privateKey.match(/-----BEGIN ([^-]+)-----([A-Za-z0-9+/=]+)-----END ([^-]+)-----/)
+    if (m) {
+      const body = (m[2].match(/.{1,64}/g) ?? []).join('\n')
+      privateKey = `-----BEGIN ${m[1]}-----\n${body}\n-----END ${m[3]}-----\n`
+    }
+  }
 
   try {
     const auth = new google.auth.JWT({
