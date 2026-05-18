@@ -37,7 +37,7 @@ export function useAddressAutocomplete(query: string) {
       try {
         const url =
           `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(q)}.json` +
-          `?access_token=${TOKEN}&country=US&bbox=${MA_BBOX}&types=address&autocomplete=true&limit=5&language=en`
+          `?access_token=${TOKEN}&country=US&bbox=${MA_BBOX}&types=address&autocomplete=true&limit=3&language=en`
         const res = await fetch(url)
         if (!res.ok) return
         const data = (await res.json()) as { features?: MapboxFeature[] }

@@ -536,11 +536,12 @@ function AddressBlock({
           />
           {open && (
             <div
-              className="absolute z-50 top-full mt-1 left-0 right-0 rounded-2xl overflow-hidden"
+              className="absolute z-50 top-full mt-1 left-0 right-0 rounded-2xl overflow-y-auto"
               style={{
                 background: '#0A0606',
                 border: '1px solid rgba(255,255,255,0.09)',
                 boxShadow: '0 8px 32px rgba(0,0,0,0.8)',
+                maxHeight: '152px',
               }}
             >
               {suggestions.map((s, i) => (
