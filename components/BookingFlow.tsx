@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { useAddressAutocomplete, type AddressSuggestion } from '@/lib/useAddressAutocomplete'
 import { AnimatePresence, motion } from 'framer-motion'
 import NumberFlow from '@number-flow/react'
 import {
@@ -111,6 +112,12 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
     if (!form.size) return null
     return calculatePricing(form.size, form.miles, form.budget)
   }, [form.size, form.miles, form.budget])
+
+  const autoAdvanceStep1 = async (pickup: Address, dropoff: Address) => {
+    const miles = await getMiles(formatAddress(pickup), formatAddress(dropoff))
+    setForm(f => ({ ...f, miles }))
+    setStep(2)
+  }
 
   const next = async () => {
     if (step === 1) {
@@ -342,7 +349,7 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
                       exit={{ opacity: 0, x: -18, filter: 'blur(6px)' }}
                       transition={{ duration: 0.5, ease: SPRING }}
                     >
-                      {step === 1 && <Step1 form={form} setForm={setForm} />}
+                      {step === 1 && <Step1 form={form} setForm={setForm} onAutoAdvance={autoAdvanceStep1} />}
                       {step === 2 && <Step2 form={form} setForm={setForm} />}
                       {step === 3 && <Step3 form={form} setForm={setForm} />}
                       {step === 4 && <Step4 form={form} setForm={setForm} pricing={pricing} />}
@@ -424,7 +431,13 @@ function StepHeader({ kicker, title, sub }: { kicker?: string; title: string; su
 
 /* -------------------- STEP 1 — Pickup / Dropoff -------------------- */
 
-function Step1({ form, setForm }: { form: FormState; setForm: React.Dispatch<React.SetStateAction<FormState>> }) {
+function Step1({ form, setForm, onAutoAdvance }: {
+  form: FormState
+  setForm: React.Dispatch<React.SetStateAction<FormState>>
+  onAutoAdvance: (pickup: Address, dropoff: Address) => void
+}) {
+  const dropoffRef = useRef<HTMLInputElement>(null)
+
   const update = (key: 'pickup' | 'dropoff', field: keyof Address) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
       setForm(f => ({ ...f, [key]: { ...f[key], [field]: e.target.value } }))
@@ -446,6 +459,11 @@ function Step1({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
             label="Pickup"
             value={form.pickup}
             onChange={(field) => update('pickup', field)}
+            onSelect={addr => {
+              const pickup = { ...addr, state: 'MA' }
+              setForm(f => ({ ...f, pickup }))
+              setTimeout(() => dropoffRef.current?.focus(), 50)
+            }}
             autoFocusStreet
           />
         </motion.div>
@@ -454,6 +472,14 @@ function Step1({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
             label="Dropoff"
             value={form.dropoff}
             onChange={(field) => update('dropoff', field)}
+            onSelect={addr => {
+              const dropoff = { ...addr, state: 'MA' }
+              setForm(f => ({ ...f, dropoff }))
+              if (isAddressComplete(form.pickup)) {
+                onAutoAdvance(form.pickup, dropoff)
+              }
+            }}
+            streetInputRef={dropoffRef}
           />
         </motion.div>
       </motion.div>
@@ -465,26 +491,76 @@ function AddressBlock({
   label,
   value,
   onChange,
+  onSelect,
   autoFocusStreet,
+  streetInputRef,
 }: {
   label: string
   value: Address
   onChange: (field: keyof Address) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+  onSelect: (addr: AddressSuggestion) => void
   autoFocusStreet?: boolean
+  streetInputRef?: React.RefObject<HTMLInputElement>
 }) {
+  const { suggestions, clear } = useAddressAutocomplete(value.street)
+  const [open, setOpen] = useState(false)
+  const wrapRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => { setOpen(suggestions.length > 0) }, [suggestions])
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
   return (
     <div>
       <div className="block text-[10px] uppercase tracking-[0.22em] text-white/45 mb-3 font-medium">{label}</div>
       <div className="space-y-3">
-        <input
-          type="text"
-          autoComplete={label === 'Pickup' ? 'shipping street-address' : 'billing street-address'}
-          autoFocus={autoFocusStreet}
-          value={value.street}
-          onChange={onChange('street')}
-          className="input-field"
-          placeholder="Street address"
-        />
+        <div ref={wrapRef} className="relative">
+          <input
+            ref={streetInputRef}
+            type="text"
+            autoComplete="off"
+            autoFocus={autoFocusStreet}
+            value={value.street}
+            onChange={onChange('street')}
+            onFocus={() => suggestions.length > 0 && setOpen(true)}
+            className="input-field"
+            placeholder="Street address"
+          />
+          {open && (
+            <div
+              className="absolute z-50 top-full mt-1 left-0 right-0 rounded-2xl overflow-hidden"
+              style={{
+                background: 'rgba(18,10,4,0.98)',
+                border: '1px solid rgba(255,255,255,0.09)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.65)',
+              }}
+            >
+              {suggestions.map((s, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className="w-full text-left px-4 py-3 transition-colors duration-150 hover:bg-white/5 border-b border-white/[0.05] last:border-0"
+                  onMouseDown={() => {
+                    onSelect(s)
+                    clear()
+                    setOpen(false)
+                  }}
+                >
+                  <span className="text-[14px] text-white/90">{s.street}</span>
+                  <span className="text-[13px] text-white/40 ml-1.5">{s.city}, MA {s.zip}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
         <input
           type="text"
           autoComplete="address-level2"
