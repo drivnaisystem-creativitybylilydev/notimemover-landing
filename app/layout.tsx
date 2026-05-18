@@ -14,6 +14,9 @@ const instrumentSerif = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
+  verification: {
+    google: 's4PeiDBEdKAfhaX6aGQk7hw9sjtowGwTJiDbLH0q32I',
+  },
   metadataBase: new URL('https://notimemover.com'),
   title: 'NoTimeMover — Move Anywhere. You Set The Price.',
   description: 'Set your own price for your move. Pickup, dropoff, size, budget — done in 60 seconds.',
