@@ -76,15 +76,23 @@ export function LeadConfirmation({
           {/* Body */}
           <Section style={{ padding: '40px 40px 36px' }}>
 
-            {/* Checkmark */}
-            <div style={{ width: '52px', height: '52px', borderRadius: '50%', background: 'linear-gradient(180deg, #6B3A1F 0%, #4B2E1E 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
-              <Text style={{ margin: '0', fontSize: '22px', lineHeight: '52px', textAlign: 'center', color: c.white }}>✓</Text>
-            </div>
+            {/* Checkmark — centred */}
+            <table width="100%" cellPadding="0" cellSpacing="0" style={{ marginBottom: '24px' }}>
+              <tbody>
+                <tr>
+                  <td align="center">
+                    <div style={{ width: '52px', height: '52px', borderRadius: '50%', background: 'linear-gradient(180deg, #6B3A1F 0%, #4B2E1E 100%)', display: 'inline-block', textAlign: 'center', lineHeight: '52px' }}>
+                      <span style={{ color: c.white, fontSize: '22px', lineHeight: '52px', fontFamily: f }}>✓</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
-            <Text style={{ color: c.white, fontSize: '26px', fontWeight: '700', margin: '0 0 8px', letterSpacing: '-0.4px', fontFamily: f }}>
+            <Text style={{ color: c.white, fontSize: '26px', fontWeight: '700', margin: '0 0 8px', letterSpacing: '-0.4px', fontFamily: f, textAlign: 'center' }}>
               Got it, {customerName}.
             </Text>
-            <Text style={{ color: c.white70, fontSize: '15px', lineHeight: '1.7', margin: '0 0 28px', fontFamily: f }}>
+            <Text style={{ color: c.white70, fontSize: '15px', lineHeight: '1.7', margin: '0 0 28px', fontFamily: f, textAlign: 'center' }}>
               Your move request is in. We&apos;ll review the details and reach out within 30 minutes to confirm availability and lock in your price.
             </Text>
 
