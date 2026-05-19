@@ -11,6 +11,7 @@ const OOS_HEADERS = [
   'phone',
   'from_state',
   'from_city',
+  'size',
   'notes',
 ]
 
@@ -34,6 +35,7 @@ export async function POST(req: Request) {
   const phone = typeof body.phone === 'string' ? body.phone.trim() : ''
   const fromState = typeof body.fromState === 'string' ? body.fromState.trim() : ''
   const fromCity = typeof body.fromCity === 'string' ? body.fromCity.trim() : ''
+  const size = typeof body.size === 'string' ? body.size.trim() : ''
   const notes = typeof body.notes === 'string' ? body.notes.trim() : ''
 
   if (!name || !email || !phone || !fromState) {
@@ -67,7 +69,7 @@ export async function POST(req: Request) {
         valueInputOption: 'USER_ENTERED',
         insertDataOption: 'INSERT_ROWS',
         requestBody: {
-          values: [[new Date().toISOString(), name, email, phone, fromState, fromCity, notes]],
+          values: [[new Date().toISOString(), name, email, phone, fromState, fromCity, size, notes]],
         },
       })
     } catch (err) {
@@ -89,6 +91,7 @@ export async function POST(req: Request) {
             <tr><td style="color:#666">Email</td><td><a href="mailto:${email}">${email}</a></td></tr>
             <tr><td style="color:#666">Phone</td><td>${phone}</td></tr>
             <tr><td style="color:#666">Moving from</td><td>${fromCity ? `${fromCity}, ` : ''}${fromState}</td></tr>
+            ${size ? `<tr><td style="color:#666">Move size</td><td>${size}</td></tr>` : ''}
             ${notes ? `<tr><td style="color:#666;vertical-align:top">Notes</td><td>${notes}</td></tr>` : ''}
             <tr><td style="color:#666">Submitted</td><td>${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })} ET</td></tr>
           </table>

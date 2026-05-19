@@ -315,7 +315,7 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
                           You&rsquo;re booked.
                         </h2>
                         <p className="text-white/55 text-[15px] leading-relaxed mt-3 max-w-lg mx-auto px-2">
-                          We&rsquo;ll be in touch shortly to confirm the details.
+                          Check your inbox for a confirmation email. Our team will be in touch shortly to finalise the details of your move.
                         </p>
                       </div>
 
@@ -950,12 +950,19 @@ const US_STATES = [
   'WA','WV','WI','WY','DC',
 ]
 
+const OOS_SIZE_OPTIONS = [
+  { key: 'studio',   label: 'Studio / 1 Bedroom', sub: 'Small move · a few rooms' },
+  { key: 'twoBed',   label: '2 Bedroom',           sub: 'Mid-size · couple or small family' },
+  { key: 'threeBed', label: '3 Bedroom',            sub: 'Larger home · full family' },
+] as const
+
 function OutOfStateStep({ onClose }: { onClose: () => void }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [fromState, setFromState] = useState('')
   const [fromCity, setFromCity] = useState('')
+  const [size, setSize] = useState('')
   const [notes, setNotes] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -974,7 +981,7 @@ function OutOfStateStep({ onClose }: { onClose: () => void }) {
       const res = await fetch('/api/outofstate-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, fromState, fromCity, notes }),
+        body: JSON.stringify({ name, email, phone, fromState, fromCity, size, notes }),
       })
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean }
       if (!res.ok || !data.ok) {
@@ -991,7 +998,14 @@ function OutOfStateStep({ onClose }: { onClose: () => void }) {
 
   if (submitted) {
     return (
-      <div className="text-center py-4">
+      <motion.div
+        key="oos-done"
+        initial={{ opacity: 0, y: 14, filter: 'blur(8px)' }}
+        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.6, ease: SPRING }}
+        className="text-center py-4"
+      >
         <div
           className="w-14 h-14 mx-auto mb-5 rounded-full flex items-center justify-center"
           style={{
@@ -1001,10 +1015,15 @@ function OutOfStateStep({ onClose }: { onClose: () => void }) {
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        <h2 className="text-[26px] font-semibold tracking-tight">Got it.</h2>
-        <p className="text-white/50 text-[15px] mt-2 leading-relaxed mb-8">We&rsquo;ll be in touch to see what we can do.</p>
+        <h2 className="text-[26px] font-semibold tracking-tight">Request sent.</h2>
+        <p className="text-white/55 text-[15px] mt-2 leading-relaxed mb-2 max-w-xs mx-auto">
+          Check your inbox — and your spam just in case.
+        </p>
+        <p className="text-white/40 text-[14px] leading-relaxed mb-8 max-w-xs mx-auto">
+          We&rsquo;ll be in touch shortly to see what we can arrange.
+        </p>
         <PrimaryPill onClick={onClose} label="Done" />
-      </div>
+      </motion.div>
     )
   }
 
@@ -1049,6 +1068,37 @@ function OutOfStateStep({ onClose }: { onClose: () => void }) {
           <div>
             <label className="block text-[10px] uppercase tracking-[0.22em] text-white/40 mb-2 font-medium">City / Area</label>
             <input type="text" value={fromCity} onChange={e => setFromCity(e.target.value)} className="input-field" placeholder="e.g. New York" />
+          </div>
+        </motion.div>
+        <motion.div variants={fadeUp}>
+          <label className="block text-[10px] uppercase tracking-[0.22em] text-white/40 mb-3 font-medium">Move size</label>
+          <div className="space-y-2">
+            {OOS_SIZE_OPTIONS.map(o => {
+              const active = size === o.key
+              return (
+                <button
+                  key={o.key}
+                  type="button"
+                  onClick={() => setSize(o.key)}
+                  className={`w-full text-left p-4 rounded-2xl border transition-all duration-500 ease-spring active:scale-[0.99] ${
+                    active
+                      ? 'border-coffee-light bg-coffee-deep/60'
+                      : 'border-white/8 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/15'
+                  }`}
+                  style={active ? { boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.08)' } : {}}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-[15px] font-medium text-white">{o.label}</div>
+                      <div className="text-[12px] text-white/45 mt-0.5">{o.sub}</div>
+                    </div>
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors duration-300 flex-shrink-0 ${active ? 'border-white bg-white' : 'border-white/25'}`}>
+                      {active && <svg viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3"><polyline points="20 6 9 17 4 12"/></svg>}
+                    </div>
+                  </div>
+                </button>
+              )
+            })}
           </div>
         </motion.div>
         <motion.div variants={fadeUp}>
