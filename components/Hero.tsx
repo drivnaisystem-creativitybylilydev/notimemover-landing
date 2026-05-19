@@ -236,6 +236,16 @@ function BlurReveal({
 
 export default function Hero() {
   const [bookingOpen, setBookingOpen] = useState(false)
+  const [initialConfirm, setInitialConfirm] = useState<'instate' | 'oos' | undefined>()
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'development') return
+    const p = new URLSearchParams(window.location.search).get('confirm') as 'instate' | 'oos' | null
+    if (p === 'instate' || p === 'oos') {
+      setInitialConfirm(p)
+      setBookingOpen(true)
+    }
+  }, [])
 
   return (
     <>
@@ -386,7 +396,7 @@ export default function Hero() {
 
       <LandingSections onOpenBooking={() => setBookingOpen(true)} />
 
-      <BookingFlow isOpen={bookingOpen} onClose={() => setBookingOpen(false)} />
+      <BookingFlow isOpen={bookingOpen} onClose={() => setBookingOpen(false)} initialConfirm={initialConfirm} />
     </>
   )
 }

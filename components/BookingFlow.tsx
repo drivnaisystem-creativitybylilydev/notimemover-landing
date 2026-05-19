@@ -17,6 +17,7 @@ import { getMiles } from '@/lib/distance'
 interface Props {
   isOpen: boolean
   onClose: () => void
+  initialConfirm?: 'instate' | 'oos'
 }
 
 type PriceTier = 'save' | 'yourPrice' | 'premium'
@@ -67,14 +68,16 @@ const isAddressComplete = (a: Address) =>
   a.state.length === 2 &&
   /^\d{5}(-\d{4})?$/.test(a.zip.trim())
 
-export default function BookingFlow({ isOpen, onClose }: Props) {
+export default function BookingFlow({ isOpen, onClose, initialConfirm }: Props) {
   const [preStep, setPreStep] = useState(true)
   const [outOfState, setOutOfState] = useState(false)
+  const [oosSubmitted, setOosSubmitted] = useState(false)
   const [step, setStep] = useState(1)
   const [form, setForm] = useState<FormState>(initialState)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const didInitConfirm = useRef(false)
 
   useEffect(() => {
     if (isOpen) document.body.style.overflow = 'hidden'
@@ -91,9 +94,23 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, step])
 
+  useEffect(() => {
+    if (!isOpen || !initialConfirm || didInitConfirm.current) return
+    didInitConfirm.current = true
+    if (initialConfirm === 'instate') {
+      setPreStep(false)
+      setSubmitted(true)
+    } else if (initialConfirm === 'oos') {
+      setPreStep(false)
+      setOutOfState(true)
+      setOosSubmitted(true)
+    }
+  }, [isOpen, initialConfirm])
+
   const reset = () => {
     setPreStep(true)
     setOutOfState(false)
+    setOosSubmitted(false)
     setStep(1)
     setForm(initialState)
     setSubmitting(false)
@@ -290,7 +307,7 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
                       exit={{ opacity: 0, x: -18, filter: 'blur(6px)' }}
                       transition={{ duration: 0.5, ease: SPRING }}
                     >
-                      <OutOfStateStep onClose={tryClose} />
+                      <OutOfStateStep onClose={tryClose} initialSubmitted={oosSubmitted} />
                     </motion.div>
                   ) : submitted ? (
                     <motion.div
@@ -315,7 +332,7 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
                           You&rsquo;re booked.
                         </h2>
                         <p className="text-white/55 text-[15px] leading-relaxed mt-3 max-w-lg mx-auto px-2">
-                          Check your inbox for a confirmation email. Our team will be in touch shortly to finalise the details of your move.
+                          Check your inbox for a confirmation email — and your spam just in case. Our team will be in touch shortly to finalise the details of your move.
                         </p>
                       </div>
 
@@ -956,7 +973,7 @@ const OOS_SIZE_OPTIONS = [
   { key: 'threeBed', label: '3 Bedroom',            sub: 'Larger home · full family' },
 ] as const
 
-function OutOfStateStep({ onClose }: { onClose: () => void }) {
+function OutOfStateStep({ onClose, initialSubmitted = false }: { onClose: () => void; initialSubmitted?: boolean }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -965,7 +982,7 @@ function OutOfStateStep({ onClose }: { onClose: () => void }) {
   const [size, setSize] = useState('')
   const [notes, setNotes] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
+  const [submitted, setSubmitted] = useState(initialSubmitted)
   const [error, setError] = useState<string | null>(null)
 
   const canSubmit =
