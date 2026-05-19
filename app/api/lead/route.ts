@@ -169,7 +169,7 @@ export async function POST(req: Request) {
           }),
           resend.emails.send({
             from: 'NoTimeMover <hello@notimemover.com>',
-            to: 'hello@notimemover.com',
+            to: 'contact@notimemover.com',
             subject: `New move request — ${payload.name} (${payload.selectedTier || 'no tier'})`,
             html: `
               <p><strong>New move request</strong></p>
