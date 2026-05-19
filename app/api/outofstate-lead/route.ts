@@ -80,7 +80,7 @@ export async function POST(req: Request) {
       const resend = new Resend(process.env.RESEND_API_KEY)
       await resend.emails.send({
         from: 'NoTimeMover <hello@notimemover.com>',
-        to: 'notimestorage@gmail.com',
+        to: 'hello@notimemover.com',
         subject: `Out-of-state move request — ${fromState}`,
         html: `
           <p><strong>New out-of-state move request</strong></p>

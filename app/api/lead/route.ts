@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server'
 import { google } from 'googleapis'
+import { Resend } from 'resend'
+import { render } from '@react-email/render'
+import { LeadConfirmation } from '@/emails/LeadConfirmation'
 import {
   LEAD_SHEET_HEADERS,
   leadPayloadToRow,
@@ -143,6 +146,52 @@ export async function POST(req: Request) {
       insertDataOption: 'INSERT_ROWS',
       requestBody: { values: [row] },
     })
+
+    if (process.env.RESEND_API_KEY) {
+      try {
+        const resend = new Resend(process.env.RESEND_API_KEY)
+        const html = await render(LeadConfirmation({
+          customerName: payload.name.split(' ')[0],
+          pickupFormatted: payload.pickupFormatted,
+          dropoffFormatted: payload.dropoffFormatted,
+          sizeLabel: payload.sizeLabel,
+          selectedTier: payload.selectedTier,
+          finalPrice: payload.finalPrice,
+          miles: payload.miles,
+        }))
+
+        await Promise.all([
+          resend.emails.send({
+            from: 'NoTimeMover <hello@notimemover.com>',
+            to: payload.email,
+            subject: 'Your move request is in — NoTimeMover',
+            html,
+          }),
+          resend.emails.send({
+            from: 'NoTimeMover <hello@notimemover.com>',
+            to: 'hello@notimemover.com',
+            subject: `New move request — ${payload.name} (${payload.selectedTier || 'no tier'})`,
+            html: `
+              <p><strong>New move request</strong></p>
+              <table cellpadding="6" style="border-collapse:collapse;font-family:sans-serif;font-size:14px">
+                <tr><td style="color:#666">Name</td><td>${payload.name}</td></tr>
+                <tr><td style="color:#666">Email</td><td><a href="mailto:${payload.email}">${payload.email}</a></td></tr>
+                <tr><td style="color:#666">Phone</td><td>${payload.phone}</td></tr>
+                <tr><td style="color:#666">Pickup</td><td>${payload.pickupFormatted}</td></tr>
+                <tr><td style="color:#666">Dropoff</td><td>${payload.dropoffFormatted}</td></tr>
+                <tr><td style="color:#666">Size</td><td>${payload.sizeLabel}</td></tr>
+                <tr><td style="color:#666">Miles</td><td>${payload.miles}</td></tr>
+                <tr><td style="color:#666">Tier</td><td>${payload.selectedTier}</td></tr>
+                <tr><td style="color:#666">Price</td><td>${payload.finalPrice != null ? `$${payload.finalPrice}` : '—'}</td></tr>
+                <tr><td style="color:#666">Submitted</td><td>${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })} ET</td></tr>
+              </table>
+            `,
+          }),
+        ])
+      } catch (emailErr) {
+        console.error('[api/lead] Resend failed (non-fatal):', emailErr)
+      }
+    }
 
     return NextResponse.json({ ok: true })
   } catch (err) {
