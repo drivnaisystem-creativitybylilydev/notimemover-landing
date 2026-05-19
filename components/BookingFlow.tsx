@@ -68,6 +68,8 @@ const isAddressComplete = (a: Address) =>
   /^\d{5}(-\d{4})?$/.test(a.zip.trim())
 
 export default function BookingFlow({ isOpen, onClose }: Props) {
+  const [preStep, setPreStep] = useState(true)
+  const [outOfState, setOutOfState] = useState(false)
   const [step, setStep] = useState(1)
   const [form, setForm] = useState<FormState>(initialState)
   const [submitting, setSubmitting] = useState(false)
@@ -90,6 +92,8 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
   }, [isOpen, step])
 
   const reset = () => {
+    setPreStep(true)
+    setOutOfState(false)
     setStep(1)
     setForm(initialState)
     setSubmitting(false)
@@ -98,7 +102,7 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
   }
 
   const tryClose = () => {
-    if (submitted) {
+    if (submitted || preStep || outOfState) {
       onClose()
       setTimeout(reset, 320)
       return
@@ -134,7 +138,11 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
     setStep(s => Math.min(s + 1, TOTAL_STEPS))
   }
 
-  const back = () => setStep(s => Math.max(s - 1, 1))
+  const back = () => {
+    if (outOfState) { setOutOfState(false); setPreStep(true); return }
+    if (step === 1) { setPreStep(true); return }
+    setStep(s => Math.max(s - 1, 1))
+  }
 
   const canAdvance =
     (step === 1 && isAddressComplete(form.pickup) && isAddressComplete(form.dropoff)) ||
@@ -216,7 +224,7 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
 
               {/* Header */}
               <div className="flex items-center gap-3 px-5 pt-5 pb-3 sm:px-7 sm:pt-7">
-                {step > 1 && !submitted ? (
+                {!preStep && !submitted && (step > 1 || outOfState) ? (
                   <button
                     type="button"
                     onClick={back}
@@ -228,7 +236,7 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
                 ) : <div className="w-9 h-9" />}
 
                 <div className="flex-1 text-center text-[10px] uppercase tracking-[0.24em] text-white/45 font-medium">
-                  {submitted ? 'Confirmed' : `Step ${step} of ${TOTAL_STEPS}`}
+                  {submitted ? 'Confirmed' : preStep ? 'Move quote' : outOfState ? 'Service area' : `Step ${step} of ${TOTAL_STEPS}`}
                 </div>
 
                 <button
@@ -242,7 +250,7 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
               </div>
 
               {/* Progress bar */}
-              {!submitted && (
+              {!submitted && !preStep && !outOfState && (
                 <div className="px-5 sm:px-7">
                   <div className="h-[3px] w-full bg-white/5 rounded-full overflow-hidden">
                     <motion.div
@@ -259,7 +267,32 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
               {/* Body */}
               <div className="flex-1 overflow-y-auto px-5 sm:px-7 py-8">
                 <AnimatePresence mode="wait" initial={false}>
-                  {submitted ? (
+                  {preStep ? (
+                    <motion.div
+                      key="prestep"
+                      className="w-full min-w-0"
+                      initial={{ opacity: 0, x: 18, filter: 'blur(6px)' }}
+                      animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                      exit={{ opacity: 0, x: -18, filter: 'blur(6px)' }}
+                      transition={{ duration: 0.5, ease: SPRING }}
+                    >
+                      <PreStep
+                        onInState={() => setPreStep(false)}
+                        onOutOfState={() => { setPreStep(false); setOutOfState(true) }}
+                      />
+                    </motion.div>
+                  ) : outOfState ? (
+                    <motion.div
+                      key="outofstate"
+                      className="w-full min-w-0"
+                      initial={{ opacity: 0, x: 18, filter: 'blur(6px)' }}
+                      animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                      exit={{ opacity: 0, x: -18, filter: 'blur(6px)' }}
+                      transition={{ duration: 0.5, ease: SPRING }}
+                    >
+                      <OutOfStateStep onClose={tryClose} />
+                    </motion.div>
+                  ) : submitted ? (
                     <motion.div
                       key="done"
                       initial={{ opacity: 0, y: 14, filter: 'blur(8px)' }}
@@ -364,7 +397,7 @@ export default function BookingFlow({ isOpen, onClose }: Props) {
                 {submitError && !submitted && step === TOTAL_STEPS && (
                   <p className="text-[13px] text-red-400/95 mb-3 text-center leading-relaxed">{submitError}</p>
                 )}
-                {submitted ? (
+                {preStep || outOfState ? null : submitted ? (
                   <PrimaryPill onClick={tryClose} label="Done" />
                 ) : step < TOTAL_STEPS ? (
                   <PrimaryPill
@@ -865,6 +898,173 @@ function Step5({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
         <p className="text-[12px] text-white/35 pt-2 leading-relaxed">
           No spam. We&rsquo;ll respond within 30 minutes.
         </p>
+      </motion.div>
+    </div>
+  )
+}
+
+/* -------------------- PRE-STEP — In-state / Out-of-state -------------------- */
+
+function PreStep({ onInState, onOutOfState }: { onInState: () => void; onOutOfState: () => void }) {
+  const options = [
+    { label: 'Within Massachusetts', sub: 'Continue to book your move', onClick: onInState },
+    { label: 'Outside Massachusetts', sub: 'Out-of-state move', onClick: onOutOfState },
+  ]
+  return (
+    <div>
+      <StepHeader title="Where are you moving?" sub="NoTimeMover serves moves within Massachusetts." />
+      <motion.div
+        className="space-y-3"
+        initial="hidden"
+        animate="show"
+        variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } } }}
+      >
+        {options.map(o => (
+          <motion.button
+            key={o.label}
+            type="button"
+            variants={fadeUp}
+            onClick={o.onClick}
+            className="w-full text-left p-5 rounded-2xl border border-white/8 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/15 transition-all duration-500 ease-spring active:scale-[0.99]"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-[16px] font-medium text-white">{o.label}</div>
+                <div className="text-[13px] text-white/45 mt-0.5">{o.sub}</div>
+              </div>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/30 flex-shrink-0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+            </div>
+          </motion.button>
+        ))}
+      </motion.div>
+    </div>
+  )
+}
+
+/* -------------------- OUT-OF-STATE screen -------------------- */
+
+const US_STATES = [
+  'AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA',
+  'KS','KY','LA','ME','MD','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM',
+  'NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA',
+  'WA','WV','WI','WY','DC',
+]
+
+function OutOfStateStep({ onClose }: { onClose: () => void }) {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [fromState, setFromState] = useState('')
+  const [fromCity, setFromCity] = useState('')
+  const [notes, setNotes] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const canSubmit =
+    name.trim().length > 0 &&
+    /\S+@\S+\.\S+/.test(email) &&
+    phone.replace(/\D/g, '').length >= 10 &&
+    fromState.length > 0
+
+  const submit = async () => {
+    setSubmitting(true)
+    setError(null)
+    try {
+      const res = await fetch('/api/outofstate-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, fromState, fromCity, notes }),
+      })
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean }
+      if (!res.ok || !data.ok) {
+        setError('Something went wrong. Email us directly at hello@notimemover.com.')
+        return
+      }
+      setSubmitted(true)
+    } catch {
+      setError('Network error — check your connection and try again.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  if (submitted) {
+    return (
+      <div className="text-center py-4">
+        <div
+          className="w-14 h-14 mx-auto mb-5 rounded-full flex items-center justify-center"
+          style={{
+            background: 'linear-gradient(180deg, #6B3A1F 0%, #4B2E1E 100%)',
+            boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.18), 0 0 32px -8px rgba(107,58,31,0.6)',
+          }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2 className="text-[26px] font-semibold tracking-tight">Got it.</h2>
+        <p className="text-white/50 text-[15px] mt-2 leading-relaxed mb-8">We&rsquo;ll be in touch to see what we can do.</p>
+        <PrimaryPill onClick={onClose} label="Done" />
+      </div>
+    )
+  }
+
+  return (
+    <div className="w-full min-w-0">
+      <StepHeader
+        kicker="Out of state"
+        title="Tell us about your move."
+        sub="We'll reach out to see what we can arrange."
+      />
+      <motion.div
+        className="space-y-4"
+        initial="hidden"
+        animate="show"
+        variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.04 } } }}
+      >
+        <motion.div variants={fadeUp}>
+          <label className="block text-[10px] uppercase tracking-[0.22em] text-white/40 mb-2 font-medium">Full Name</label>
+          <input type="text" autoComplete="name" value={name} onChange={e => setName(e.target.value)} className="input-field" placeholder="Jane Doe" />
+        </motion.div>
+        <motion.div variants={fadeUp}>
+          <label className="block text-[10px] uppercase tracking-[0.22em] text-white/40 mb-2 font-medium">Email</label>
+          <input type="email" inputMode="email" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} className="input-field" placeholder="jane@example.com" />
+        </motion.div>
+        <motion.div variants={fadeUp}>
+          <label className="block text-[10px] uppercase tracking-[0.22em] text-white/40 mb-2 font-medium">Phone</label>
+          <input type="tel" inputMode="tel" autoComplete="tel" value={phone} onChange={e => setPhone(e.target.value)} className="input-field" placeholder="(555) 123-4567" />
+        </motion.div>
+        <motion.div variants={fadeUp} className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-[10px] uppercase tracking-[0.22em] text-white/40 mb-2 font-medium">Moving from — State</label>
+            <select
+              value={fromState}
+              onChange={e => setFromState(e.target.value)}
+              className="input-field"
+              style={{ appearance: 'none' }}
+            >
+              <option value="">Select state</option>
+              {US_STATES.map(s => <option key={s} value={s}>{s}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="block text-[10px] uppercase tracking-[0.22em] text-white/40 mb-2 font-medium">City / Area</label>
+            <input type="text" value={fromCity} onChange={e => setFromCity(e.target.value)} className="input-field" placeholder="e.g. New York" />
+          </div>
+        </motion.div>
+        <motion.div variants={fadeUp}>
+          <label className="block text-[10px] uppercase tracking-[0.22em] text-white/40 mb-2 font-medium">Tell us more</label>
+          <textarea
+            value={notes}
+            onChange={e => setNotes(e.target.value)}
+            rows={3}
+            className="input-field resize-none"
+            placeholder="Where are you moving to? How much do you have? Any other details…"
+          />
+        </motion.div>
+        {error && <p className="text-[13px] text-red-400/95 text-center leading-relaxed">{error}</p>}
+        <motion.div variants={fadeUp} className="pt-1">
+          <PrimaryPill onClick={submit} disabled={!canSubmit || submitting} label={submitting ? 'Sending…' : 'Send Request'} />
+        </motion.div>
       </motion.div>
     </div>
   )
