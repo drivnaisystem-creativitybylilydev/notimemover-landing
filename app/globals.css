@@ -51,7 +51,7 @@ select {
 @layer components {
   /* Primary CTA — pill, premium, magnetic-ready (the inner pocket is added per-element) */
   .btn-primary {
-    @apply group relative inline-flex items-center gap-3 pl-6 pr-2 py-2 bg-white text-ink font-medium rounded-full transition-transform duration-500 ease-spring active:scale-[0.98] cursor-pointer;
+    @apply relative inline-flex items-center gap-3 pl-6 pr-2 py-2 bg-white text-ink font-medium rounded-full transition-transform duration-500 ease-spring active:scale-[0.98] cursor-pointer;
   }
   .btn-primary-text {
     @apply text-base sm:text-[15px] tracking-tight;
