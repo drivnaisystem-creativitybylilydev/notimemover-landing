@@ -3,46 +3,16 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-// Simplified Massachusetts outline — viewBox 0 0 760 420
-// Clockwise from NW corner: north border → Cape Ann → east coast → Cape Cod → south coast → western border
-const MA_OUTLINE = `
-M 22 38
-C 90 30 200 24 340 22
-C 440 20 520 22 572 25
-L 590 30
-C 604 18 618 20 631 27
-C 642 34 642 47 634 59
-L 618 70
-L 600 86
-C 590 98 578 112 568 126
-L 563 138
-C 567 150 578 162 590 170
-L 612 192
-L 636 210
-L 640 232
-L 637 260
-L 640 270
-C 652 276 664 282 678 288
-L 706 300
-C 726 310 744 316 748 320
-C 756 308 758 288 750 266
-C 744 250 734 234 720 218
-C 712 208 704 204 698 204
-C 692 206 682 214 674 226
-C 666 236 654 246 644 252
-C 636 256 626 254 620 248
-L 616 268
-C 600 280 582 290 560 298
-C 540 306 518 312 496 312
-L 438 310
-L 356 304
-L 274 296
-L 192 288
-L 108 278
-L 52 272
-L 22 270
-Z
-`.trim()
+// Real Massachusetts boundary — derived from USGS GeoJSON, projected to 760×399 space
+// viewBox has 20px padding on all sides → "-20 -20 800 440"
+const MA_OUTLINE =
+  'M 551 0 L 572 5 L 580 55 L 571 96 L 537 134 L 536 178 ' +
+  'L 583 184 L 611 229 L 606 265 L 629 275 L 632 308 ' +
+  'L 691 336 L 760 309 L 745 349 L 643 383 L 606 385 ' +
+  'L 584 358 L 549 366 L 548 386 L 508 399 ' +
+  'L 492 347 L 486 338 L 464 317 L 452 250 L 421 250 ' +
+  'L 364 253 L 364 248 L 97 243 L 5 240 L 0 229 ' +
+  'L 51 41 L 224 46 L 471 55 L 494 28 Z'
 
 interface City {
   id: string
@@ -52,21 +22,22 @@ interface City {
   major?: boolean
 }
 
+// City positions derived from same geographic projection
 const CITIES: City[] = [
-  { id: 'boston',      label: 'Boston',      x: 548, y: 118, major: true },
-  { id: 'worcester',   label: 'Worcester',   x: 374, y: 144, major: true },
-  { id: 'springfield', label: 'Springfield', x: 194, y: 174, major: true },
-  { id: 'lowell',      label: 'Lowell',      x: 490, y: 56  },
-  { id: 'brockton',    label: 'Brockton',    x: 558, y: 180 },
-  { id: 'newbedford',  label: 'New Bedford', x: 554, y: 298 },
-  { id: 'plymouth',    label: 'Plymouth',    x: 636, y: 200 },
-  { id: 'pittsfield',  label: 'Pittsfield',  x: 52,  y: 102 },
-  { id: 'northampton', label: 'Northampton', x: 192, y: 134 },
-  { id: 'framingham',  label: 'Framingham',  x: 462, y: 146 },
-  { id: 'salem',       label: 'Salem',       x: 574, y: 84  },
-  { id: 'gloucester',  label: 'Gloucester',  x: 610, y: 62  },
-  { id: 'lawrence',    label: 'Lawrence',    x: 512, y: 44  },
-  { id: 'hyannis',     label: 'Hyannis',     x: 644, y: 282 },
+  { id: 'boston',      label: 'Boston',      x: 521, y: 151, major: true },
+  { id: 'worcester',   label: 'Worcester',   x: 363, y: 179, major: true },
+  { id: 'springfield', label: 'Springfield', x: 195, y: 226, major: true },
+  { id: 'lowell',      label: 'Lowell',      x: 466, y: 73  },
+  { id: 'brockton',    label: 'Brockton',    x: 530, y: 231 },
+  { id: 'newbedford',  label: 'New Bedford', x: 548, y: 359 },
+  { id: 'plymouth',    label: 'Plymouth',    x: 605, y: 267 },
+  { id: 'pittsfield',  label: 'Pittsfield',  x: 56,  y: 126 },
+  { id: 'northampton', label: 'Northampton', x: 187, y: 161 },
+  { id: 'framingham',  label: 'Framingham',  x: 445, y: 175 },
+  { id: 'salem',       label: 'Salem',       x: 556, y: 106 },
+  { id: 'gloucester',  label: 'Gloucester',  x: 606, y: 78  },
+  { id: 'lawrence',    label: 'Lawrence',    x: 499, y: 52  },
+  { id: 'hyannis',     label: 'Hyannis',     x: 686, y: 354 },
 ]
 
 const ROUTES: [number, number][] = [
@@ -89,8 +60,9 @@ const ROUTES: [number, number][] = [
 function makeBeamPath(from: City, to: City): string {
   const mx = (from.x + to.x) / 2
   const my = (from.y + to.y) / 2
-  const cx = mx + (340 - mx) * 0.18
-  const cy = my + (162 - my) * 0.18 - 18
+  // Control point curves slightly toward geographic center of MA
+  const cx = mx + (370 - mx) * 0.18
+  const cy = my + (200 - my) * 0.18 - 18
   return `M ${from.x} ${from.y} Q ${cx} ${cy} ${to.x} ${to.y}`
 }
 
@@ -115,13 +87,12 @@ export default function MassMapBackground() {
 
   return (
     <svg
-      viewBox="0 0 760 420"
+      viewBox="-20 -20 800 440"
       preserveAspectRatio="xMidYMid meet"
       className="w-full h-full"
       aria-hidden="true"
     >
       <defs>
-        {/* Dot / outline glow */}
         <filter id="mmb-glow" x="-80%" y="-80%" width="260%" height="260%">
           <feGaussianBlur stdDeviation="3.5" result="blur" />
           <feMerge>
@@ -129,7 +100,6 @@ export default function MassMapBackground() {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        {/* Beam glow */}
         <filter id="mmb-beam" x="-120%" y="-120%" width="340%" height="340%">
           <feGaussianBlur stdDeviation="7" result="blur" />
           <feMerge>
@@ -137,7 +107,6 @@ export default function MassMapBackground() {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        {/* Outer corona glow for beam */}
         <filter id="mmb-corona" x="-150%" y="-150%" width="400%" height="400%">
           <feGaussianBlur stdDeviation="12" result="blur" />
           <feMerge>
@@ -146,16 +115,16 @@ export default function MassMapBackground() {
         </filter>
       </defs>
 
-      {/* Massachusetts shape — glass fill + subtle coffee border */}
+      {/* Massachusetts outline — glass fill + coffee border */}
       <path
         d={MA_OUTLINE}
         fill="rgba(107,58,31,0.07)"
-        stroke="rgba(139,82,48,0.28)"
+        stroke="rgba(139,82,48,0.30)"
         strokeWidth={1.5}
         strokeLinejoin="round"
         strokeLinecap="round"
       />
-      {/* Top-edge highlight for glass effect */}
+      {/* Top-edge glass highlight */}
       <path
         d={MA_OUTLINE}
         fill="none"
@@ -165,7 +134,7 @@ export default function MassMapBackground() {
         strokeLinecap="round"
       />
 
-      {/* All city dots */}
+      {/* City dots */}
       {CITIES.map(city => (
         <g key={city.id}>
           <circle cx={city.x} cy={city.y} r={city.major ? 5.5 : 4} fill="rgba(107,58,31,0.20)" />
@@ -173,10 +142,10 @@ export default function MassMapBackground() {
         </g>
       ))}
 
-      {/* City labels for major hubs */}
+      {/* Major city labels */}
       {CITIES.filter(c => c.major).map(city => (
         <text
-          key={`label-${city.id}`}
+          key={`lbl-${city.id}`}
           x={city.x + 7}
           y={city.y + 4}
           fontSize={9}
@@ -188,11 +157,11 @@ export default function MassMapBackground() {
         </text>
       ))}
 
-      {/* Active beam */}
+      {/* Animated beam */}
       <AnimatePresence mode="sync">
         <motion.g key={beamKey} initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
 
-          {/* Source city — ring pulse */}
+          {/* Source ring pulse */}
           <motion.circle
             cx={from.x} cy={from.y} r={3}
             fill="none" stroke="#6B3A1F" strokeWidth={1.5}
@@ -201,10 +170,8 @@ export default function MassMapBackground() {
             animate={{ r: 20, opacity: 0 }}
             transition={{ duration: 1.0, ease: 'easeOut' }}
           />
-          {/* Source dot bright */}
           <motion.circle
-            cx={from.x} cy={from.y} r={3}
-            fill="#8B5230"
+            cx={from.x} cy={from.y} r={3} fill="#8B5230"
             filter="url(#mmb-glow)"
             initial={{ opacity: 1, scale: 1.4 }}
             animate={{ opacity: 0.5, scale: 1 }}
@@ -244,7 +211,7 @@ export default function MassMapBackground() {
             }}
           />
 
-          {/* Destination — ring pulse (delayed until beam arrives) */}
+          {/* Destination ring pulse */}
           <motion.circle
             cx={to.x} cy={to.y} r={3}
             fill="none" stroke="#6B3A1F" strokeWidth={1.5}
@@ -254,8 +221,7 @@ export default function MassMapBackground() {
             transition={{ duration: 0.9, delay: BEAM_DUR - 0.05, ease: 'easeOut' }}
           />
           <motion.circle
-            cx={to.x} cy={to.y} r={3}
-            fill="#8B5230"
+            cx={to.x} cy={to.y} r={3} fill="#8B5230"
             filter="url(#mmb-glow)"
             initial={{ opacity: 0.4 }}
             animate={{ opacity: [0.4, 1, 0.5] }}
