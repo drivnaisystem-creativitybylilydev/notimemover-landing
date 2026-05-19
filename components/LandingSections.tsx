@@ -1,7 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import dynamic from 'next/dynamic'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+
+const MassMapBackground = dynamic(() => import('@/components/MassMapBackground'), { ssr: false })
 
 const SPRING = [0.32, 0.72, 0, 1] as const
 
@@ -428,26 +431,49 @@ export default function LandingSections({ onOpenBooking }: { onOpenBooking: () =
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.65, ease: SPRING }}
-          className="rounded-[1.75rem] border border-white/[0.08] bg-white/[0.02] p-8 sm:p-10"
+          className="relative overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-white/[0.02]"
           style={{ boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.05)' }}
         >
-          <p className="text-[10px] uppercase tracking-[0.24em] text-coffee-light font-medium mb-3">
-            Service areas
-          </p>
-          <h2 className="text-[clamp(22px,4vw,30px)] font-semibold tracking-tight text-white">
-            Massachusetts-first coverage
-          </h2>
-          <p className="mt-4 text-[15px] text-white/50 leading-relaxed max-w-3xl">
-            NoTimeMover is rooted in{' '}
-            <strong className="text-white/78 font-medium">Greater Boston</strong> and routes across the Commonwealth—from dense urban neighborhoods and{' '}
-            <strong className="text-white/78 font-medium">North Shore</strong> /
-            <strong className="text-white/78 font-medium"> South Shore</strong> suburbs to{' '}
-            <strong className="text-white/78 font-medium">MetroWest</strong>, college towns,{' '}
-            <strong className="text-white/78 font-medium">Worcester</strong>, western corridors toward{' '}
-            <strong className="text-white/78 font-medium">the Pioneer Valley</strong>, and seasonal{' '}
-            <strong className="text-white/78 font-medium">Cape &amp; Islands</strong> work when schedules allow. Crossing into Rhode Island or southern NH sometimes fits—plug addresses into the form and we&rsquo;ll confirm feasibility on the phone rather than guessing from a town list.
-          </p>
-          <MassachusettsMarquee />
+          {/* Animated Massachusetts map background */}
+          <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
+            <div className="absolute inset-0 opacity-80">
+              <MassMapBackground />
+            </div>
+            {/* Left-to-right fade so text stays readable */}
+            <div
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(90deg, #050505 0%, #050505 28%, rgba(5,5,5,0.82) 48%, transparent 72%)' }}
+            />
+            {/* Top + bottom edge fade */}
+            <div
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(180deg, rgba(5,5,5,0.45) 0%, transparent 25%, transparent 70%, rgba(5,5,5,0.55) 100%)' }}
+            />
+          </div>
+
+          {/* Content */}
+          <div className="relative z-10 p-8 sm:p-10">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-coffee-light font-medium mb-3">
+              Service areas
+            </p>
+            <h2 className="text-[clamp(22px,4vw,30px)] font-semibold tracking-tight text-white">
+              Massachusetts-first coverage
+            </h2>
+            <p className="mt-4 text-[15px] text-white/50 leading-relaxed max-w-3xl">
+              Based in <strong className="text-white/78 font-medium">Greater Boston</strong> and serving all of <strong className="text-white/78 font-medium">Massachusetts</strong>—city apartments, suburbs, college towns, and everywhere in between. Out-of-state moves are welcome too; just drop your addresses in the form and we&rsquo;ll confirm the details on the call.
+            </p>
+            <MassachusettsMarquee />
+            <div className="mt-8">
+              <button onClick={onOpenBooking} className="btn-primary">
+                <span className="btn-primary-text">Get a free quote</span>
+                <span className="btn-pocket" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </div>
         </motion.div>
       </section>
 
