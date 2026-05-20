@@ -18,9 +18,16 @@ interface Props {
   isOpen: boolean
   onClose: () => void
   initialConfirm?: 'instate' | 'oos'
+  initialStep?: 'pricing'
 }
 
 type PriceTier = 'save' | 'yourPrice' | 'premium'
+
+const TIER_LABELS: Record<PriceTier, string> = {
+  save: 'Save',
+  yourPrice: 'Flexible',
+  premium: 'Priority',
+}
 
 interface Address {
   street: string
@@ -68,15 +75,17 @@ const isAddressComplete = (a: Address) =>
   a.state.length === 2 &&
   /^\d{5}(-\d{4})?$/.test(a.zip.trim())
 
-export default function BookingFlow({ isOpen, onClose, initialConfirm }: Props) {
+export default function BookingFlow({ isOpen, onClose, initialConfirm, initialStep }: Props) {
   const [preStep, setPreStep] = useState(true)
   const [outOfState, setOutOfState] = useState(false)
   const [oosSubmitted, setOosSubmitted] = useState(false)
   const [step, setStep] = useState(1)
   const [form, setForm] = useState<FormState>(initialState)
+  const [navigating, setNavigating] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [showExitConfirm, setShowExitConfirm] = useState(false)
   const didInitConfirm = useRef(false)
 
   useEffect(() => {
@@ -107,6 +116,14 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm }: Props) 
     }
   }, [isOpen, initialConfirm])
 
+  useEffect(() => {
+    if (!isOpen || initialStep !== 'pricing' || didInitConfirm.current) return
+    didInitConfirm.current = true
+    setPreStep(false)
+    setStep(4)
+    setForm(f => ({ ...f, size: 'twoBed', miles: 12, budget: 380 }))
+  }, [isOpen, initialStep])
+
   const reset = () => {
     setPreStep(true)
     setOutOfState(false)
@@ -124,7 +141,16 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm }: Props) 
       setTimeout(reset, 320)
       return
     }
-    if (step > 1 && !window.confirm('Close this quote? Your progress will be lost.')) return
+    if (step > 1) {
+      setShowExitConfirm(true)
+      return
+    }
+    onClose()
+    setTimeout(reset, 320)
+  }
+
+  const confirmExit = () => {
+    setShowExitConfirm(false)
     onClose()
     setTimeout(reset, 320)
   }
@@ -141,18 +167,24 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm }: Props) 
   }
 
   const next = async () => {
-    if (step === 1) {
-      const miles = await getMiles(formatAddress(form.pickup), formatAddress(form.dropoff))
-      setForm(f => ({ ...f, miles }))
-      setStep(2)
-      return
+    if (navigating) return
+    setNavigating(true)
+    try {
+      if (step === 1) {
+        const miles = await getMiles(formatAddress(form.pickup), formatAddress(form.dropoff))
+        setForm(f => ({ ...f, miles }))
+        setStep(2)
+        return
+      }
+      if (step === 2 && form.size) {
+        setForm(f => ({ ...f, budget: TIERS[f.size as TierKey].defaultBudget }))
+        setStep(3)
+        return
+      }
+      setStep(s => Math.min(s + 1, TOTAL_STEPS))
+    } finally {
+      setNavigating(false)
     }
-    if (step === 2 && form.size) {
-      setForm(f => ({ ...f, budget: TIERS[f.size as TierKey].defaultBudget }))
-      setStep(3)
-      return
-    }
-    setStep(s => Math.min(s + 1, TOTAL_STEPS))
   }
 
   const back = () => {
@@ -362,7 +394,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm }: Props) 
                           </div>
                           <div>
                             <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Your selection</div>
-                            <p className="text-[14px] text-white/85 capitalize">{form.selectedTier ? form.selectedTier.replace(/([A-Z])/g, ' $1').trim() : '—'}</p>
+                            <p className="text-[14px] text-white/85">{form.selectedTier ? TIER_LABELS[form.selectedTier] : '—'}</p>
                           </div>
                           {form.selectedTier && pricing && (
                             <div>
@@ -419,8 +451,8 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm }: Props) 
                 ) : step < TOTAL_STEPS ? (
                   <PrimaryPill
                     onClick={next}
-                    disabled={!canAdvance}
-                    label={step === 3 ? 'See Pricing' : 'Continue'}
+                    disabled={!canAdvance || navigating}
+                    label={navigating ? 'Loading…' : step === 3 ? 'See Pricing' : 'Continue'}
                   />
                 ) : (
                   <PrimaryPill
@@ -433,6 +465,79 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm }: Props) 
             </div>
           </div>
         </motion.div>
+
+        {/* Exit confirm overlay — sits above the modal shell */}
+        <AnimatePresence>
+          {showExitConfirm && (
+            <motion.div
+              key="exit-confirm"
+              className="absolute inset-0 z-10 flex items-center justify-center p-6"
+              style={{ background: 'rgba(0,0,0,0.72)', backdropFilter: 'blur(8px)' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18 }}
+            >
+              <motion.div
+                initial={{ scale: 0.94, opacity: 0, y: 12 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.96, opacity: 0, y: 6 }}
+                transition={{ type: 'spring', damping: 26, stiffness: 320, mass: 0.7 }}
+                className="w-full max-w-sm"
+              >
+                <div className="rounded-[1.75rem] p-1.5" style={{
+                  background: 'rgba(255,255,255,0.05)',
+                  boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.08), 0 0 0 1px rgba(255,255,255,0.09)',
+                }}>
+                  <div className="rounded-[1.25rem] px-6 py-7 flex flex-col gap-6" style={{
+                    background: 'linear-gradient(160deg, #120A06 0%, #0A0606 100%)',
+                    boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06)',
+                  }}>
+                    {/* Icon */}
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{
+                      background: 'rgba(107,58,31,0.18)',
+                      boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06), 0 0 0 1px rgba(107,58,31,0.25)',
+                    }}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(194,120,78,0.9)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                      </svg>
+                    </div>
+
+                    {/* Copy */}
+                    <div>
+                      <p className="text-[18px] font-semibold tracking-tight text-white leading-snug">Leave your quote?</p>
+                      <p className="text-[14px] text-white/45 mt-1.5 leading-relaxed">Your progress will be lost. You can always start a new quote.</p>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex flex-col gap-2.5">
+                      <button
+                        type="button"
+                        onClick={() => setShowExitConfirm(false)}
+                        className="w-full py-3.5 rounded-2xl text-[15px] font-medium text-ink transition-all duration-300 ease-spring active:scale-[0.98]"
+                        style={{
+                          background: 'linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%)',
+                          boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.9)',
+                        }}
+                      >
+                        Keep my quote
+                      </button>
+                      <button
+                        type="button"
+                        onClick={confirmExit}
+                        className="w-full py-3.5 rounded-2xl text-[14px] font-medium text-white/40 transition-all duration-300 ease-spring hover:text-white/60 active:scale-[0.98]"
+                      >
+                        Leave anyway
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
       </motion.div>
     </AnimatePresence>
   )
@@ -775,10 +880,44 @@ function Step4({
   pricing: ReturnType<typeof calculatePricing> | null
 }) {
   if (!pricing) return null
-  const tiers: { key: PriceTier; label: string; sub: string; price: number; recommended?: boolean }[] = [
-    { key: 'save',      label: 'Save',       sub: 'Labor only — no truck',         price: pricing.save },
-    { key: 'yourPrice', label: 'Your Price', sub: 'Based on your budget',          price: pricing.yourPrice },
-    { key: 'premium',   label: 'Premium',    sub: 'Recommended · full service',    price: pricing.premium, recommended: true },
+  const tiers: { key: PriceTier; label: string; sub: string; price: number; recommended?: boolean; benefits: { text: string; ok: boolean }[] }[] = [
+    {
+      key: 'save',
+      label: 'Save',
+      sub: 'Labor only — no truck',
+      price: pricing.save,
+      benefits: [
+        { ok: true,  text: '2 movers guaranteed' },
+        { ok: true,  text: 'Most affordable option' },
+        { ok: false, text: 'No truck — bring your own or rent separately' },
+        { ok: false, text: 'Your move isn\'t guaranteed until a mover accepts' },
+      ],
+    },
+    {
+      key: 'yourPrice',
+      label: 'Flexible',
+      sub: 'You set the price',
+      price: pricing.yourPrice,
+      benefits: [
+        { ok: true,  text: '2 movers guaranteed' },
+        { ok: true,  text: 'You set the price — full budget control' },
+        { ok: true,  text: 'Great for small moves or tight budgets' },
+        { ok: false, text: 'Lower prices may delay acceptance — your move isn\'t guaranteed until a mover accepts' },
+      ],
+    },
+    {
+      key: 'premium',
+      label: 'Priority',
+      sub: 'Recommended · full service',
+      price: pricing.premium,
+      recommended: true,
+      benefits: [
+        { ok: true, text: '2 movers guaranteed' },
+        { ok: true, text: '3rd mover available at no extra charge' },
+        { ok: true, text: 'Priority scheduling — pick your exact time slot' },
+        { ok: true, text: 'Instant acceptance — your move is locked in immediately' },
+      ],
+    },
   ]
   return (
     <div>
@@ -841,10 +980,10 @@ function Step4({
 function TierRow({
   tier,
 }: {
-  tier: { label: string; sub: string; price: number; recommended?: boolean }
+  tier: { label: string; sub: string; price: number; recommended?: boolean; benefits: { text: string; ok: boolean }[] }
 }) {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-start justify-between">
       <div className="flex-1 pr-4">
         <div className="flex items-center gap-2">
           <span className="text-[15px] font-medium text-white">{tier.label}</span>
@@ -855,8 +994,23 @@ function TierRow({
           )}
         </div>
         <div className="text-[13px] text-white/55 mt-0.5">{tier.sub}</div>
+        <ul className="mt-3 space-y-1.5">
+          {tier.benefits.map((b, i) => (
+            <li key={i} className="flex items-start gap-2">
+              <span
+                className="mt-[1px] shrink-0 text-[11px] font-semibold"
+                style={{ color: b.ok ? '#7db87d' : '#c97a6e' }}
+              >
+                {b.ok ? '✓' : '✕'}
+              </span>
+              <span className={`text-[12px] leading-snug ${b.ok ? 'text-white/58' : 'text-white/32 italic'}`}>
+                {b.text}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
-      <div className="text-right tabular-nums">
+      <div className="text-right tabular-nums shrink-0">
         <div className="text-[26px] font-semibold tracking-tight">
           <NumberFlow value={tier.price} format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }} />
         </div>

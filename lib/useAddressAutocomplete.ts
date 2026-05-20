@@ -27,9 +27,22 @@ function parse(f: MapboxFeature): AddressSuggestion | null {
 export function useAddressAutocomplete(query: string) {
   const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([])
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const frozen = useRef(false)
+
+  const clear = () => {
+    if (timer.current) clearTimeout(timer.current)
+    frozen.current = true
+    setSuggestions([])
+  }
 
   useEffect(() => {
     if (timer.current) clearTimeout(timer.current)
+    // Skip the fetch triggered by the post-selection value so the dropdown
+    // doesn't reopen immediately after a suggestion is picked.
+    if (frozen.current) {
+      frozen.current = false
+      return
+    }
     const q = query.trim()
     if (q.length < 3 || !TOKEN) { setSuggestions([]); return }
 
@@ -50,5 +63,5 @@ export function useAddressAutocomplete(query: string) {
     return () => { if (timer.current) clearTimeout(timer.current) }
   }, [query])
 
-  return { suggestions, clear: () => setSuggestions([]) }
+  return { suggestions, clear }
 }
