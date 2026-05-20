@@ -8,7 +8,6 @@ import {
   TIERS,
   TierKey,
   BUDGET_MIN,
-  BUDGET_MAX,
   calculatePricing,
   formatUSD,
 } from '@/lib/pricing'
@@ -121,7 +120,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
     didInitConfirm.current = true
     setPreStep(false)
     setStep(4)
-    setForm(f => ({ ...f, size: 'twoBed', miles: 12, budget: 380 }))
+    setForm(f => ({ ...f, size: 'twoBed', miles: 12, budget: TIERS.twoBed.defaultBudget }))
   }, [isOpen, initialStep])
 
   const reset = () => {
@@ -130,11 +129,14 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
     setOosSubmitted(false)
     setStep(1)
     setForm(initialState)
+    setNavigating(false)
     setSubmitting(false)
     setSubmitted(false)
     setSubmitError(null)
+    setShowExitConfirm(false)
   }
 
+  // X button — shows confirm dialog if the user is mid-flow
   const tryClose = () => {
     if (submitted || preStep || outOfState) {
       onClose()
@@ -148,6 +150,8 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
     onClose()
     setTimeout(reset, 320)
   }
+
+  const backdropClose = () => tryClose()
 
   const confirmExit = () => {
     setShowExitConfirm(false)
@@ -255,7 +259,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.25, ease: SPRING as any }}
-        onClick={tryClose}
+        onClick={backdropClose}
       >
         {/* DOPPELRAND OUTER SHELL */}
         <motion.div
@@ -477,6 +481,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.18 }}
+              onClick={e => e.stopPropagation()}
             >
               <motion.div
                 initial={{ scale: 0.94, opacity: 0, y: 12 }}
@@ -506,7 +511,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
 
                     {/* Copy */}
                     <div>
-                      <p className="text-[18px] font-semibold tracking-tight text-white leading-snug">Leave your quote?</p>
+                      <p className="text-[18px] font-semibold tracking-tight text-white leading-snug">Are you sure you want to leave?</p>
                       <p className="text-[14px] text-white/45 mt-1.5 leading-relaxed">Your progress will be lost. You can always start a new quote.</p>
                     </div>
 
@@ -815,7 +820,7 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
       <input
         type="range"
         min={BUDGET_MIN}
-        max={BUDGET_MAX}
+        max={TIERS[form.size as TierKey].base}
         step={10}
         value={form.budget}
         onChange={e => setForm(f => ({ ...f, budget: Number(e.target.value) }))}
@@ -824,7 +829,7 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
       />
       <div className="flex justify-between text-[11px] text-white/35 mt-3 font-medium tabular-nums">
         <span>${BUDGET_MIN}</span>
-        <span>${BUDGET_MAX}</span>
+        <span>${TIERS[form.size as TierKey].base}</span>
       </div>
 
       <style jsx>{`
@@ -832,7 +837,7 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
           -webkit-appearance: none;
           appearance: none;
           height: 6px;
-          background: linear-gradient(90deg, #6B3A1F 0%, #6B3A1F ${((form.budget - BUDGET_MIN) / (BUDGET_MAX - BUDGET_MIN)) * 100}%, rgba(255,255,255,0.06) ${((form.budget - BUDGET_MIN) / (BUDGET_MAX - BUDGET_MIN)) * 100}%, rgba(255,255,255,0.06) 100%);
+          background: linear-gradient(90deg, #6B3A1F 0%, #6B3A1F ${((form.budget - BUDGET_MIN) / (TIERS[form.size as TierKey].base - BUDGET_MIN)) * 100}%, rgba(255,255,255,0.06) ${((form.budget - BUDGET_MIN) / (TIERS[form.size as TierKey].base - BUDGET_MIN)) * 100}%, rgba(255,255,255,0.06) 100%);
           border-radius: 999px;
           outline: none;
           transition: background 0.2s ease;
