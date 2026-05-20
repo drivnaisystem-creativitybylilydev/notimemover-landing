@@ -884,20 +884,19 @@ function Step4({
   setForm: React.Dispatch<React.SetStateAction<FormState>>
   pricing: ReturnType<typeof calculatePricing> | null
 }) {
-  if (!pricing) return null
-  const tiers: { key: PriceTier; label: string; sub: string; price: number; recommended?: boolean; benefits: { text: string; ok: boolean }[] }[] = [
-    {
-      key: 'save',
-      label: 'Save',
-      sub: 'Labor only — no truck',
-      price: pricing.save,
-      benefits: [
-        { ok: true,  text: '2 movers guaranteed' },
-        { ok: true,  text: 'Most affordable option' },
-        { ok: false, text: 'No truck — bring your own or rent separately' },
-        { ok: false, text: 'Your move isn\'t guaranteed until a mover accepts' },
-      ],
-    },
+  // If budget >= base rate, Flexible already pays more — show only Flexible and auto-select it
+  const showPriority = form.size ? form.budget < TIERS[form.size as TierKey].base : false
+
+  useEffect(() => {
+    if (!showPriority) {
+      setForm(f => ({ ...f, selectedTier: 'yourPrice' }))
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showPriority])
+
+  if (!pricing || !form.size) return null
+
+  const allTiers: { key: PriceTier; label: string; sub: string; price: number; recommended?: boolean; benefits: { text: string; ok: boolean }[] }[] = [
     {
       key: 'yourPrice',
       label: 'Flexible',
@@ -907,7 +906,7 @@ function Step4({
         { ok: true,  text: '2 movers guaranteed' },
         { ok: true,  text: 'You set the price — full budget control' },
         { ok: true,  text: 'Great for small moves or tight budgets' },
-        { ok: false, text: 'Lower prices may delay acceptance — your move isn\'t guaranteed until a mover accepts' },
+        { ok: false, text: "Lower prices may delay acceptance — your move isn't guaranteed until a mover accepts" },
       ],
     },
     {
@@ -924,9 +923,15 @@ function Step4({
       ],
     },
   ]
+
+  const tiers = showPriority ? allTiers : allTiers.filter(t => t.key === 'yourPrice')
+
   return (
     <div>
-      <StepHeader title="Your move options" sub="Choose the one that fits you best." />
+      <StepHeader
+        title={showPriority ? 'Your move options' : 'Your move price'}
+        sub={showPriority ? 'Choose the one that fits you best.' : 'Based on your budget.'}
+      />
       <motion.div
         className="space-y-3"
         initial="hidden"
