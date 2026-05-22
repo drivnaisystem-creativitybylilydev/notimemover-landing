@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Footer() {
   return (
@@ -21,6 +22,28 @@ export default function Footer() {
             Licensed &amp; Insured &nbsp;·&nbsp; &copy; {new Date().getFullYear()} NoTimeMover
           </div>
         </div>
+      </div>
+
+      {/* Powered by Drivn.ai */}
+      <div className="mt-7 flex items-center justify-center gap-2.5">
+        <span className="text-coffee-shimmer text-[10px] uppercase tracking-[0.22em] font-medium">Powered by</span>
+        <Link
+          href="https://drivn-ai-website.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="opacity-25 hover:opacity-45 transition-opacity duration-300"
+        >
+          <Image
+            src="/brand/drivn-logo.png"
+            alt="Drivn.ai"
+            width={72}
+            height={28}
+            style={{
+              filter: 'grayscale(1) sepia(1) saturate(1.4) brightness(1.15)',
+              objectFit: 'contain',
+            }}
+          />
+        </Link>
       </div>
     </footer>
   )
