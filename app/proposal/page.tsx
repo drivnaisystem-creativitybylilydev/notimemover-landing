@@ -120,8 +120,8 @@ export default function ProposalPage() {
           </p>
           <div className="flex flex-wrap gap-3 mt-8">
             {[
-              { label: 'Finn Schueler', sub: 'Drivn.AI — Consultant' },
-              { label: 'Jermaine Williams', sub: 'NoTimeMover — Client' },
+              { label: 'Jermaine Williams', sub: 'NoTimeMover — Founder' },
+              { label: 'Finn Schueler', sub: 'Drivn.AI — Consultant & Co-Founder' },
             ].map(p => (
               <div key={p.label} className="px-4 py-3 rounded-2xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <p className="text-[14px] font-semibold text-white">{p.label}</p>
@@ -153,7 +153,7 @@ export default function ProposalPage() {
               <tbody>
                 <Row label="Equity granted to Finn" value="35% of NoTimeMover, effective upon execution of this agreement" highlight />
                 <Row label="Path to 45%" value="Milestone-based escalation — to be defined and signed in a separate document within 7 days of this agreement" />
-                <Row label="Monthly retainer" value="$49/month — existing retainer continues unchanged and independently of this equity arrangement" />
+                <Row label="Monthly retainer" value="$49/month commencing June 18, 2026 — covers the live website in its entirety: hosting oversight, all SEO work, content updates, booking flow changes, technical maintenance, and any future modifications to the site. This rate represents exceptional value relative to standard agency pricing for equivalent ongoing digital services." />
                 <Row label="Build compensation" value="All digital work described in Section 4 is performed in exchange for equity. No additional cash payment for builds." />
                 <Row label="Ad spend" value="Funded from organic job revenue. Cost-sharing strategy to be agreed before any paid campaigns begin." />
                 <Row label="Timeline" value="15–20 days from execution date" highlight />
@@ -252,9 +252,6 @@ export default function ProposalPage() {
           </p>
           <div className="grid sm:grid-cols-2 gap-3">
             {[
-              'Demand scraper / automated outbound',
-              'Full CRM and admin dashboard',
-              'Stripe deposit / online booking calendar',
               'Meta and Google advertising campaigns',
               'AI phone receptionist',
               'Marketplace / mover-matching platform',
@@ -277,12 +274,11 @@ export default function ProposalPage() {
           <BuildItem task="Google account access or add Finn as GBP manager" notes="Required to complete and optimise the Google Business Profile." />
           <BuildItem task="Complete GBP identity verification" notes="Google requires the business owner to verify. Finn will provide step-by-step instructions." />
           <BuildItem task="Phone number for lead SMS alerts" notes="The number Twilio sends to when a form submission comes in." />
-          <BuildItem task="Confirm hello@notimemover.com inbox access" notes="Customer confirmation emails send from this address. Jermaine needs access to it." />
           <BuildItem task="All available job photos and videos" notes="NJ job clips, crew shots, truck photos. Used for website hero, GBP photos, and Instagram." />
           <BuildItem task="Service area confirmation" notes="Exact cities and regions to list on GBP and neighbourhood pages." />
-          <BuildItem task="Business hours" notes="For GBP listing." />
+          <BuildItem task="Decision on Facebook: keep personal or switch to business page" notes="Finn can create the NoTimeMover business page — just confirm the preference." />
           <BuildItem task="Equity milestone feedback" notes="Jermaine's preferred milestones for the 35→45% escalation. Separate document to be agreed within 7 days." />
-          <BuildItem task="Continue $49/month retainer" notes="Existing arrangement continues unchanged." />
+          <BuildItem task="First $49/month retainer payment by June 18, 2026" notes="The monthly website retainer begins June 18, 2026. Covers the live site in full — all SEO, updates, and maintenance going forward." />
         </div>
 
         <Divider />
@@ -344,12 +340,12 @@ export default function ProposalPage() {
               </p>
               <div className="grid sm:grid-cols-2 gap-4 text-left">
                 <div className="px-5 py-4 rounded-xl" style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                  <p className="text-[10px] uppercase tracking-[0.2em] mb-2 font-medium" style={{ color: 'rgba(255,255,255,0.35)' }}>Signed — Jermaine Williams</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] mb-2 font-medium" style={{ color: 'rgba(255,255,255,0.35)' }}>Signed — Jermaine Williams · Founder, NoTimeMover</p>
                   <p className="text-[20px]" style={{ fontFamily: 'cursive', color: '#fff' }}>{name}</p>
                   <p className="text-[11px] mt-1" style={{ color: 'rgba(255,255,255,0.3)' }}>{signedAt}</p>
                 </div>
                 <div className="px-5 py-4 rounded-xl" style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                  <p className="text-[10px] uppercase tracking-[0.2em] mb-2 font-medium" style={{ color: 'rgba(255,255,255,0.35)' }}>Signed — Finn Schueler</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] mb-2 font-medium" style={{ color: 'rgba(255,255,255,0.35)' }}>Signed — Finn Schueler · Consultant & Co-Founder, Drivn.AI</p>
                   <p className="text-[20px]" style={{ fontFamily: 'cursive', color: '#fff' }}>Finn Schueler</p>
                   <p className="text-[11px] mt-1" style={{ color: 'rgba(255,255,255,0.3)' }}>{AGREEMENT_DATE}</p>
                 </div>
@@ -359,7 +355,7 @@ export default function ProposalPage() {
             <div className="space-y-8">
               {/* Finn's pre-signature */}
               <div className="rounded-2xl p-6 sm:p-7" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                <p className="text-[10px] uppercase tracking-[0.22em] font-medium mb-4" style={{ color: 'rgba(255,255,255,0.35)' }}>Consultant — Finn Schueler · Drivn.AI</p>
+                <p className="text-[10px] uppercase tracking-[0.22em] font-medium mb-4" style={{ color: 'rgba(255,255,255,0.35)' }}>Consultant & Co-Founder — Finn Schueler · Drivn.AI</p>
                 <div className="flex items-end gap-6">
                   <div className="flex-1">
                     <p className="text-[10px] uppercase tracking-[0.18em] mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Signature</p>
@@ -374,7 +370,7 @@ export default function ProposalPage() {
 
               {/* Jermaine's signature input */}
               <div className="rounded-2xl p-6 sm:p-7" style={{ background: 'rgba(107,58,31,0.08)', border: '1px solid rgba(107,58,31,0.35)' }}>
-                <p className="text-[10px] uppercase tracking-[0.22em] font-medium mb-6" style={{ color: '#8B5230' }}>Client — Jermaine Williams · NoTimeMover</p>
+                <p className="text-[10px] uppercase tracking-[0.22em] font-medium mb-6" style={{ color: '#8B5230' }}>Founder — Jermaine Williams · NoTimeMover</p>
 
                 <div className="space-y-4 mb-6">
                   <div>
