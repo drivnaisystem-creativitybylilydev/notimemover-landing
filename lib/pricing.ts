@@ -12,15 +12,15 @@ export interface Tier {
 }
 
 export const TIERS: Record<TierKey, Tier> = {
-  studio:   { key: 'studio',   label: 'Studio / 1 Bedroom', base: 300, equipment: 40, defaultBudget: 210 },
-  twoBed:   { key: 'twoBed',   label: '2 Bedroom',          base: 500, equipment: 60, defaultBudget: 350 },
-  threeBed: { key: 'threeBed', label: '3 Bedroom',          base: 915, equipment: 85, defaultBudget: 640 },
+  studio:   { key: 'studio',   label: 'Studio / 1 Bedroom', base: 300, equipment: 40, defaultBudget: 600 },
+  twoBed:   { key: 'twoBed',   label: '2 Bedroom',          base: 500, equipment: 60, defaultBudget: 800 },
+  threeBed: { key: 'threeBed', label: '3 Bedroom',          base: 915, equipment: 85, defaultBudget: 1000 },
 }
 
 export const GAS_RATE_PER_MILE = 2.5
 
 export const BUDGET_MIN = 200
-export const BUDGET_MAX = 2000
+export const BUDGET_MAX = 3000
 
 export interface PricingResult {
   yourPrice: number  // budget + equipment + gas

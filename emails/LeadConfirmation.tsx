@@ -177,7 +177,7 @@ export function LeadConfirmation({
           <Section style={{ backgroundColor: c.surface, padding: '20px 40px', borderTop: `1px solid ${c.borderSubtle}`, textAlign: 'center' }}>
             <Text style={{ color: c.white20, fontSize: '11px', margin: '0 0 4px', fontFamily: f, letterSpacing: '0.3px' }}>
               <Link href="https://notimemover.com" style={{ color: c.white45, textDecoration: 'none' }}>notimemover.com</Link>
-              {' · '}Licensed &amp; Insured{' · '}Massachusetts
+              {' · '}Fully Insured{' · '}Massachusetts
             </Text>
             <Text style={{ color: c.white20, fontSize: '10px', margin: '4px 0 0', fontFamily: f }}>
               © {new Date().getFullYear()} NoTimeMover. All rights reserved.

@@ -350,7 +350,7 @@ export default function Hero() {
                 >
                   <path d="M12 1.5L3.75 5v6.25c0 5.4 3.52 10.44 8.25 11.75 4.73-1.31 8.25-6.35 8.25-11.75V5L12 1.5zm-1.4 14.55L7.05 12.5l1.4-1.4 2.15 2.15 4.95-4.95 1.4 1.4-6.35 6.35z" />
                 </svg>
-                Licensed &amp; Insured
+                Fully Insured
               </span>
             </div>
           </motion.div>

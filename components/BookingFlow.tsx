@@ -8,6 +8,7 @@ import {
   TIERS,
   TierKey,
   BUDGET_MIN,
+  BUDGET_MAX,
   calculatePricing,
   formatUSD,
 } from '@/lib/pricing'
@@ -820,7 +821,7 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
       <input
         type="range"
         min={BUDGET_MIN}
-        max={TIERS[form.size as TierKey].base}
+        max={BUDGET_MAX}
         step={10}
         value={form.budget}
         onChange={e => setForm(f => ({ ...f, budget: Number(e.target.value) }))}
@@ -829,7 +830,7 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
       />
       <div className="flex justify-between text-[11px] text-white/35 mt-3 font-medium tabular-nums">
         <span>${BUDGET_MIN}</span>
-        <span>${TIERS[form.size as TierKey].base}</span>
+        <span>${BUDGET_MAX}</span>
       </div>
 
       <style jsx>{`
@@ -837,7 +838,7 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
           -webkit-appearance: none;
           appearance: none;
           height: 6px;
-          background: linear-gradient(90deg, #6B3A1F 0%, #6B3A1F ${((form.budget - BUDGET_MIN) / (TIERS[form.size as TierKey].base - BUDGET_MIN)) * 100}%, rgba(255,255,255,0.06) ${((form.budget - BUDGET_MIN) / (TIERS[form.size as TierKey].base - BUDGET_MIN)) * 100}%, rgba(255,255,255,0.06) 100%);
+          background: linear-gradient(90deg, #6B3A1F 0%, #6B3A1F ${((form.budget - BUDGET_MIN) / (BUDGET_MAX - BUDGET_MIN)) * 100}%, rgba(255,255,255,0.06) ${((form.budget - BUDGET_MIN) / (BUDGET_MAX - BUDGET_MIN)) * 100}%, rgba(255,255,255,0.06) 100%);
           border-radius: 999px;
           outline: none;
           transition: background 0.2s ease;

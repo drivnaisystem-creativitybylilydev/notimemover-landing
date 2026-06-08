@@ -19,7 +19,7 @@ export default function Footer() {
             <Link href="/terms" className="text-[11px] uppercase tracking-[0.22em] text-white/30 hover:text-white/60 transition-colors font-medium">Terms</Link>
           </div>
           <div className="text-[11px] uppercase tracking-[0.22em] text-white/30 text-center sm:text-right font-medium">
-            Licensed &amp; Insured &nbsp;·&nbsp; &copy; {new Date().getFullYear()} NoTimeMover
+            Fully Insured &nbsp;·&nbsp; &copy; {new Date().getFullYear()} NoTimeMover
           </div>
         </div>
       </div>
