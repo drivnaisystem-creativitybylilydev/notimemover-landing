@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getAllSlugs } from '@/lib/locations'
+import { getAllOosSlugs } from '@/lib/oos-routes'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -14,6 +15,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
+    })),
+    ...getAllOosSlugs().map((slug) => ({
+      url: `https://notimemover.com/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
     })),
   ]
 }

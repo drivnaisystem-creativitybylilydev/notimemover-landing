@@ -51,27 +51,27 @@ const CREW_IMG = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DXXMZN9SbWqkGqaQ24Q
 const FAQ_ITEMS = [
   {
     q: 'How does your pricing work?',
-    a: 'You tell us your budget upfront. We tell you exactly what that covers — hours, number of movers, and truck. The number you see before you book is the number on your receipt. No surge fees, no surprise invoice at the end.',
+    a: 'You name the number before we ever pick up the phone. Fill out the quote form with your pickup address, dropoff address, home size, and a budget range you are comfortable with. We follow up within minutes to confirm availability and details. Most Boston local moves land between $400 and $900 depending on size and distance. Out-of-state jobs are scoped individually on a quick confirmation call — still no counter-offers, still no surprises.',
   },
   {
     q: 'Do you charge for stairs or extra floors?',
-    a: 'No stair fees, ever. Boston apartments are notorious for walk-up floors. We factor that in when we confirm your move — the number you set is the number you pay.',
+    a: 'No stair fees, no elevator fees, no long-carry fees. Boston walk-ups are the default — Back Bay brownstones, Allston three-deckers, Fenway buildings with no elevator. We know the city. Other companies use those charges to inflate the final bill after the job is done. The price you set is what you pay, period.',
   },
   {
     q: 'Are you insured?',
-    a: 'Yes. NoTimeMover is fully insured. Your belongings are covered from the moment we load the first item to the moment we set down the last box.',
+    a: 'Yes, fully. NoTimeMover carries general liability insurance on every move. Your belongings are covered from the moment we load the first item to the moment we set down the last box. If your building requires a Certificate of Insurance before move day — common in Boston high-rises, managed properties, and university housing — contact us a few days ahead and we will have it ready.',
   },
   {
-    q: 'How quickly will I hear back after I book?',
-    a: 'Same day, usually within the hour. Once you submit your request, we reach out directly to confirm your details. No automated emails — a real person follows up.',
+    q: 'How quickly will I hear back after I submit?',
+    a: 'Within minutes during business hours, never more than a few hours. A real person reviews your request and reaches out by phone or text to confirm timing and details — not an automated drip sequence. If you submit Friday evening, expect a reply Saturday morning. We do not leave quote requests sitting.',
   },
   {
-    q: 'Do you handle Boston parking permits for the truck?',
-    a: 'Yes. Boston city moving permits require applying 15+ days in advance through the city. Tell us your move date and we will walk you through what is needed or handle it with you.',
+    q: 'Do you handle Boston parking permits for the moving truck?',
+    a: 'Yes, and you should not skip this step. Boston requires a moving truck permit on most residential streets, applied through the city at least 10 to 14 business days before your move date. We will tell you exactly which streets need permits and how to file, or coordinate it directly with you. Unpermitted trucks in Boston get ticketed fast — sometimes towed. Do not leave this to the week before.',
   },
   {
-    q: 'How far in advance do I need to book?',
-    a: 'For same-week moves, reach out as soon as possible — we fill up fast. May through September is peak season in Boston. For the best availability, booking 1-2 weeks out gives you the most flexibility.',
+    q: 'How far in advance should I book?',
+    a: 'For weekday moves, three to five days notice usually works. For weekend moves — especially anything Friday through Sunday in September — book at least one to two weeks out. September 1 is the single busiest moving day in the entire country because of Boston lease cycles, and we fill up weeks ahead. Same-day moves are available on weekdays if you reach out before noon and we have crew available. When in doubt, book early. Dates can always be adjusted.',
   },
 ] as const
 

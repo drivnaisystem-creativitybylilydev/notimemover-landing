@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "ALT_AUDIT_WARN_ONLY=1 node scripts/audit-alt-text.js",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "audit:alt-text": "node scripts/audit-alt-text.js"
   },
   "dependencies": {
     "@next/third-parties": "^16.2.9",
