@@ -256,8 +256,14 @@ export default function Hero() {
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08])
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'development') return
     const params = new URLSearchParams(window.location.search)
+    // ?book=1 — used by city pages and external CTAs to auto-open the flow
+    if (params.get('book') !== null) {
+      setBookingOpen(true)
+      return
+    }
+    // dev-only shortcuts
+    if (process.env.NODE_ENV !== 'development') return
     const p = params.get('confirm') as 'instate' | 'oos' | null
     if (p === 'instate' || p === 'oos') {
       setInitialConfirm(p)

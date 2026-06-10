@@ -56,7 +56,7 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
             <span style={{ color: '#8B5230' }}>Mover</span>
           </Link>
           <Link
-            href="/"
+            href="/?book=1"
             className="inline-flex items-center rounded-full border border-white/[0.14] bg-white/[0.04] px-5 py-2.5 text-[13px] font-medium text-white/90 hover:bg-white/[0.08] hover:border-white/[0.22] transition-colors duration-300"
             style={{ boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06)' }}
           >
@@ -80,7 +80,7 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href="/"
+              href="/?book=1"
               className="inline-flex items-center gap-3 pl-7 pr-2 py-2 rounded-full bg-white text-ink font-medium transition-transform duration-500 active:scale-[0.97]"
             >
               <span className="text-[15px] tracking-tight">Set my price</span>
@@ -264,7 +264,7 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
                 — we follow up to lock in the details.
               </p>
               <Link
-                href="/"
+                href="/?book=1"
                 className="inline-flex items-center gap-3 pl-7 pr-2 py-2 rounded-full bg-white text-ink font-medium transition-transform duration-500 active:scale-[0.97]"
               >
                 <span className="text-[15px] tracking-tight">Get my instant quote</span>
