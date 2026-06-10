@@ -69,6 +69,8 @@ module.exports = {
         /** Duplicated row → -50% seamless loop */
         'mass-marquee-fast': 'massMarquee 8s linear infinite',
         'mass-marquee-slow': 'massMarquee 28s linear infinite',
+        'review-marquee': 'massMarquee 32s linear infinite',
+        'review-marquee-reverse': 'reviewMarqueeReverse 36s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -90,6 +92,10 @@ module.exports = {
         massMarquee: {
           from: { transform: 'translateX(0)' },
           to: { transform: 'translateX(-50%)' },
+        },
+        reviewMarqueeReverse: {
+          from: { transform: 'translateX(-50%)' },
+          to: { transform: 'translateX(0)' },
         },
       },
     },

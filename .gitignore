@@ -46,3 +46,6 @@ yarn-error.log*
 skills/
 .claude/
 .cursor/
+
+# Local Netlify folder
+.netlify

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { Instrument_Serif } from 'next/font/google'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import GrainOverlay from '@/components/GrainOverlay'
 import './globals.css'
 
@@ -85,6 +86,9 @@ export default function RootLayout({
         {children}
         <GrainOverlay />
       </body>
+      {process.env.NEXT_PUBLIC_GA_ID && (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+      )}
     </html>
   )
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { sendGAEvent } from '@next/third-parties/google'
 import { useAddressAutocomplete, type AddressSuggestion } from '@/lib/useAddressAutocomplete'
 import { AnimatePresence, motion } from 'framer-motion'
 import NumberFlow from '@number-flow/react'
@@ -89,8 +90,12 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
   const didInitConfirm = useRef(false)
 
   useEffect(() => {
-    if (isOpen) document.body.style.overflow = 'hidden'
-    else document.body.style.overflow = ''
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+      sendGAEvent('event', 'form_start', { event_category: 'booking' })
+    } else {
+      document.body.style.overflow = ''
+    }
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
@@ -178,14 +183,17 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
       if (step === 1) {
         const miles = await getMiles(formatAddress(form.pickup), formatAddress(form.dropoff))
         setForm(f => ({ ...f, miles }))
+        sendGAEvent('event', 'booking_step', { step: 2 })
         setStep(2)
         return
       }
       if (step === 2 && form.size) {
         setForm(f => ({ ...f, budget: TIERS[f.size as TierKey].defaultBudget }))
+        sendGAEvent('event', 'booking_step', { step: 3 })
         setStep(3)
         return
       }
+      sendGAEvent('event', 'booking_step', { step: Math.min(step + 1, TOTAL_STEPS) })
       setStep(s => Math.min(s + 1, TOTAL_STEPS))
     } finally {
       setNavigating(false)
@@ -240,6 +248,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
         return
       }
       await new Promise(r => setTimeout(r, 450))
+      sendGAEvent('event', 'quote_submitted', { event_category: 'booking' })
       setSubmitted(true)
     } catch {
       setSubmitError('Network error—check your connection and try again.')
