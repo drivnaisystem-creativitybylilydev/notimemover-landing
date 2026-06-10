@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion'
 import LandingSections from '@/components/LandingSections'
 
-const StickFigures = dynamic(() => import('@/components/StickFigures'), { ssr: false })
 const BookingFlow = dynamic(() => import('@/components/BookingFlow'), { ssr: false })
+
+const HERO_IMG = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DXXMZN9SbWqkGqaQ24QtDHNfxy/hf_20260609_172318_278f5bd1-c102-4c96-ae57-299263986088_min.webp'
 
 const SPRING = [0.32, 0.72, 0, 1] as const
 const STORAGE_SITE_URL = 'https://notimestorage.co'
@@ -82,11 +83,18 @@ function ServiceModePicker() {
 
 /* -------------------- Floating Island Nav -------------------- */
 
+const NAV_LINKS = [
+  { label: 'How it works', href: '#how-it-works' },
+  { label: 'Service areas', href: '#areas' },
+  { label: 'FAQ', href: '#faq' },
+] as const
+
 function FloatingNav({ onCta }: { onCta: () => void }) {
   return (
-    <div className="fixed inset-x-0 top-4 sm:top-5 z-40 flex justify-center pointer-events-none">
+    <div className="fixed inset-x-0 top-4 sm:top-5 z-40 flex justify-center pointer-events-none px-4">
       <motion.nav
-        className="pointer-events-auto inline-flex items-center gap-1 p-1.5 rounded-full backdrop-blur-xl"
+        aria-label="Main navigation"
+        className="pointer-events-auto inline-flex items-center gap-1 p-1.5 rounded-full backdrop-blur-xl w-full max-w-xl sm:w-auto sm:max-w-none"
         style={{
           background: 'rgba(255,255,255,0.04)',
           boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.08), 0 0 0 1px rgba(255,255,255,0.08)',
@@ -95,14 +103,33 @@ function FloatingNav({ onCta }: { onCta: () => void }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: SPRING, delay: 0.15 }}
       >
-        <div className="inline-flex items-center h-9 px-4 text-[13px] sm:text-[14px] font-medium tracking-tight leading-none">
+        {/* Wordmark */}
+        <a
+          href="/"
+          className="inline-flex items-center h-9 px-4 text-[13px] sm:text-[14px] font-medium tracking-tight leading-none shrink-0"
+        >
           <span className="text-white">NoTime</span>
           <span className="text-coffee-light">Mover</span>
+        </a>
+
+        {/* Nav links — desktop only */}
+        <div className="hidden sm:flex items-center">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="inline-flex items-center h-9 px-3.5 text-[13px] font-medium text-white/50 hover:text-white/90 transition-colors duration-200 tracking-tight leading-none rounded-full hover:bg-white/[0.05]"
+            >
+              {link.label}
+            </a>
+          ))}
         </div>
+
+        {/* CTA */}
         <button
           type="button"
           onClick={onCta}
-          className="group inline-flex items-center justify-center gap-2 h-9 pl-4 pr-1.5 rounded-full bg-white text-ink text-[13px] font-medium leading-none transition-transform duration-500 ease-spring active:scale-[0.97]"
+          className="group inline-flex items-center justify-center gap-2 h-9 pl-4 pr-1.5 rounded-full bg-white text-ink text-[13px] font-medium leading-none transition-transform duration-500 ease-spring active:scale-[0.97] ml-auto sm:ml-0"
         >
           <span className="leading-none">Book your move</span>
           <span
@@ -208,29 +235,6 @@ function CyclingPoints() {
   )
 }
 
-/* -------------------- Headline (blur-reveal, word stagger) -------------------- */
-
-function BlurReveal({
-  children,
-  delay = 0,
-  className = '',
-}: {
-  children: React.ReactNode
-  delay?: number
-  className?: string
-}) {
-  return (
-    <motion.span
-      className={className}
-      initial={{ opacity: 0, y: 18, filter: 'blur(10px)' }}
-      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      transition={{ duration: 0.9, ease: SPRING, delay }}
-      style={{ display: 'block' }}
-    >
-      {children}
-    </motion.span>
-  )
-}
 
 /* -------------------- Hero -------------------- */
 
@@ -238,6 +242,18 @@ export default function Hero() {
   const [bookingOpen, setBookingOpen] = useState(false)
   const [initialConfirm, setInitialConfirm] = useState<'instate' | 'oos' | undefined>()
   const [initialStep, setInitialStep] = useState<'pricing' | undefined>()
+  // 0 = "Move Anywhere." cycling in, 1 = "You Set The Price." cycling in, 2 = both settled/unfolded
+  const [heroPhase, setHeroPhase] = useState<0 | 1 | 2>(0)
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setHeroPhase(1), 700)
+    const t2 = setTimeout(() => setHeroPhase(2), 1400)
+    return () => { clearTimeout(t1); clearTimeout(t2) }
+  }, [])
+  const sectionRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] })
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08])
 
   useEffect(() => {
     if (process.env.NODE_ENV !== 'development') return
@@ -255,51 +271,30 @@ export default function Hero() {
 
   return (
     <>
-      <section className="relative min-h-[100dvh] flex flex-col bg-ink overflow-hidden">
+      <section ref={sectionRef} className="relative min-h-[100dvh] flex flex-col bg-ink overflow-hidden">
 
-        {/* Ambient backdrop layers (z-0) */}
+        {/* Backdrop layers (z-0) */}
         <div className="absolute inset-0 z-0 pointer-events-none">
-          <div className="absolute inset-0 grid-bg" />
-          <div className="orb orb-a" />
-          <div className="orb orb-b" />
 
-          {/* Centered scene — mobile: shorter max-height + bottom-anchored so it doesn’t fight the headline */}
-          <motion.div
-            className="absolute inset-x-0 top-[20%] bottom-0 flex justify-center items-end pb-1 sm:items-stretch sm:pb-0 sm:top-[18%]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
-            transition={{ duration: 1.4, delay: 0.5, ease: SPRING }}
-          >
-            <StickFigures className="w-full max-w-[min(100%,440px)] sm:max-w-[1400px] h-auto max-h-[min(38vh,210px)] sm:max-h-none sm:h-full" />
+          {/* Higgsfield hero photo — parallax */}
+          <motion.div className="absolute inset-0 will-change-transform" style={{ y: bgY, scale: bgScale }}>
+            <img
+              src={HERO_IMG}
+              alt=""
+              aria-hidden="true"
+              className="w-full h-full object-cover"
+              style={{ opacity: 0.32, filter: 'brightness(0.8) contrast(1.1) saturate(0.85)' }}
+            />
           </motion.div>
 
-          {/* Readability vignette — slightly tighter + lower focal ellipse on narrow screens */}
-          <div
-            className="absolute inset-0 sm:hidden"
-            style={{
-              background:
-                'radial-gradient(ellipse 74% 62% at 50% 46%, rgba(5,5,5,0.88) 0%, rgba(5,5,5,0.52) 40%, rgba(5,5,5,0) 74%)',
-            }}
-          />
-          <div
-            className="absolute inset-0 hidden sm:block"
-            style={{
-              background:
-                'radial-gradient(ellipse 60% 55% at 50% 48%, rgba(5,5,5,0.82) 0%, rgba(5,5,5,0.55) 35%, rgba(5,5,5,0) 70%)',
-            }}
-          />
+          <div className="absolute inset-0 grid-bg" />
+          <div className="orb orb-a" style={{ mixBlendMode: 'screen' }} />
+          <div className="orb orb-b" style={{ mixBlendMode: 'screen' }} />
 
-          {/* Bottom fade so the scene grounds into the footer */}
-          <div
-            className="absolute inset-x-0 bottom-0 h-32"
-            style={{ background: 'linear-gradient(180deg, transparent 0%, #050505 100%)' }}
-          />
-
-          {/* Soft top-down vignette so the nav reads */}
-          <div
-            className="absolute inset-x-0 top-0 h-40"
-            style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 100%)' }}
-          />
+          {/* Readability vignettes */}
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 70% at 50% 46%, rgba(5,5,5,0.72) 0%, rgba(5,5,5,0.38) 45%, rgba(5,5,5,0) 72%)' }} />
+          <div className="absolute inset-x-0 bottom-0 h-48" style={{ background: 'linear-gradient(180deg, transparent 0%, #050505 100%)' }} />
+          <div className="absolute inset-x-0 top-0 h-40" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%)' }} />
         </div>
 
         <FloatingNav onCta={() => setBookingOpen(true)} />
@@ -355,19 +350,60 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          <h1 className="mt-12 sm:mt-14 md:mt-20 leading-[0.95] tracking-[-0.04em] font-semibold">
-            <BlurReveal
-              delay={0.25}
-              className="block text-white text-[clamp(48px,11vw,112px)] max-sm:whitespace-nowrap max-sm:text-[clamp(34px,11vw,46px)] max-sm:tracking-[-0.055em]"
-            >
-              Move Anywhere.
-            </BlurReveal>
-            <BlurReveal
-              delay={0.45}
-              className="block font-editorial text-coffee-shimmer text-[clamp(48px,11vw,112px)] mt-1 sm:mt-2"
-            >
-              You Set The Price.
-            </BlurReveal>
+          <h1 className="mt-12 sm:mt-14 md:mt-20 leading-[0.95] tracking-[-0.04em] font-semibold min-h-[1.9em] sm:min-h-[1.95em]">
+            {heroPhase < 2 ? (
+              /* ── Cycling phase: one line at a time ── */
+              <AnimatePresence mode="wait">
+                {heroPhase === 0 && (
+                  <motion.span
+                    key="cycle-0"
+                    className="block text-white text-[clamp(48px,11vw,112px)] max-sm:whitespace-nowrap max-sm:text-[clamp(34px,11vw,46px)] max-sm:tracking-[-0.055em]"
+                    initial={{ opacity: 0, y: 36, filter: 'blur(14px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, y: -36, filter: 'blur(14px)' }}
+                    transition={{ duration: 0.38, ease: SPRING }}
+                  >
+                    Move Anywhere.
+                  </motion.span>
+                )}
+                {heroPhase === 1 && (
+                  <motion.span
+                    key="cycle-1"
+                    className="block font-editorial text-coffee-shimmer text-[clamp(48px,11vw,112px)] max-sm:text-[clamp(34px,11vw,46px)] max-sm:tracking-[-0.055em]"
+                    initial={{ opacity: 0, y: 36, filter: 'blur(14px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, y: -36, filter: 'blur(14px)' }}
+                    transition={{ duration: 0.38, ease: SPRING }}
+                  >
+                    You Set The Price.
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            ) : (
+              /* ── Settled phase: unified center-line split ── */
+              <>
+                <div className="block overflow-hidden">
+                  <motion.span
+                    className="block text-white text-[clamp(48px,11vw,112px)] max-sm:whitespace-nowrap max-sm:text-[clamp(34px,11vw,46px)] max-sm:tracking-[-0.055em]"
+                    initial={{ y: '100%' }}
+                    animate={{ y: '0%' }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    Move Anywhere.
+                  </motion.span>
+                </div>
+                <div className="block overflow-hidden mt-1 sm:mt-2">
+                  <motion.span
+                    className="block font-editorial text-coffee-shimmer text-[clamp(48px,11vw,112px)]"
+                    initial={{ y: '-100%' }}
+                    animate={{ y: '0%' }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    You Set The Price.
+                  </motion.span>
+                </div>
+              </>
+            )}
           </h1>
 
           <CyclingPoints />
@@ -390,13 +426,28 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 1.2 }}
           >
             <span>No commitment</span>
-            <span
-              className="w-1 h-1 rounded-full bg-coffee-light"
-              aria-hidden="true"
-            />
+            <span className="w-1 h-1 rounded-full bg-coffee-light" aria-hidden="true" />
             <span>Free quote</span>
           </motion.p>
         </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 1.5 }}
+        >
+          <div className="w-[1px] h-10 overflow-hidden rounded-full bg-white/[0.12] relative">
+            <motion.div
+              className="absolute inset-x-0 top-0 rounded-full"
+              style={{ height: '50%', background: 'linear-gradient(180deg, transparent, rgba(139,82,48,0.9))' }}
+              animate={{ y: ['0%', '200%', '0%'] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          </div>
+          <span className="text-[9px] uppercase tracking-[0.3em] text-white/30 font-medium">Scroll</span>
+        </motion.div>
 
       </section>
 

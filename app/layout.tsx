@@ -18,11 +18,11 @@ export const metadata: Metadata = {
     google: 's4PeiDBEdKAfhaX6aGQk7hw9sjtowGwTJiDbLH0q32I',
   },
   metadataBase: new URL('https://notimemover.com'),
-  title: 'NoTimeMover — Move Anywhere. You Set The Price.',
-  description: 'Set your own price for your move. Pickup, dropoff, size, budget — done in 60 seconds.',
+  title: 'Boston Moving Company — NoTimeMover | You Set The Price',
+  description: 'Fully insured Boston movers. Set your price before we contact you — local, out-of-state, and same-day moves across Greater Massachusetts. No surprise quotes.',
   openGraph: {
-    title: 'NoTimeMover — Move Anywhere. You Set The Price.',
-    description: 'Set your own price for your move. Pickup, dropoff, size, budget — done in 60 seconds.',
+    title: 'Boston Moving Company — NoTimeMover | You Set The Price',
+    description: 'Fully insured Boston movers. Set your price before we contact you — local, out-of-state, and same-day moves across Greater Massachusetts. No surprise quotes.',
     url: 'https://notimemover.com',
     siteName: 'NoTimeMover',
     locale: 'en_US',
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'NoTimeMover — Move Anywhere. You Set The Price.',
-    description: 'Set your own price for your move. Pickup, dropoff, size, budget — done in 60 seconds.',
+    title: 'Boston Moving Company — NoTimeMover | You Set The Price',
+    description: 'Fully insured Boston movers. Set your price before we contact you — local, out-of-state, and same-day moves across Greater Massachusetts. No surprise quotes.',
   },
 }
 
@@ -40,6 +40,31 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   themeColor: '#050505',
+}
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'MovingCompany',
+  name: 'NoTimeMover',
+  url: 'https://notimemover.com',
+  telephone: '+12039194098',
+  email: 'contact@notimemover.com',
+  description:
+    'Fully insured moving company serving Boston, MA and Greater Massachusetts. Local moves, out-of-state moves, and same-day moves. You set your price before we contact you.',
+  areaServed: [
+    'Boston, MA', 'Cambridge, MA', 'Somerville, MA', 'Brookline, MA',
+    'Newton, MA', 'Quincy, MA', 'Medford, MA', 'Waltham, MA',
+    'Everett, MA', 'Malden, MA', 'Revere, MA', 'Chelsea, MA',
+    'Watertown, MA', 'Arlington, MA', 'Belmont, MA', 'Needham, MA',
+    'Dedham, MA', 'Braintree, MA', 'Milton, MA', 'Lynn, MA',
+  ],
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 42.36008,
+    longitude: -71.05888,
+  },
+  openingHours: 'Mo-Su 00:00-23:59',
+  priceRange: '$600-$3000',
 }
 
 export default function RootLayout({
@@ -53,6 +78,10 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable} ${instrumentSerif.variable}`}
     >
       <body className="bg-ink text-white antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         {children}
         <GrainOverlay />
       </body>
