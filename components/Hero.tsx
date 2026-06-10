@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion'
 import LandingSections from '@/components/LandingSections'
 
@@ -284,11 +285,14 @@ export default function Hero() {
 
           {/* Higgsfield hero photo — parallax */}
           <motion.div className="absolute inset-0 will-change-transform" style={{ y: bgY, scale: bgScale }}>
-            <img
+            <Image
               src={HERO_IMG}
               alt=""
               aria-hidden="true"
-              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
               style={{ opacity: 0.32, filter: 'brightness(0.8) contrast(1.1) saturate(0.85)' }}
             />
           </motion.div>

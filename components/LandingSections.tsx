@@ -11,6 +11,7 @@ import {
   AnimatePresence,
 } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { locations } from '@/lib/locations'
 
 
@@ -419,10 +420,12 @@ function CrewSection() {
         <Reveal from="right" distance={60} amount={0.1} className="relative overflow-hidden min-h-[340px] md:min-h-[520px]">
           <div ref={imageRef} className="absolute inset-0 will-change-transform">
             <motion.div className="absolute inset-0" style={{ scale }}>
-              <img
+              <Image
                 src={CREW_IMG}
                 alt="NoTimeMover crew loading a truck"
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
                 style={{ filter: 'brightness(0.88) contrast(1.05)' }}
               />
             </motion.div>
@@ -663,10 +666,12 @@ export default function LandingSections({ onOpenBooking }: { onOpenBooking: () =
         <section id="areas" className="relative w-full py-16 sm:py-24 overflow-hidden">
           {/* MA constellation background */}
           <div className="absolute inset-0 pointer-events-none select-none" aria-hidden>
-            <img
+            <Image
               src="https://d8j0ntlcm91z4.cloudfront.net/user_3DXXMZN9SbWqkGqaQ24QtDHNfxy/hf_20260610_195819_d3660ced-40c9-4063-8822-7a0e6248c110_min.webp"
               alt=""
-              className="w-full h-full object-cover opacity-60"
+              fill
+              sizes="100vw"
+              className="object-cover opacity-60"
               style={{ filter: 'brightness(0.85) saturate(1.1)' }}
             />
             {/* top/bottom fade into page bg */}
