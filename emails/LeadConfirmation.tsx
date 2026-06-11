@@ -69,7 +69,7 @@ export function LeadConfirmation({
               NoTime<span style={{ color: c.coffeeLight }}>Mover</span>
             </Text>
             <Text style={{ color: c.white45, fontSize: '10px', margin: '4px 0 0', letterSpacing: '2px', textTransform: 'uppercase', fontFamily: f }}>
-              Move Anywhere. You Set The Price.
+              Move Anywhere. We Work Around Your Budget.
             </Text>
           </Section>
 

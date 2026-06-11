@@ -19,6 +19,10 @@
 - [x] NoTimeStorage ↔ NoTimeMover switcher in hero nav
 - [x] Privacy policy + Terms pages
 - [x] Distance API route (stubbed at 25mi — Phase 2)
+- [x] **Blog system** — 9 MDX posts live at `/blog` + `content/blog/`. remark-gfm for tables, inline JSX bar charts, all internal links real
+- [x] **`/blog` index page** — editorial full-width layout, auto-rotating featured post (3.6s), numbered tabular post list, progress bar, pause-on-hover
+- [x] **BlogMagazineSection on homepage** — 4-post magazine (1 featured + 2 interactive stack + 1 gradient tease → /blog)
+- [x] **Favicon** — NoTimeMover logo PNG (white NoTime / amber Mover on black), served from `app/icon.png`
 
 ---
 

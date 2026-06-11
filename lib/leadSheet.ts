@@ -21,6 +21,7 @@ export const LEAD_SHEET_HEADERS = [
   'budget_usd',
   'selected_tier',
   'final_price_usd',
+  'move_date',
 ] as const
 
 export type LeadPayload = {
@@ -38,6 +39,7 @@ export type LeadPayload = {
   email: string
   phone: string
   submittedAt: string
+  moveDate?: string
 }
 
 export function leadPayloadToRow(p: LeadPayload): string[] {
@@ -62,5 +64,6 @@ export function leadPayloadToRow(p: LeadPayload): string[] {
     String(p.budget),
     p.selectedTier,
     p.finalPrice != null ? String(p.finalPrice) : '',
+    p.moveDate ?? '',
   ]
 }

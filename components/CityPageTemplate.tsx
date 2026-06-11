@@ -27,8 +27,8 @@ const STEPS = [
 
 const BENEFITS = [
   {
-    title: 'You set the price',
-    body: 'Choose your budget range before we ever contact you. No guessing, no surprise quotes after the fact.',
+    title: 'You set the budget',
+    body: 'Tell us what you can spend before we ever contact you. We work around it — no surprise quotes.',
   },
   {
     title: 'No hidden fees',
@@ -260,7 +260,7 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
                 Ready to move on your terms?
               </h2>
               <p className="text-[15px] text-white/50 max-w-lg mx-auto leading-relaxed mb-10">
-                Set your price in 60 seconds. No obligation until you confirm
+                Tell us your budget in 60 seconds. No obligation until you confirm
                 — we follow up to lock in the details.
               </p>
               <Link

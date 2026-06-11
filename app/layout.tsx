@@ -19,11 +19,11 @@ export const metadata: Metadata = {
     google: 's4PeiDBEdKAfhaX6aGQk7hw9sjtowGwTJiDbLH0q32I',
   },
   metadataBase: new URL('https://notimemover.com'),
-  title: 'Boston Moving Company — NoTimeMover | You Set The Price',
-  description: 'Fully insured Boston movers. Set your price before we contact you — local, out-of-state, and same-day moves across Greater Massachusetts. No surprise quotes.',
+  title: 'Boston Moving Company — NoTimeMover | No Surprise Fees',
+  description: 'Fully insured Boston movers. Tell us your budget — we work around it. Local, out-of-state, and same-day moves across Greater Massachusetts. No surprise quotes.',
   openGraph: {
-    title: 'Boston Moving Company — NoTimeMover | You Set The Price',
-    description: 'Fully insured Boston movers. Set your price before we contact you — local, out-of-state, and same-day moves across Greater Massachusetts. No surprise quotes.',
+    title: 'Boston Moving Company — NoTimeMover | No Surprise Fees',
+    description: 'Fully insured Boston movers. Tell us your budget — we work around it. Local, out-of-state, and same-day moves across Greater Massachusetts. No surprise quotes.',
     url: 'https://notimemover.com',
     siteName: 'NoTimeMover',
     locale: 'en_US',
@@ -31,8 +31,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Boston Moving Company — NoTimeMover | You Set The Price',
-    description: 'Fully insured Boston movers. Set your price before we contact you — local, out-of-state, and same-day moves across Greater Massachusetts. No surprise quotes.',
+    title: 'Boston Moving Company — NoTimeMover | No Surprise Fees',
+    description: 'Fully insured Boston movers. Tell us your budget — we work around it. Local, out-of-state, and same-day moves across Greater Massachusetts. No surprise quotes.',
   },
 }
 
@@ -51,7 +51,7 @@ const structuredData = {
   telephone: '+12039194098',
   email: 'contact@notimemover.com',
   description:
-    'Fully insured moving company serving Boston, MA and Greater Massachusetts. Local moves, out-of-state moves, and same-day moves. You set your price before we contact you.',
+    'Fully insured moving company serving Boston, MA and Greater Massachusetts. Local moves, out-of-state moves, and same-day moves. We work around your budget — no surprise fees.',
   areaServed: [
     'Boston, MA', 'Cambridge, MA', 'Somerville, MA', 'Brookline, MA',
     'Newton, MA', 'Quincy, MA', 'Medford, MA', 'Waltham, MA',

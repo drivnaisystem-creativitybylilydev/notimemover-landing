@@ -13,6 +13,11 @@ import {
 import Link from 'next/link'
 import Image from 'next/image'
 import { locations } from '@/lib/locations'
+import BlogMagazineSection from '@/components/BlogMagazineSection'
+import OurWorkSection from '@/components/OurWorkSection'
+import type { BlogPost } from '@/lib/blog'
+
+type PostSummary = Omit<BlogPost, 'content'>
 
 
 const SPRING = [0.32, 0.72, 0, 1] as const
@@ -30,7 +35,7 @@ function Reveal({
   className?: string; style?: React.CSSProperties
 }) {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: false, amount })
+  const inView = useInView(ref, { once: true, amount })
   const hidden = {
     opacity: 0,
     y: from === 'bottom' ? distance : from === 'top' ? -distance : 0,
@@ -56,7 +61,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Do you charge for stairs or extra floors?',
-    a: 'No stair fees, no elevator fees, no long-carry fees. Boston walk-ups are the default — Back Bay brownstones, Allston three-deckers, Fenway buildings with no elevator. We know the city. Other companies use those charges to inflate the final bill after the job is done. The price you set is what you pay, period.',
+    a: 'No stair fees, no elevator fees, no long-carry fees. Boston walk-ups are the default — Back Bay brownstones, Allston three-deckers, Fenway buildings with no elevator. We know the city. Other companies use those charges to inflate the final bill after the job is done. The total you agreed to is what you pay, period.',
   },
   {
     q: 'Are you insured?',
@@ -90,7 +95,7 @@ function AnimatedCount({
   suffix?: string
 }) {
   const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: false, amount: 0.3 })
+  const inView = useInView(ref, { once: true, amount: 0.3 })
   const count = useMotionValue(0)
   const [display, setDisplay] = useState(0)
 
@@ -283,7 +288,7 @@ function BentoSection() {
         <motion.div
           initial={{ opacity: 0, x: -60, filter: 'blur(4px)' }}
           whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-          viewport={{ once: false, amount: 0.1 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.7, ease: EASE_OUT }}
           className="sm:col-span-12 py-10 sm:py-12 border-b border-white/[0.06]"
         >
@@ -333,7 +338,7 @@ function BentoSection() {
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6, ease: EASE_OUT, delay: 0 }}
           className="sm:col-span-4 pt-10 pb-4 sm:pr-10 sm:border-r border-white/[0.06]"
         >
@@ -356,7 +361,7 @@ function BentoSection() {
         <motion.div
           initial={{ opacity: 0, y: 44, filter: 'blur(4px)' }}
           whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          viewport={{ once: false, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.07 }}
           className="sm:col-span-4 pt-10 pb-4 sm:px-10 sm:border-r border-white/[0.06]"
         >
@@ -378,7 +383,7 @@ function BentoSection() {
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.14 }}
           className="sm:col-span-4 pt-10 pb-4 sm:pl-10"
         >
@@ -474,8 +479,8 @@ function CrewSection() {
 
 const GUARANTEES = [
   {
-    title: 'You name the price.',
-    body: 'Tell us your budget before we ever contact you. We confirm exactly what it covers — hours, crew size, truck. The number you set is the number on your receipt.',
+    title: 'Budget-first, no surprises.',
+    body: 'Tell us your budget before we ever contact you. We work around it — hours, crew, truck, fuel. The total you agree to is the total on your receipt.',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
         <line x1="12" y1="1" x2="12" y2="23" />
@@ -589,7 +594,7 @@ function FAQSection() {
             key={i}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.1 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.45, ease: EASE_OUT, delay: i * 0.04 }}
             className="border-t border-white/[0.07]"
           >
@@ -639,9 +644,9 @@ function FAQSection() {
    MAIN EXPORT
 ───────────────────────────────────────────── */
 
-export default function LandingSections({ onOpenBooking }: { onOpenBooking: () => void }) {
+export default function LandingSections({ onOpenBooking, posts = [] }: { onOpenBooking: () => void; posts?: PostSummary[] }) {
   return (
-    <div className="relative bg-ink border-t border-white/[0.05] overflow-x-hidden">
+    <div className="relative bg-ink border-t border-white/[0.05]" style={{ overflowX: 'clip' }}>
 
       <CredibilityStrip />
 
@@ -660,6 +665,8 @@ export default function LandingSections({ onOpenBooking }: { onOpenBooking: () =
       <div className="border-t border-white/[0.05]">
         <TrustSection />
       </div>
+
+      <OurWorkSection onOpenBooking={onOpenBooking} />
 
       {/* Service Areas */}
       <div className="border-t border-white/[0.05]">
@@ -690,7 +697,7 @@ export default function LandingSections({ onOpenBooking }: { onOpenBooking: () =
                 <span className="font-serif italic text-coffee-shimmer">Massachusetts.</span>
               </h2>
               <p className="mt-4 text-[14px] sm:text-[15px] text-white/40 max-w-lg leading-relaxed mx-auto">
-                From Boston neighborhoods to the South Shore, MetroWest, and beyond — set your price and we confirm coverage instantly.
+                From Boston neighborhoods to the South Shore, MetroWest, and beyond — tell us your budget and we confirm coverage instantly.
               </p>
             </Reveal>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
@@ -714,6 +721,9 @@ export default function LandingSections({ onOpenBooking }: { onOpenBooking: () =
         </section>
       </div>
 
+      {/* Blog magazine */}
+      {posts.length > 0 && <BlogMagazineSection posts={posts} />}
+
       {/* FAQ */}
       <div className="border-t border-white/[0.05]">
         <FAQSection />
@@ -723,7 +733,7 @@ export default function LandingSections({ onOpenBooking }: { onOpenBooking: () =
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.1 }}
+        viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.75, ease: EASE_OUT }}
         className="border-t border-white/[0.05] w-full px-6 sm:px-16 py-16 sm:py-24"
         style={{

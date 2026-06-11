@@ -1,5 +1,6 @@
 import Hero from '@/components/Hero'
 import Footer from '@/components/Footer'
+import { getAllPosts } from '@/lib/blog'
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -57,6 +58,8 @@ const faqSchema = {
 }
 
 export default function Home() {
+  const posts = getAllPosts()
+
   return (
     <>
       <script
@@ -64,7 +67,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <main className="min-h-screen bg-ink text-white">
-        <Hero />
+        <Hero posts={posts} />
       </main>
       <Footer />
     </>

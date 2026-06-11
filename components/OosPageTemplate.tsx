@@ -193,8 +193,8 @@ export default function OosPageTemplate({ route }: { route: OosRoute }) {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {[
                 {
-                  title: 'You name the price.',
-                  body: 'Set your budget range before we ever contact you. No back-and-forth. No counter-offer after the truck is in your driveway.',
+                  title: 'Budget-first, no surprises.',
+                  body: 'Tell us what you can spend before we ever contact you. No back-and-forth. The total you agree to is the total on your receipt.',
                 },
                 {
                   title: 'No fees added at the door.',
@@ -248,7 +248,7 @@ export default function OosPageTemplate({ route }: { route: OosRoute }) {
                 Ready to move?
               </h2>
               <p className="text-[15px] text-white/50 max-w-lg mx-auto leading-relaxed mb-10">
-                Set your price in 60 seconds. We follow up to confirm route details, timing, and building requirements.
+                Tell us your budget in 60 seconds. We follow up to confirm route details, timing, and building requirements.
               </p>
               <Link
                 href="/?book=1"

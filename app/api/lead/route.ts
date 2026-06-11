@@ -79,6 +79,10 @@ function validateLead(body: unknown): LeadPayload | null {
     name: String(o.name).trim(),
     email: String(o.email).trim(),
     phone: String(o.phone).trim(),
+    moveDate:
+      typeof o.moveDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(o.moveDate)
+        ? o.moveDate
+        : undefined,
     submittedAt:
       typeof o.submittedAt === 'string' && o.submittedAt
         ? o.submittedAt
@@ -183,6 +187,7 @@ export async function POST(req: Request) {
               finalPrice: payload.finalPrice,
               miles: payload.miles,
               submittedAt: payload.submittedAt,
+              moveDate: payload.moveDate,
             })),
           }),
         ])

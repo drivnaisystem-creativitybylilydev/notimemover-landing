@@ -5,6 +5,9 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion'
 import LandingSections from '@/components/LandingSections'
+import type { BlogPost } from '@/lib/blog'
+
+type PostSummary = Omit<BlogPost, 'content'>
 
 const BookingFlow = dynamic(() => import('@/components/BookingFlow'), { ssr: false })
 
@@ -88,49 +91,52 @@ const NAV_LINKS = [
   { label: 'How it works', href: '#how-it-works' },
   { label: 'Service areas', href: '#areas' },
   { label: 'FAQ', href: '#faq' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
 ] as const
 
 function FloatingNav({ onCta }: { onCta: () => void }) {
   return (
-    <div className="fixed inset-x-0 top-4 sm:top-5 z-40 flex justify-center pointer-events-none px-4">
-      <motion.nav
+    <motion.header
+      className="fixed inset-x-0 top-0 z-40"
+      style={{
+        background: 'rgba(5,5,5,0.8)',
+        backdropFilter: 'blur(18px)',
+        WebkitBackdropFilter: 'blur(18px)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+      }}
+      initial={{ opacity: 0, y: -12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, ease: SPRING, delay: 0.15 }}
+    >
+      <nav
         aria-label="Main navigation"
-        className="pointer-events-auto inline-flex items-center gap-1 p-1.5 rounded-full backdrop-blur-xl w-full max-w-xl sm:w-auto sm:max-w-none"
-        style={{
-          background: 'rgba(255,255,255,0.04)',
-          boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.08), 0 0 0 1px rgba(255,255,255,0.08)',
-        }}
-        initial={{ opacity: 0, y: -16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: SPRING, delay: 0.15 }}
+        className="max-w-7xl mx-auto px-6 sm:px-10 h-16 flex items-center justify-between gap-6"
       >
-        {/* Wordmark */}
-        <a
-          href="/"
-          className="inline-flex items-center h-9 px-4 text-[13px] sm:text-[14px] font-medium tracking-tight leading-none shrink-0"
-        >
+        {/* Wordmark — left */}
+        <a href="/" className="inline-flex items-center shrink-0 text-[15px] font-semibold tracking-tight leading-none">
           <span className="text-white">NoTime</span>
           <span className="text-coffee-light">Mover</span>
         </a>
 
-        {/* Nav links — desktop only */}
-        <div className="hidden sm:flex items-center">
+        {/* Nav links — desktop center */}
+        <div className="hidden sm:flex items-center gap-0.5 flex-1 justify-center">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="inline-flex items-center h-9 px-3.5 text-[13px] font-medium text-white/50 hover:text-white/90 transition-colors duration-200 tracking-tight leading-none rounded-full hover:bg-white/[0.05]"
+              className="inline-flex items-center h-9 px-3.5 text-[13px] font-medium text-white/45 hover:text-white/90 transition-colors duration-200 tracking-tight leading-none rounded-full hover:bg-white/[0.05]"
             >
               {link.label}
             </a>
           ))}
         </div>
 
-        {/* CTA */}
+        {/* CTA — right */}
         <button
           type="button"
           onClick={onCta}
-          className="group inline-flex items-center justify-center gap-2 h-9 pl-4 pr-1.5 rounded-full bg-white text-ink text-[13px] font-medium leading-none transition-transform duration-500 ease-spring active:scale-[0.97] ml-auto sm:ml-0"
+          className="group inline-flex items-center justify-center gap-2 h-9 pl-5 pr-1.5 rounded-full bg-white text-ink text-[13px] font-semibold leading-none transition-transform duration-500 ease-spring active:scale-[0.97] shrink-0"
         >
           <span className="leading-none">Book your move</span>
           <span
@@ -140,8 +146,8 @@ function FloatingNav({ onCta }: { onCta: () => void }) {
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
           </span>
         </button>
-      </motion.nav>
-    </div>
+      </nav>
+    </motion.header>
   )
 }
 
@@ -239,11 +245,11 @@ function CyclingPoints() {
 
 /* -------------------- Hero -------------------- */
 
-export default function Hero() {
+export default function Hero({ posts = [] }: { posts?: PostSummary[] }) {
   const [bookingOpen, setBookingOpen] = useState(false)
   const [initialConfirm, setInitialConfirm] = useState<'instate' | 'oos' | undefined>()
   const [initialStep, setInitialStep] = useState<'pricing' | undefined>()
-  // 0 = "Move Anywhere." cycling in, 1 = "You Set The Price." cycling in, 2 = both settled/unfolded
+  // 0 = "Move Anywhere." cycling in, 1 = "No Surprise Quotes." cycling in, 2 = both settled/unfolded
   const [heroPhase, setHeroPhase] = useState<0 | 1 | 2>(0)
 
   useEffect(() => {
@@ -310,7 +316,7 @@ export default function Hero() {
         <FloatingNav onCta={() => setBookingOpen(true)} />
 
         {/* Center content (z-10) */}
-        <div className="relative z-10 flex-1 flex flex-col justify-start sm:justify-center items-center text-center px-5 sm:px-8 pt-[calc(env(safe-area-inset-top,0px)+7rem)] sm:pt-32">
+        <div className="relative z-10 flex-1 flex flex-col justify-start sm:justify-center items-center text-center px-5 sm:px-8 pt-[calc(env(safe-area-inset-top,0px)+6rem)] sm:pt-36">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -385,7 +391,7 @@ export default function Hero() {
                     exit={{ opacity: 0, y: -36, filter: 'blur(14px)' }}
                     transition={{ duration: 0.38, ease: SPRING }}
                   >
-                    You Set The Price.
+                    No Surprise Quotes.
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -409,7 +415,7 @@ export default function Hero() {
                     animate={{ y: '0%' }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    You Set The Price.
+                    No Surprise Quotes.
                   </motion.span>
                 </div>
               </>
@@ -441,27 +447,10 @@ export default function Hero() {
           </motion.p>
         </div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1.5 }}
-        >
-          <div className="w-[1px] h-10 overflow-hidden rounded-full bg-white/[0.12] relative">
-            <motion.div
-              className="absolute inset-x-0 top-0 rounded-full"
-              style={{ height: '50%', background: 'linear-gradient(180deg, transparent, rgba(139,82,48,0.9))' }}
-              animate={{ y: ['0%', '200%', '0%'] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </div>
-          <span className="text-[9px] uppercase tracking-[0.3em] text-white/30 font-medium">Scroll</span>
-        </motion.div>
 
       </section>
 
-      <LandingSections onOpenBooking={() => setBookingOpen(true)} />
+      <LandingSections onOpenBooking={() => setBookingOpen(true)} posts={posts} />
 
       <BookingFlow isOpen={bookingOpen} onClose={() => setBookingOpen(false)} initialConfirm={initialConfirm} initialStep={initialStep} />
     </>

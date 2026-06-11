@@ -22,6 +22,7 @@ interface AdminLeadNotificationProps {
   finalPrice: number | null
   miles: number
   submittedAt: string
+  moveDate?: string
 }
 
 const f = '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif'
@@ -61,6 +62,7 @@ export function AdminLeadNotification({
   finalPrice = null,
   miles = 0,
   submittedAt = '',
+  moveDate,
 }: AdminLeadNotificationProps) {
   const submitted = submittedAt
     ? new Date(submittedAt).toLocaleString('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) + ' ET'
@@ -76,6 +78,7 @@ export function AdminLeadNotification({
     { label: 'Size',      value: sizeLabel || '—' },
     { label: 'Package',   value: selectedTier ? tierLabel(selectedTier) : '—' },
     { label: 'Price',     value: finalPrice != null ? fmtPrice(finalPrice) : '—' },
+    ...(moveDate ? [{ label: 'Move date', value: new Date(moveDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) }] : []),
     ...(submitted ? [{ label: 'Submitted', value: submitted }] : []),
   ]
 

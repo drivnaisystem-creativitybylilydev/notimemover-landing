@@ -10,6 +10,7 @@ import {
   TierKey,
   BUDGET_MIN,
   BUDGET_MAX,
+  GAS_RATE_PER_MILE,
   calculatePricing,
   formatUSD,
 } from '@/lib/pricing'
@@ -47,6 +48,7 @@ interface FormState {
   name: string
   email: string
   phone: string
+  moveDate: string
 }
 
 const TOTAL_STEPS = 5
@@ -65,6 +67,7 @@ const initialState: FormState = {
   name: '',
   email: '',
   phone: '',
+  moveDate: '',
 }
 
 const formatAddress = (a: Address) =>
@@ -230,6 +233,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
       name: form.name,
       email: form.email,
       phone: form.phone,
+      moveDate: form.moveDate || undefined,
       submittedAt: new Date().toISOString(),
     }
     try {
@@ -433,6 +437,14 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
                             <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Phone</div>
                             <p className="text-[14px] text-white/85 tabular-nums">{form.phone}</p>
                           </div>
+                          {form.moveDate && (
+                            <div>
+                              <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Move date</div>
+                              <p className="text-[14px] text-white/85 tabular-nums">
+                                {new Date(form.moveDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </motion.div>
@@ -906,15 +918,19 @@ function Step4({
 
   if (!pricing || !form.size) return null
 
-  const allTiers: { key: PriceTier; label: string; sub: string; price: number; recommended?: boolean; benefits: { text: string; ok: boolean }[] }[] = [
+  const equipment = TIERS[form.size as TierKey].equipment
+  const gas = Math.round(form.miles * GAS_RATE_PER_MILE)
+
+  const allTiers: { key: PriceTier; label: string; sub: string; price: number; recommended?: boolean; benefits: { text: string; ok: boolean }[]; breakdown?: { budget: number; equipment: number; gas: number; miles: number } }[] = [
     {
       key: 'yourPrice',
       label: 'Flexible',
-      sub: 'You set the price',
+      sub: 'You set the budget',
       price: pricing.yourPrice,
+      breakdown: { budget: form.budget, equipment, gas, miles: form.miles },
       benefits: [
         { ok: true,  text: '2 movers guaranteed' },
-        { ok: true,  text: 'You set the price — full budget control' },
+        { ok: true,  text: 'You set the budget — full cost control' },
         { ok: true,  text: 'Great for small moves or tight budgets' },
         { ok: false, text: "Lower prices may delay acceptance — your move isn't guaranteed until a mover accepts" },
       ],
@@ -1000,41 +1016,68 @@ function Step4({
 function TierRow({
   tier,
 }: {
-  tier: { label: string; sub: string; price: number; recommended?: boolean; benefits: { text: string; ok: boolean }[] }
+  tier: { label: string; sub: string; price: number; recommended?: boolean; benefits: { text: string; ok: boolean }[]; breakdown?: { budget: number; equipment: number; gas: number; miles: number } }
 }) {
   return (
-    <div className="flex items-start justify-between">
-      <div className="flex-1 pr-4">
-        <div className="flex items-center gap-2">
-          <span className="text-[15px] font-medium text-white">{tier.label}</span>
-          {tier.recommended && (
-            <span className="text-[9px] uppercase tracking-[0.18em] px-2 py-0.5 rounded-full bg-white text-ink font-semibold">
-              Recommended
-            </span>
+    <div className="flex flex-col">
+      <div className="flex items-start justify-between">
+        <div className="flex-1 pr-4">
+          <div className="flex items-center gap-2">
+            <span className="text-[15px] font-medium text-white">{tier.label}</span>
+            {tier.recommended && (
+              <span className="text-[9px] uppercase tracking-[0.18em] px-2 py-0.5 rounded-full bg-white text-ink font-semibold">
+                Recommended
+              </span>
+            )}
+          </div>
+          <div className="text-[13px] text-white/55 mt-0.5">{tier.sub}</div>
+          <ul className="mt-3 space-y-1.5">
+            {tier.benefits.map((b, i) => (
+              <li key={i} className="flex items-start gap-2">
+                <span
+                  className="mt-[1px] shrink-0 text-[11px] font-semibold"
+                  style={{ color: b.ok ? '#7db87d' : '#c97a6e' }}
+                >
+                  {b.ok ? '✓' : '✕'}
+                </span>
+                <span className={`text-[12px] leading-snug ${b.ok ? 'text-white/58' : 'text-white/32 italic'}`}>
+                  {b.text}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="text-right tabular-nums shrink-0">
+          <div className="text-[26px] font-semibold tracking-tight">
+            <NumberFlow value={tier.price} format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }} />
+          </div>
+        </div>
+      </div>
+
+      {tier.breakdown && (
+        <div className="mt-4 pt-3.5 border-t border-white/[0.07] space-y-1.5">
+          <div className="flex justify-between text-[11px] text-white/35 tabular-nums">
+            <span>Labor (your budget)</span>
+            <span>{formatUSD(tier.breakdown.budget)}</span>
+          </div>
+          {tier.breakdown.equipment > 0 && (
+            <div className="flex justify-between text-[11px] text-white/35 tabular-nums">
+              <span>Equipment</span>
+              <span>+{formatUSD(tier.breakdown.equipment)}</span>
+            </div>
           )}
+          {tier.breakdown.gas > 0 && (
+            <div className="flex justify-between text-[11px] text-white/35 tabular-nums">
+              <span>Fuel ({tier.breakdown.miles} mi × ${GAS_RATE_PER_MILE.toFixed(2)})</span>
+              <span>+{formatUSD(tier.breakdown.gas)}</span>
+            </div>
+          )}
+          <div className="flex justify-between text-[12px] text-white/55 font-medium tabular-nums pt-1 border-t border-white/[0.06]">
+            <span>Total estimate</span>
+            <span>{formatUSD(tier.breakdown.budget + tier.breakdown.equipment + tier.breakdown.gas)}</span>
+          </div>
         </div>
-        <div className="text-[13px] text-white/55 mt-0.5">{tier.sub}</div>
-        <ul className="mt-3 space-y-1.5">
-          {tier.benefits.map((b, i) => (
-            <li key={i} className="flex items-start gap-2">
-              <span
-                className="mt-[1px] shrink-0 text-[11px] font-semibold"
-                style={{ color: b.ok ? '#7db87d' : '#c97a6e' }}
-              >
-                {b.ok ? '✓' : '✕'}
-              </span>
-              <span className={`text-[12px] leading-snug ${b.ok ? 'text-white/58' : 'text-white/32 italic'}`}>
-                {b.text}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="text-right tabular-nums shrink-0">
-        <div className="text-[26px] font-semibold tracking-tight">
-          <NumberFlow value={tier.price} format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }} />
-        </div>
-      </div>
+      )}
     </div>
   )
 }
@@ -1084,6 +1127,19 @@ function Step5({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
             onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
             className="input-field"
             placeholder="(555) 123-4567"
+          />
+        </motion.div>
+        <motion.div variants={fadeUp}>
+          <label className="block text-[10px] uppercase tracking-[0.22em] text-white/40 mb-2 font-medium">
+            Move date <span className="text-white/20 normal-case tracking-normal">(optional)</span>
+          </label>
+          <input
+            type="date"
+            autoComplete="off"
+            min={new Date().toISOString().split('T')[0]}
+            value={form.moveDate}
+            onChange={e => setForm(f => ({ ...f, moveDate: e.target.value }))}
+            className="input-field"
           />
         </motion.div>
         <p className="text-[12px] text-white/35 pt-2 leading-relaxed">

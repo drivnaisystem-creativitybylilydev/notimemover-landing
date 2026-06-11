@@ -23,7 +23,9 @@ body {
   background: #050505;
   color: #ffffff;
   min-height: 100dvh;
-  overflow-x: hidden;
+  /* clip instead of hidden — prevents horizontal overflow without triggering overflow-y: scroll */
+  overflow-x: clip;
+  overflow-y: auto;
 }
 
 input, button, select, textarea {

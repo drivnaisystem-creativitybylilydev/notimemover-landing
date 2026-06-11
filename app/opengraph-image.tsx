@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'NoTimeMover — Move Anywhere. You Set The Price.'
+export const alt = 'NoTimeMover — Move Anywhere. No Surprise Quotes.'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -104,7 +104,7 @@ export default function OGImage() {
           }}
         >
           Move Anywhere.{' '}
-          <span style={{ color: '#8B5230' }}>You Set The Price.</span>
+          <span style={{ color: '#8B5230' }}>No Surprise Quotes.</span>
         </div>
 
         {/* Bottom pill */}
