@@ -758,7 +758,7 @@ export default function LandingSections({ onOpenBooking, posts = [] }: { onOpenB
             className="group inline-flex items-center gap-3 pl-7 pr-2 py-2 rounded-full bg-white text-ink font-medium active:scale-[0.97]"
             style={{ transition: 'transform 500ms cubic-bezier(0.32,0.72,0,1)' }}
           >
-            <span className="text-[15px] tracking-tight">Book your move</span>
+            <span className="text-[15px] tracking-tight">Get an instant quote</span>
             <span
               className="w-11 h-11 rounded-full bg-ink/10 flex items-center justify-center group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
               style={{ boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.5)', transition: 'transform 500ms cubic-bezier(0.32,0.72,0,1)' }}

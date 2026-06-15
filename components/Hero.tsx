@@ -138,7 +138,7 @@ function FloatingNav({ onCta }: { onCta: () => void }) {
           onClick={onCta}
           className="group inline-flex items-center justify-center gap-2 h-9 pl-5 pr-1.5 rounded-full bg-white text-ink text-[13px] font-semibold leading-none transition-transform duration-500 ease-spring active:scale-[0.97] shrink-0"
         >
-          <span className="leading-none">Book your move</span>
+          <span className="leading-none">Get an instant quote</span>
           <span
             className="w-6 h-6 rounded-full bg-ink/10 flex items-center justify-center transition-transform duration-500 ease-spring group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
             style={{ boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.5)' }}
@@ -184,7 +184,7 @@ function MagneticCTA({ onClick }: { onClick: () => void }) {
       animate={{ x: offset.x, y: offset.y }}
       transition={{ type: 'spring', stiffness: 250, damping: 22, mass: 0.7 }}
     >
-      <span className="text-[15px] sm:text-[16px] tracking-tight">Book your move</span>
+      <span className="text-[15px] sm:text-[16px] tracking-tight">Get an instant quote</span>
       <span
         className="w-11 h-11 rounded-full bg-ink/10 flex items-center justify-center transition-transform duration-500 ease-spring group-hover:translate-x-[3px] group-hover:-translate-y-[1px]"
         style={{ boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.5)' }}
@@ -197,7 +197,7 @@ function MagneticCTA({ onClick }: { onClick: () => void }) {
 
 /* -------------------- Cycling Bullet Points -------------------- */
 
-const CYCLE_POINTS = ['Tell us where', 'Set your budget', 'Book in under 1 minute'] as const
+const CYCLE_POINTS = ['Tell us where', 'Set your budget', 'Quote in under 1 minute'] as const
 const CYCLE_INTERVAL_MS = 1900
 const CYCLE_START_DELAY_MS = 850
 
@@ -220,7 +220,7 @@ function CyclingPoints() {
 
   return (
     <div
-      className="mt-7 sm:mt-9 h-7 sm:h-8 flex items-center justify-center overflow-hidden"
+      className="mt-14 sm:mt-16 h-7 sm:h-8 flex items-center justify-center overflow-hidden"
       aria-live="polite"
     >
       <AnimatePresence mode="wait" initial={false}>
@@ -249,14 +249,6 @@ export default function Hero({ posts = [] }: { posts?: PostSummary[] }) {
   const [bookingOpen, setBookingOpen] = useState(false)
   const [initialConfirm, setInitialConfirm] = useState<'instate' | 'oos' | undefined>()
   const [initialStep, setInitialStep] = useState<'pricing' | undefined>()
-  // 0 = "Move Anywhere." cycling in, 1 = "No Surprise Quotes." cycling in, 2 = both settled/unfolded
-  const [heroPhase, setHeroPhase] = useState<0 | 1 | 2>(0)
-
-  useEffect(() => {
-    const t1 = setTimeout(() => setHeroPhase(1), 700)
-    const t2 = setTimeout(() => setHeroPhase(2), 1400)
-    return () => { clearTimeout(t1); clearTimeout(t2) }
-  }, [])
   const sectionRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] })
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
@@ -284,10 +276,10 @@ export default function Hero({ posts = [] }: { posts?: PostSummary[] }) {
 
   return (
     <>
-      <section ref={sectionRef} className="relative min-h-[100dvh] flex flex-col bg-ink overflow-hidden">
+      <section ref={sectionRef} className="relative min-h-[100dvh] flex flex-col bg-ink">
 
         {/* Backdrop layers (z-0) */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
 
           {/* Higgsfield hero photo — parallax */}
           <motion.div className="absolute inset-0 will-change-transform" style={{ y: bgY, scale: bgScale }}>
@@ -366,60 +358,23 @@ export default function Hero({ posts = [] }: { posts?: PostSummary[] }) {
             </div>
           </motion.div>
 
-          <h1 className="mt-12 sm:mt-14 md:mt-20 leading-[0.95] tracking-[-0.04em] font-semibold min-h-[1.9em] sm:min-h-[1.95em]">
-            {heroPhase < 2 ? (
-              /* ── Cycling phase: one line at a time ── */
-              <AnimatePresence mode="wait">
-                {heroPhase === 0 && (
-                  <motion.span
-                    key="cycle-0"
-                    className="block text-white text-[clamp(48px,11vw,112px)] max-sm:whitespace-nowrap max-sm:text-[clamp(34px,11vw,46px)] max-sm:tracking-[-0.055em]"
-                    initial={{ opacity: 0, y: 36, filter: 'blur(14px)' }}
-                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    exit={{ opacity: 0, y: -36, filter: 'blur(14px)' }}
-                    transition={{ duration: 0.38, ease: SPRING }}
-                  >
-                    Move Anywhere.
-                  </motion.span>
-                )}
-                {heroPhase === 1 && (
-                  <motion.span
-                    key="cycle-1"
-                    className="block font-editorial text-coffee-shimmer text-[clamp(48px,11vw,112px)] max-sm:text-[clamp(34px,11vw,46px)] max-sm:tracking-[-0.055em]"
-                    initial={{ opacity: 0, y: 36, filter: 'blur(14px)' }}
-                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    exit={{ opacity: 0, y: -36, filter: 'blur(14px)' }}
-                    transition={{ duration: 0.38, ease: SPRING }}
-                  >
-                    No Surprise Quotes.
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            ) : (
-              /* ── Settled phase: unified center-line split ── */
-              <>
-                <div className="block overflow-hidden">
-                  <motion.span
-                    className="block text-white text-[clamp(48px,11vw,112px)] max-sm:whitespace-nowrap max-sm:text-[clamp(34px,11vw,46px)] max-sm:tracking-[-0.055em]"
-                    initial={{ y: '100%' }}
-                    animate={{ y: '0%' }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    Move Anywhere.
-                  </motion.span>
-                </div>
-                <div className="block overflow-hidden mt-1 sm:mt-2">
-                  <motion.span
-                    className="block font-editorial text-coffee-shimmer text-[clamp(48px,11vw,112px)]"
-                    initial={{ y: '-100%' }}
-                    animate={{ y: '0%' }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    No Surprise Quotes.
-                  </motion.span>
-                </div>
-              </>
-            )}
+          <h1 className="mt-12 sm:mt-14 md:mt-20 leading-[0.95] tracking-[-0.04em] font-semibold px-8 sm:px-12">
+            <motion.span
+              className="block text-white text-[clamp(28px,4vw,58px)] tracking-tight"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            >
+              The only moving company where
+            </motion.span>
+            <motion.span
+              className="block font-editorial text-coffee-shimmer text-[clamp(28px,4vw,58px)] tracking-tight px-6 pb-2"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            >
+              you control the price.
+            </motion.span>
           </h1>
 
           <CyclingPoints />

@@ -303,7 +303,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
                 ) : <div className="w-9 h-9" />}
 
                 <div className="flex-1 text-center text-[10px] uppercase tracking-[0.24em] text-white/45 font-medium">
-                  {submitted ? 'Confirmed' : preStep ? 'Move quote' : outOfState ? 'Service area' : `Step ${step} of ${TOTAL_STEPS}`}
+                  {submitted ? 'Confirmed' : preStep ? 'Instant quote' : outOfState ? 'Service area' : `Step ${step} of ${TOTAL_STEPS}`}
                 </div>
 
                 <button
@@ -379,10 +379,10 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
                           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                         </div>
                         <h2 className="text-[28px] sm:text-[32px] font-semibold tracking-tight leading-[1.1] text-white px-2">
-                          You&rsquo;re booked.
+                          Quote request sent.
                         </h2>
                         <p className="text-white/55 text-[15px] leading-relaxed mt-3 max-w-lg mx-auto px-2">
-                          Check your inbox for a confirmation email — and your spam just in case. Our team will be in touch shortly to finalise the details of your move.
+                          Check your inbox for a confirmation email — and your spam just in case. Our team will be in touch shortly to confirm availability and lock in the details.
                         </p>
                       </div>
 
@@ -1154,7 +1154,7 @@ function Step5({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
 
 function PreStep({ onInState, onOutOfState }: { onInState: () => void; onOutOfState: () => void }) {
   const options = [
-    { label: 'Within Massachusetts', sub: 'Continue to book your move', onClick: onInState },
+    { label: 'Within Massachusetts', sub: 'Get your instant quote', onClick: onInState },
     { label: 'Outside Massachusetts', sub: 'Out-of-state move', onClick: onOutOfState },
   ]
   return (
