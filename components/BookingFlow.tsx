@@ -156,6 +156,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
       setShowExitConfirm(true)
       return
     }
+    sendGAEvent('event', 'quote_abandoned', { step: 1, event_category: 'booking' })
     onClose()
     setTimeout(reset, 320)
   }
@@ -163,6 +164,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
   const backdropClose = () => tryClose()
 
   const confirmExit = () => {
+    sendGAEvent('event', 'quote_abandoned', { step, event_category: 'booking' })
     setShowExitConfirm(false)
     onClose()
     setTimeout(reset, 320)
@@ -1154,8 +1156,8 @@ function Step5({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
 
 function PreStep({ onInState, onOutOfState }: { onInState: () => void; onOutOfState: () => void }) {
   const options = [
-    { label: 'Within Massachusetts', sub: 'Get your instant quote', onClick: onInState },
-    { label: 'Outside Massachusetts', sub: 'Out-of-state move', onClick: onOutOfState },
+    { label: 'Within Massachusetts', sub: 'Get your instant quote', value: 'instate', onClick: onInState },
+    { label: 'Outside Massachusetts', sub: 'Out-of-state move', value: 'oos', onClick: onOutOfState },
   ]
   return (
     <div>
@@ -1171,7 +1173,7 @@ function PreStep({ onInState, onOutOfState }: { onInState: () => void; onOutOfSt
             key={o.label}
             type="button"
             variants={fadeUp}
-            onClick={o.onClick}
+            onClick={() => { sendGAEvent('event', 'location_selected', { value: o.value, event_category: 'booking' }); o.onClick() }}
             className="w-full text-left p-5 rounded-2xl border border-white/8 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/15 transition-all duration-500 ease-spring active:scale-[0.99]"
           >
             <div className="flex items-center justify-between">
