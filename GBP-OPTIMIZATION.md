@@ -26,8 +26,6 @@ NoTimeMover is a fully insured moving company serving Boston, MA and the surroun
 
 What sets us apart: you set your price before we ever contact you. Enter your pickup and dropoff addresses, choose your home size, set your budget, and we follow up within the hour to lock in timing.
 
-Our crew is made up of former college athletes — reliable, efficient, and careful with everything you own.
-
 We serve all Boston neighborhoods including Back Bay, Allston, South End, Somerville, Cambridge, Dorchester, Charlestown, Jamaica Plain, and everywhere in between.
 ```
 

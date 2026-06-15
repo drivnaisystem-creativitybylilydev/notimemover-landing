@@ -23,33 +23,42 @@
 - [x] **`/blog` index page** — editorial full-width layout, auto-rotating featured post (3.6s), numbered tabular post list, progress bar, pause-on-hover
 - [x] **BlogMagazineSection on homepage** — 4-post magazine (1 featured + 2 interactive stack + 1 gradient tease → /blog)
 - [x] **Favicon** — NoTimeMover logo PNG (white NoTime / amber Mover on black), served from `app/icon.png`
+- [x] **65+ programmatic city/neighborhood pages** — generated from `lib/locations.ts`, incl. 23 inner-Boston neighborhoods + 6 out-of-state route pages
+- [x] **GA4** — installed in `app/layout.tsx`, tracks page views, form_start, booking_step, quote_submitted
+- [x] **Move date field** — captured in BookingFlow, written to Google Sheet column U
+- [x] **JSON-LD schema** — MovingCompany in `app/layout.tsx`, FAQPage on homepage FAQ
 
 ---
 
 ## Build Backlog — Ordered by Priority
+*(Reprioritized June 12 2026: demand scraper pulled forward to Priority 1. Jermaine is full-time and responds to leads immediately, so speed-to-lead SMS is deferred until lead volume actually outpaces him. The bottleneck is demand, not response time.)*
 
-### Priority 1 — Lead Operations (nothing works without this)
-- [ ] **SMS to Jermaine on new lead** — Twilio or Resend SMS, fires on every `/api/lead` POST. ~2 hours.
+### Priority 1 — Demand Scraper (the moat — CURRENT FOCUS)
+Built June 12 2026 at `scraper/`. **Live status + next actions: `scraper/README.md`.** Architecture + anti-ban rules: `STRATEGY-NOTES.md` → "Demand scraper" section.
+- [x] **Core pipeline** — ingest → keyword/urgency scoring → dedupe → CSV log → alert with ready-to-paste reply template
+- [x] **Reddit adapter** — live via RSS (the .json API is blocked; RSS + browser UA works)
+- [x] **Facebook Groups adapter** — built on Apify `facebook-groups-scraper`, 9 Boston housing groups seeded. ⏳ Blocked until Apify free credit resets **June 13 EOD UTC**, then starts on its own. Read-only; humans send all outreach.
+- [x] **Scheduling** — launchd every 30 min while Mac is awake (`com.notimemover.demand-monitor`)
+- [ ] **Telegram alerts** — code ready; needs Finn to create bot via BotFather (steps in `scraper/alerts.py`). Email alerts active until then.
+- [ ] **Jermaine's group links** — replace/extend the seeded groups in `scraper/config.json` when he sends them
+- [ ] **Always-on hosting** — launchd only runs while laptop is awake; move to GitHub Actions cron or small VPS once proven
+- ~~Craigslist~~ — skipped (no RSS, hard blocking, saturated per Jermaine)
+
+### Priority 2 — Lead Operations (build soon, not urgent at current volume)
+- [ ] **SMS to Jermaine on new lead** — Twilio or Resend SMS, fires on every `/api/lead` POST. ~2 hours. *Deferred: he responds immediately today; becomes critical once scraper + GBP raise volume.*
 - [ ] **Automated SMS to customer** within 60 seconds of form submit. ~2 hours.
 - [ ] **24hr follow-up SMS** if customer hasn't replied. Needs a scheduler (cron or Vercel cron job). ~half day.
-- [ ] **Custom CRM** — built from scratch, no GHL. Lead table with status (new / contacted / quoted / booked / completed). Supabase or MongoDB. ~1-2 days.
-- [ ] **Admin dashboard for Jermaine** — view pipeline, update job status, mark revenue. Auth-gated. ~1 day on top of CRM.
-
-### Priority 2 — SEO (only 5 pages exist, need 50+)
-- [ ] **Programmatic neighborhood pages** — dynamic Next.js template for 50+ Boston neighborhood slugs. "Movers in Allston", "Same-day movers Beacon Hill", "Cheap movers South Boston" etc. Each with unique copy, schema, internal linking. ~1 day.
-- [ ] **JSON-LD schema on homepage** — `LocalBusiness` + `MovingCompany` structured data. ~1 hour.
-- [ ] **FAQ schema** on the FAQ section. ~30 mins.
-- [ ] **Review schema** once reviews exist.
+- [ ] **Glide CRM on Google Sheet** (decision in STRATEGY-NOTES — replaces custom-build plan). Lead status pipeline + quote calculator tab. ~hours.
+- [ ] **/calc quoting page** — 3 inputs, instant price, for Jermaine quoting mid-conversation. ~half day.
 
 ### Priority 3 — Booking Flow Gaps
-- [ ] **Move date field** — not currently captured. Jermaine needs it to schedule without a callback. Add to Step 1 or Step 5 of booking modal. ~1 hour.
-- [ ] **Real distance (Phase 2 geocoder)** — Google Distance Matrix API. Replace the 25mi stub. See `PHASE-2-GEOCODER.md`. ~half day + Google Cloud billing setup.
+- [x] **Slider minimum question — RESOLVED June 12** (iMessage): Jermaine says the base values ($300/$500/$915) are NOT floors, just where the slider auto-sets. Keep the slider open from $200; he handles low offers on the call. No code change.
 - [ ] **Honeypot + rate limiting** on `/api/lead` — no spam protection exists. ~1 hour.
 - [ ] **Availability calendar** — Jermaine sets open slots, customer books directly. ~1 day.
 
-### Priority 4 — Demand Generation (the moat)
-- [ ] **Demand scraper** — monitors Facebook Groups, Craigslist, Reddit (Boston) for "need a mover" posts. Scores by urgency. Fires outreach within minutes. Pipes into CRM. ~2 days. Nobody at the small operator level does this at speed.
-- [ ] **GA4 events + UTM conventions** — funnel tracking (modal open, step completions, submit). Written UTM playbook for all traffic sources. ~half day.
+### Priority 4 — SEO Remainder
+- [ ] **Review schema** once reviews exist.
+- [ ] **UTM conventions** — written UTM playbook for all traffic sources. ~2 hours.
 
 ### Priority 5 — Post-Job Automation
 - [ ] **Review request SMS** — fires automatically after job is marked complete in admin dashboard. Direct Google review link. ~1 hour once CRM exists.

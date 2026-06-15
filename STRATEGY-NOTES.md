@@ -20,6 +20,68 @@ The website's job in outbound conversations is NOT lead capture — it's a trust
 
 **Facebook DM automation is high ban risk — keep it manual with pre-written messages. ManyChat on Instagram is the safe automated alternative.**
 
+---
+
+## Demand scraper — architecture & anti-ban rules (CURRENT FOCUS, decided June 12 2026)
+
+**Why this is Priority 1 now:** Jermaine is full-time and responds to leads immediately, so speed-to-lead SMS is not the bottleneck — demand is. The FB groups he's in show ~300 moving/apartment posts per day (his number, June 8 call). He can't manually scan them all; the scraper turns that firehose into a ranked, deduped alert stream with a ready-to-send message.
+
+### Architecture (source-agnostic core, pluggable adapters)
+
+```
+[adapters]            [core pipeline]                    [output]
+facebook.py  ─┐
+reddit.py    ─┼──► normalize ► keyword/urgency score ► dedupe ► alert (email/SMS)
+(future)     ─┘        │                                  │        + CSV log
+                  shared Post model                seen-posts store
+```
+
+- **Scoring tiers:** HIGH = "need a mover today/this week/asap/tomorrow", date within 7 days. MEDIUM = "moving soon", "mover recommendations", September 1 mentions. LOW = generic moving talk.
+- **Each alert contains:** post link, age, score, group/subreddit, and the matching pre-written reply template (above) ready to paste.
+- **Dedupe:** post URL hash stored locally — never alert twice.
+- **Cadence:** cron every 30–60 min during moving season. Speed matters: first responder usually wins the job.
+
+### Source priority
+
+1. **Facebook Groups (flagship)** — where the demand actually is. Read-only monitoring of *public* groups via Firecrawl or an Apify actor.
+2. **Reddit (add-on)** — free JSON API, r/boston, r/bostonhousing, r/CambridgeMA, r/somerville. Low volume, high intent, zero risk, ~1 hour to build.
+3. **Craigslist — skipped.** RSS removed years ago, aggressive anti-scraping, and Jermaine confirms it's saturated/passive.
+
+### Anti-ban rules (non-negotiable)
+
+The entire design rests on one separation: **machines read public pages; humans send messages.**
+
+1. **The scraper never logs in and never touches Jermaine's account.** Monitoring runs through third-party infrastructure (Firecrawl/Apify — their IPs, their browsers) against publicly visible group pages only. Facebook can't ban an account that was never involved.
+2. **Outreach is always human-sent** from Jermaine's real, aged personal account, on his phone, manually. That is normal user behavior and is what already works for him.
+3. **Manual ≠ unlimited.** Even hand-sent DMs get flagged if they look like spam: cap ~10–15 cold DMs/day, personalize the first line every time (never paste the identical template verbatim), prefer commenting on the post over cold-DMing when the group allows it, and don't put links in the first message (people don't click them anyway — Jermaine's own observation).
+4. **Private groups stay manual.** Most Boston housing groups are private; scraping them requires a logged-in session, which is exactly the bannable path. For those: Jermaine does a 2×-daily scan with the reply templates ready. Do NOT "solve" this with a logged-in bot on his account.
+5. **No burner-account automation.** A throwaway account + proxy scraping private groups is technically possible and stays off Jermaine's assets, but it violates FB ToS, burns money on residential proxies, and the accounts die constantly. Not worth it at this stage — revisit only if public sources prove insufficient.
+
+### Reality check from Jermaine (iMessage, June 12 2026)
+
+His 7 groups are **housing/sublet groups** — people looking for or renting out
+apartments, i.e. future movers, not "need a mover today" posts. Two key data
+points from him:
+
+1. **Cold-DMing housing-group posters got him zero responses.** He stopped.
+   → In these groups, prefer **commenting on the post** over DM, and treat
+   group posts as MEDIUM at best (our scoring already does).
+2. **"I do majority of my messaging through Marketplace"** — Facebook
+   Marketplace is his proven channel (the NJ job came from there).
+   → **Next adapter to build: Facebook Marketplace monitoring** (Apify has
+   marketplace scraper actors). Higher priority than squeezing more out of
+   housing groups.
+
+Also from that exchange: Jermaine will add Finn as a **manager on the FB
+business page** directly (needs Finn's FB account name — better than sharing
+the login), and he's writing up his ideas on the financial model / margins
+once movers are delegated ($100/move take with 2 movers).
+
+### What this replaces / defers
+
+- **Speed-to-lead SMS** (Twilio alerts) — still planned, build when scraper + GBP raise volume past what Jermaine can track manually.
+- The Make.com/RSS Craigslist idea from the earlier channel table above is dead (no RSS).
+
 ### Outbound message templates
 
 **Facebook DM (stranger posted needing a mover):**

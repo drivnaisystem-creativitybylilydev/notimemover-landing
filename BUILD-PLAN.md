@@ -80,7 +80,7 @@
 ---
 
 ## Out of scope (Phase 2+, separate scope)
-- Demand scraper / automated outbound
+- Demand scraper / automated outbound — *UPDATE June 12 2026: pulled forward as current focus (Finn-side build, no Jermaine input needed). See STRATEGY-NOTES.md "Demand scraper" section. Phase 2 SMS automation deferred in exchange — Jermaine responds immediately at current volume.*
 - Full CRM and admin dashboard
 - Stripe deposit / booking calendar
 - Meta and Google advertising (funded from organic revenue when ready)

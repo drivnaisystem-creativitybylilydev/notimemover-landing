@@ -62,3 +62,25 @@ All custom, no huge software tools eating margin every month — and the whole t
 2026-06-06 21:05:46  Jermaine: Thank you! I can meet Monday definitely
 2026-06-08 00:17:52  Me: [media/reaction]
 2026-06-08 00:18:15  Me: [media/reaction]
+
+=== June 11–12 2026 — transcribed from screenshots (exact timestamps approximate) ===
+
+2026-06-11/12  Me: One thing I need your input on: The budget slider goes as low as $200. Right now someone could enter a $250 budget for a 2-bed apartment and get a quote showing ~$335. But your actual floor for a 2-bed is $500. That means some leads will come in at a price you can't honor — you'd have to correct it on the call. Two options: we raise the slider minimum per home size so quotes are always realistic, or we keep it open and handle it on the call. Which do you prefer?
+
+2026-06-11/12  Jermaine: Okay I see the confusion, the $500 is just where the slider will automatically set before they adjust to there budget. It's not the floor
+
+2026-06-11/12  Me: [Quick update on what got done today and what's next. Done today:…]
+
+2026-06-11/12  Jermaine: Yeah i definitely wanted to talk to you about the language that we're using. I agree that "you set the price" has a lot of confusion since it's unheard of but do u think saying "set your budget" is more clear than the other?
+
+2026-06-12 13:56  Me: Yes definitely. I've also already applied this to website to use wording that communicates that we work around your budget instead of you set the price. Talk to me about the financial model you had for improving margins and how you're looking to cut costs…
+
+2026-06-12 ~14:00  Jermaine: Margins aren't impacted as much when I'm performing the moves myself. But like you flagged before margins will get thin once I'm done performing the jobs and we take $100 per move when we have 2 movers performing them. Thats how we'd make profit. I have a few ideas, maybe it could apply to these early stages but I'm still studying how much movers are trying to make, how much people are looking to spend and etc… bc both could be impacted. I'll write up my ideas and send them your way
+
+2026-06-12  Me: I'm building the base for the Facebook monitor today where we will get pinged the minute someone in the Boston groups posts that they need a mover. It checks the groups every 30-60 min, scores each post by how urgent it is, and sends the post link plus a… [full message in session log]
+
+2026-06-12  Jermaine: I would assume it still applies but the groups are for people that are looking for homes, apartments, subleases and people on the opposite side and are renting them out. I counted them as potential leads bc those are people we are looking for obviously. I've also stopped messaging those people bc it doesn't seem to get a response. I do majority of my messaging through marketplace. Do you have a Facebook account? If so can you send it. I can add you to manage the account directly. I'll get you the groups.
+
+2026-06-12 16:42  Jermaine: [sent 7 Facebook group share links — added to scraper config.json same day]
+
+2026-06-12  Me: Alright sounds good
