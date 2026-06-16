@@ -29,6 +29,7 @@
     "resend": "^6.12.3"
   },
   "devDependencies": {
+    "@google-analytics/data": "^6.1.0",
     "@netlify/plugin-nextjs": "^5.15.11",
     "@types/node": "^20.0.0",
     "@types/react": "^18.2.0",

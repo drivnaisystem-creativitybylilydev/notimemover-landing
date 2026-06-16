@@ -132,6 +132,12 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
     setForm(f => ({ ...f, size: 'twoBed', miles: 12, budget: TIERS.twoBed.defaultBudget }))
   }, [isOpen, initialStep])
 
+  useEffect(() => {
+    if (!isOpen || preStep || outOfState || submitted) return
+    sendGAEvent('event', 'step_viewed', { step, event_category: 'booking' })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, preStep, outOfState, submitted, isOpen])
+
   const reset = () => {
     setPreStep(true)
     setOutOfState(false)
@@ -254,7 +260,12 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
         return
       }
       await new Promise(r => setTimeout(r, 450))
-      sendGAEvent('event', 'quote_submitted', { event_category: 'booking' })
+      sendGAEvent('event', 'quote_submitted', {
+        event_category: 'booking',
+        size: form.size,
+        tier: form.selectedTier,
+        final_price: form.selectedTier && pricing ? pricing[form.selectedTier as keyof typeof pricing] : null,
+      })
       setSubmitted(true)
     } catch {
       setSubmitError('Network error—check your connection and try again.')
@@ -621,10 +632,16 @@ function Step1({ form, setForm, onAutoAdvance }: {
   onAutoAdvance: (pickup: Address, dropoff: Address) => void
 }) {
   const dropoffRef = useRef<HTMLInputElement>(null)
+  const addressStarted = useRef(false)
 
   const update = (key: 'pickup' | 'dropoff', field: keyof Address) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      if (!addressStarted.current && key === 'pickup' && field === 'street' && e.target.value.length > 0) {
+        addressStarted.current = true
+        sendGAEvent('event', 'address_started', { event_category: 'booking' })
+      }
       setForm(f => ({ ...f, [key]: { ...f[key], [field]: e.target.value } }))
+    }
 
   return (
     <div>
@@ -918,6 +935,18 @@ function Step4({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showPriority])
 
+  useEffect(() => {
+    if (!pricing || !form.size) return
+    sendGAEvent('event', 'price_seen', {
+      event_category: 'booking',
+      size: form.size,
+      flexible_price: pricing.yourPrice,
+      priority_price: pricing.premium,
+      miles: form.miles,
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   if (!pricing || !form.size) return null
 
   const equipment = TIERS[form.size as TierKey].equipment
@@ -976,7 +1005,7 @@ function Step4({
               }}>
                 <button
                   type="button"
-                  onClick={() => setForm(f => ({ ...f, selectedTier: t.key }))}
+                  onClick={() => { setForm(f => ({ ...f, selectedTier: t.key })); sendGAEvent('event', 'tier_selected', { tier: t.key, price: t.price, event_category: 'booking' }) }}
                   className="w-full text-left p-5 transition-all duration-500 ease-spring active:scale-[0.99]"
                   style={{
                     borderRadius: 'calc(1.5rem - 0.375rem)',
@@ -998,7 +1027,7 @@ function Step4({
               key={t.key}
               type="button"
               variants={fadeUp}
-              onClick={() => setForm(f => ({ ...f, selectedTier: t.key }))}
+              onClick={() => { setForm(f => ({ ...f, selectedTier: t.key })); sendGAEvent('event', 'tier_selected', { tier: t.key, price: t.price, event_category: 'booking' }) }}
               className={`w-full text-left p-5 rounded-2xl border transition-all duration-500 ease-spring active:scale-[0.99] ${
                 active
                   ? 'border-white/30 bg-white/[0.05]'
@@ -1237,6 +1266,7 @@ function OutOfStateStep({ onClose, initialSubmitted = false }: { onClose: () => 
         setError('Something went wrong. Email us directly at hello@notimemover.com.')
         return
       }
+      sendGAEvent('event', 'oos_submitted', { event_category: 'booking' })
       setSubmitted(true)
     } catch {
       setError('Network error — check your connection and try again.')
