@@ -51,7 +51,7 @@ const initialState: FormState = {
   dropoff: { ...emptyAddress },
   miles: 0,
   size: '',
-  budget: 400,
+  budget: TIERS.studio.defaultBudget,
   name: '',
   email: '',
   phone: '',
@@ -832,7 +832,7 @@ function Step2({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
 function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<React.SetStateAction<FormState>> }) {
   if (!form.size) return null
   const tier = TIERS[form.size as TierKey]
-  const { budgetMin, budgetMax } = tier
+  const { budgetMin, budgetMax, defaultBudget } = tier
   const pct = ((form.budget - budgetMin) / (budgetMax - budgetMin)) * 100
 
   return (
@@ -856,12 +856,12 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
         max={budgetMax}
         step={100}
         value={form.budget}
-        onChange={e => setForm(f => ({ ...f, budget: Number(e.target.value) }))}
+        onChange={e => setForm(f => ({ ...f, budget: Math.max(defaultBudget, Number(e.target.value)) }))}
         className="ntm-slider w-full"
         aria-label="Budget"
       />
       <div className="flex justify-between text-[11px] text-white/35 mt-3 font-medium tabular-nums">
-        <span>${budgetMin.toLocaleString()}</span>
+        <span className="flex items-center gap-1">${budgetMin.toLocaleString()} <span className="opacity-50">(min)</span></span>
         <span>${budgetMax.toLocaleString()}</span>
       </div>
 

@@ -232,7 +232,7 @@ function BudgetSlider({ tier, value, onChange }: { tier: typeof TIERS[TierKey]; 
     <>
       <input
         type="range" min={tier.budgetMin} max={tier.budgetMax} step={100} value={value}
-        onChange={e => onChange(Number(e.target.value))}
+        onChange={e => onChange(Math.max(tier.defaultBudget, Number(e.target.value)))}
         className="ntm-slider-b w-full"
       />
       <style jsx>{`
