@@ -861,9 +861,12 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
         aria-label="Budget"
       />
       <div className="flex justify-between text-[11px] text-white/35 mt-3 font-medium tabular-nums">
-        <span className="flex items-center gap-1">${budgetMin.toLocaleString()} <span className="opacity-50">(min)</span></span>
+        <span>${budgetMin.toLocaleString()}</span>
         <span>${budgetMax.toLocaleString()}</span>
       </div>
+      <p className="text-center text-[12px] text-white/40 mt-3 tabular-nums font-medium">
+        Your range: ${budgetMin.toLocaleString()} – ${form.budget.toLocaleString()}
+      </p>
 
       <p className="text-[13px] text-white/35 mt-6 text-center leading-relaxed">
         Your exact price will be shown on the next step — fully insured, no hidden fees.

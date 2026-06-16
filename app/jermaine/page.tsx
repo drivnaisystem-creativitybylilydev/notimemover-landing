@@ -235,6 +235,9 @@ function BudgetSlider({ tier, value, onChange }: { tier: typeof TIERS[TierKey]; 
         onChange={e => onChange(Math.max(tier.defaultBudget, Number(e.target.value)))}
         className="ntm-slider-b w-full"
       />
+      <p className="text-center text-[11px] text-white/40 mt-2 tabular-nums">
+        Your range: ${tier.budgetMin.toLocaleString()} – ${value.toLocaleString()}
+      </p>
       <style jsx>{`
         .ntm-slider-b {
           -webkit-appearance: none; appearance: none; height: 6px;
