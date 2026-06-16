@@ -854,7 +854,7 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
         type="range"
         min={budgetMin}
         max={budgetMax}
-        step={10}
+        step={100}
         value={form.budget}
         onChange={e => setForm(f => ({ ...f, budget: Number(e.target.value) }))}
         className="ntm-slider w-full"

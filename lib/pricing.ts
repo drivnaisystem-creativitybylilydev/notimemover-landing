@@ -23,9 +23,9 @@ const MULTIPLIER = 0.65
 export const GAS_RATE_PER_MILE = 2.5
 
 export const TIERS: Record<TierKey, Tier> = {
-  studio:   { key: 'studio',   label: 'Studio / 1 Bedroom', moverCost: 250, truckCost: 60, budgetMin: 400, budgetMax: 600,  defaultBudget: 500, competitors: [{ name: 'Gentle Giant',          price: 700  }, { name: 'Two Men and a Truck', price: 650  }] },
-  twoBed:   { key: 'twoBed',   label: '2 Bedroom',          moverCost: 300, truckCost: 60, budgetMin: 600, budgetMax: 800,  defaultBudget: 700, competitors: [{ name: 'Gentle Giant',          price: 1250 }, { name: 'Two Men and a Truck', price: 1100 }] },
-  threeBed: { key: 'threeBed', label: '3 Bedroom',          moverCost: 300, truckCost: 75, budgetMin: 800, budgetMax: 1000, defaultBudget: 900, competitors: [{ name: 'Gentle Giant',          price: 1750 }, { name: 'Two Men and a Truck', price: 1500 }] },
+  studio:   { key: 'studio',   label: 'Studio / 1 Bedroom', moverCost: 250, truckCost: 60, budgetMin: 400, budgetMax: 1500, defaultBudget: 500, competitors: [{ name: 'Gentle Giant',          price: 700  }, { name: 'Two Men and a Truck', price: 650  }] },
+  twoBed:   { key: 'twoBed',   label: '2 Bedroom',          moverCost: 300, truckCost: 60, budgetMin: 600, budgetMax: 2000, defaultBudget: 700, competitors: [{ name: 'Gentle Giant',          price: 1250 }, { name: 'Two Men and a Truck', price: 1100 }] },
+  threeBed: { key: 'threeBed', label: '3 Bedroom',          moverCost: 300, truckCost: 75, budgetMin: 800, budgetMax: 2500, defaultBudget: 900, competitors: [{ name: 'Gentle Giant',          price: 1750 }, { name: 'Two Men and a Truck', price: 1500 }] },
 }
 
 export interface PriceBreakdown {
