@@ -180,16 +180,16 @@ function MagneticCTA({ onClick }: { onClick: () => void }) {
       onClick={onClick}
       onMouseMove={handleMove}
       onMouseLeave={reset}
-      className="group relative inline-flex items-center gap-3 pl-7 sm:pl-8 pr-2 py-2 rounded-full bg-white text-ink font-medium will-change-transform active:scale-[0.97]"
+      className="group relative inline-flex items-center gap-2.5 pl-5 sm:pl-8 pr-1.5 sm:pr-2 py-1.5 sm:py-2 rounded-full bg-white text-ink font-medium will-change-transform active:scale-[0.97]"
       animate={{ x: offset.x, y: offset.y }}
       transition={{ type: 'spring', stiffness: 250, damping: 22, mass: 0.7 }}
     >
-      <span className="text-[15px] sm:text-[16px] tracking-tight">Get an instant quote</span>
+      <span className="text-[14px] sm:text-[16px] tracking-tight">Get an instant quote</span>
       <span
-        className="w-11 h-11 rounded-full bg-ink/10 flex items-center justify-center transition-transform duration-500 ease-spring group-hover:translate-x-[3px] group-hover:-translate-y-[1px]"
+        className="w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-ink/10 flex items-center justify-center transition-transform duration-500 ease-spring group-hover:translate-x-[3px] group-hover:-translate-y-[1px]"
         style={{ boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.5)' }}
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
       </span>
     </motion.button>
   )
@@ -358,9 +358,9 @@ export default function Hero({ posts = [] }: { posts?: PostSummary[] }) {
             </div>
           </motion.div>
 
-          <h1 className="mt-12 sm:mt-14 md:mt-20 leading-[0.95] tracking-[-0.04em] font-semibold px-8 sm:px-12">
+          <h1 className="mt-10 sm:mt-14 md:mt-20 leading-[0.95] tracking-[-0.04em] font-semibold px-3 sm:px-12">
             <motion.span
-              className="block text-white text-[clamp(28px,4vw,58px)] tracking-tight"
+              className="block text-white text-[clamp(40px,6vw,58px)] tracking-tight"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
@@ -368,7 +368,7 @@ export default function Hero({ posts = [] }: { posts?: PostSummary[] }) {
               The only moving company where
             </motion.span>
             <motion.span
-              className="block font-editorial text-coffee-shimmer text-[clamp(28px,4vw,58px)] tracking-tight px-6 pb-2"
+              className="block font-editorial text-coffee-shimmer text-[clamp(40px,6vw,58px)] tracking-tight px-6 pb-2"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
