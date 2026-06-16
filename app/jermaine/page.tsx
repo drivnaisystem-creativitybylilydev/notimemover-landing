@@ -147,7 +147,7 @@ export default function JermainePricingTest() {
                 <span className="tabular-nums">{formatUSD(pricing.costOfMove)}</span>
               </div>
               <div className="flex justify-between text-[13px] text-white/70">
-                <span>Min price (cost ÷ 0.75)</span>
+                <span>Min price (cost ÷ 0.8)</span>
                 <span className="tabular-nums">{formatUSD(pricing.minPrice)}</span>
               </div>
               <div className="flex justify-between text-[13px] text-white/70">
