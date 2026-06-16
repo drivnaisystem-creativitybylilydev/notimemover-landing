@@ -1,41 +1,48 @@
-// Hidden pricing model per client PDF.
-// These numbers must NEVER be shown directly to the user — they back the three quoted tiers.
-
 export type TierKey = 'studio' | 'twoBed' | 'threeBed'
+
+export interface Competitor {
+  name: string
+  price: number
+}
 
 export interface Tier {
   key: TierKey
   label: string
-  base: number
-  equipment: number
+  moverCost: number
+  truckCost: number
+  budgetMin: number
+  budgetMax: number
   defaultBudget: number
+  competitors: Competitor[]
 }
 
-export const TIERS: Record<TierKey, Tier> = {
-  studio:   { key: 'studio',   label: 'Studio / 1 Bedroom', base: 300, equipment: 40, defaultBudget: 600 },
-  twoBed:   { key: 'twoBed',   label: '2 Bedroom',          base: 500, equipment: 60, defaultBudget: 800 },
-  threeBed: { key: 'threeBed', label: '3 Bedroom',          base: 915, equipment: 85, defaultBudget: 1000 },
-}
-
+// Same formula for all sizes (confirmed by Jermaine + Google Sheet)
+const INSURANCE = 14
+const MARGIN = 0.8
+const MULTIPLIER = 0.65
 export const GAS_RATE_PER_MILE = 2.5
 
-export const BUDGET_MIN = 200
-export const BUDGET_MAX = 3000
-
-export interface PricingResult {
-  yourPrice: number  // budget + equipment + gas
-  premium: number    // base + equipment + gas        (slider capped at base → always ≥ yourPrice)
-  save: number       // budget × 0.85                (always < yourPrice, ordering guaranteed)
+export const TIERS: Record<TierKey, Tier> = {
+  studio:   { key: 'studio',   label: 'Studio / 1 Bedroom', moverCost: 250, truckCost: 60, budgetMin: 400, budgetMax: 600,  defaultBudget: 500, competitors: [{ name: 'Gentle Giant',          price: 700  }, { name: 'Two Men and a Truck', price: 650  }] },
+  twoBed:   { key: 'twoBed',   label: '2 Bedroom',          moverCost: 300, truckCost: 60, budgetMin: 600, budgetMax: 800,  defaultBudget: 700, competitors: [{ name: 'Gentle Giant',          price: 1250 }, { name: 'Two Men and a Truck', price: 1100 }] },
+  threeBed: { key: 'threeBed', label: '3 Bedroom',          moverCost: 300, truckCost: 75, budgetMin: 800, budgetMax: 1000, defaultBudget: 900, competitors: [{ name: 'Gentle Giant',          price: 1750 }, { name: 'Two Men and a Truck', price: 1500 }] },
 }
 
-export function calculatePricing(tierKey: TierKey, miles: number, budget: number): PricingResult {
+export interface PriceBreakdown {
+  gas: number
+  costOfMove: number
+  minPrice: number
+  total: number
+  profit: number
+}
+
+export function calculatePrice(tierKey: TierKey, miles: number, budget: number): PriceBreakdown {
   const tier = TIERS[tierKey]
-  const gas = miles * GAS_RATE_PER_MILE
-  return {
-    save:      Math.round(budget * 0.85),
-    yourPrice: Math.round(budget + tier.equipment + gas),
-    premium:   Math.round(tier.base + tier.equipment + gas),
-  }
+  const gas = Math.round(miles * GAS_RATE_PER_MILE)
+  const costOfMove = tier.moverCost + tier.truckCost + gas + INSURANCE
+  const minPrice = costOfMove / MARGIN
+  const total = Math.round(minPrice + MULTIPLIER * Math.max(0, budget - minPrice))
+  return { gas, costOfMove, minPrice: Math.round(minPrice), total, profit: total - costOfMove }
 }
 
 export function formatUSD(n: number): string {

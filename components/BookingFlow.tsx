@@ -8,11 +8,9 @@ import NumberFlow from '@number-flow/react'
 import {
   TIERS,
   TierKey,
-  BUDGET_MIN,
-  BUDGET_MAX,
-  GAS_RATE_PER_MILE,
-  calculatePricing,
+  calculatePrice,
   formatUSD,
+  type PriceBreakdown,
 } from '@/lib/pricing'
 import { getMiles } from '@/lib/distance'
 
@@ -21,14 +19,6 @@ interface Props {
   onClose: () => void
   initialConfirm?: 'instate' | 'oos'
   initialStep?: 'pricing'
-}
-
-type PriceTier = 'save' | 'yourPrice' | 'premium'
-
-const TIER_LABELS: Record<PriceTier, string> = {
-  save: 'Save',
-  yourPrice: 'Flexible',
-  premium: 'Priority',
 }
 
 interface Address {
@@ -44,7 +34,6 @@ interface FormState {
   miles: number
   size: TierKey | ''
   budget: number
-  selectedTier: PriceTier | ''
   name: string
   email: string
   phone: string
@@ -63,7 +52,6 @@ const initialState: FormState = {
   miles: 0,
   size: '',
   budget: 400,
-  selectedTier: '',
   name: '',
   email: '',
   phone: '',
@@ -129,7 +117,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
     didInitConfirm.current = true
     setPreStep(false)
     setStep(4)
-    setForm(f => ({ ...f, size: 'twoBed', miles: 12, budget: TIERS.twoBed.defaultBudget }))
+    setForm(f => ({ ...f, size: 'twoBed', miles: 12, budget: TIERS.twoBed.defaultBudget, }))
   }, [isOpen, initialStep])
 
   useEffect(() => {
@@ -176,9 +164,9 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
     setTimeout(reset, 320)
   }
 
-  const pricing = useMemo(() => {
+  const pricing = useMemo((): PriceBreakdown | null => {
     if (!form.size) return null
-    return calculatePricing(form.size, form.miles, form.budget)
+    return calculatePrice(form.size as TierKey, form.miles, form.budget)
   }, [form.size, form.miles, form.budget])
 
   const autoAdvanceStep1 = async (pickup: Address, dropoff: Address) => {
@@ -221,7 +209,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
     (step === 1 && isAddressComplete(form.pickup) && isAddressComplete(form.dropoff)) ||
     (step === 2 && !!form.size) ||
     (step === 3) ||
-    (step === 4 && !!form.selectedTier) ||
+    (step === 4) ||
     (step === 5 && !!form.name && /\S+@\S+\.\S+/.test(form.email) && form.phone.replace(/\D/g, '').length >= 10)
 
   const submit = async () => {
@@ -236,8 +224,8 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
       size: form.size,
       sizeLabel: form.size ? TIERS[form.size as TierKey].label : '',
       budget: form.budget,
-      selectedTier: form.selectedTier,
-      finalPrice: form.selectedTier && pricing ? pricing[form.selectedTier as keyof typeof pricing] : null,
+      selectedTier: '',
+      finalPrice: pricing ? pricing.total : null,
       name: form.name,
       email: form.email,
       phone: form.phone,
@@ -263,8 +251,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
       sendGAEvent('event', 'quote_submitted', {
         event_category: 'booking',
         size: form.size,
-        tier: form.selectedTier,
-        final_price: form.selectedTier && pricing ? pricing[form.selectedTier as keyof typeof pricing] : null,
+        final_price: pricing ? pricing.total : null,
       })
       setSubmitted(true)
     } catch {
@@ -424,14 +411,14 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
                             <p className="text-[14px] text-white/85 tabular-nums">{form.miles}</p>
                           </div>
                           <div>
-                            <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Your selection</div>
-                            <p className="text-[14px] text-white/85">{form.selectedTier ? TIER_LABELS[form.selectedTier] : '—'}</p>
+                            <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Your budget</div>
+                            <p className="text-[14px] text-white/85 tabular-nums">{formatUSD(form.budget)}</p>
                           </div>
-                          {form.selectedTier && pricing && (
+                          {pricing && (
                             <div>
-                              <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Locked amount</div>
+                              <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-medium mb-1.5">Total quote</div>
                               <p className="text-[22px] font-semibold text-white tabular-nums tracking-tight">
-                                {formatUSD(pricing[form.selectedTier as keyof typeof pricing])}
+                                {formatUSD(pricing.total)}
                               </p>
                             </div>
                           )}
@@ -795,9 +782,9 @@ function AddressBlock({
 
 function Step2({ form, setForm }: { form: FormState; setForm: React.Dispatch<React.SetStateAction<FormState>> }) {
   const options: { key: TierKey; label: string; sub: string }[] = [
-    { key: 'studio',   label: 'Studio / 1 Bedroom', sub: 'Small move · a few rooms' },
-    { key: 'twoBed',   label: '2 Bedroom',          sub: 'Mid-size · couple or small family' },
-    { key: 'threeBed', label: '3 Bedroom',          sub: 'Larger home · full family' },
+    { key: 'studio',   label: 'Studio / 1 Bedroom', sub: 'Small move · apartment or condo' },
+    { key: 'twoBed',   label: '2 Bedroom',           sub: 'Mid-size · couple or small family' },
+    { key: 'threeBed', label: '3 Bedroom',            sub: 'Larger home · full family' },
   ]
   return (
     <div>
@@ -815,7 +802,7 @@ function Step2({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
               key={o.key}
               type="button"
               variants={fadeUp}
-              onClick={() => setForm(f => ({ ...f, size: o.key }))}
+              onClick={() => setForm(f => ({ ...f, size: o.key, budget: TIERS[o.key].defaultBudget }))}
               className={`w-full text-left p-5 rounded-2xl border transition-all duration-500 ease-spring active:scale-[0.99] ${
                 active
                   ? 'border-coffee-light bg-coffee-deep/60'
@@ -843,11 +830,16 @@ function Step2({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
 /* -------------------- STEP 3 — Budget slider -------------------- */
 
 function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<React.SetStateAction<FormState>> }) {
+  if (!form.size) return null
+  const tier = TIERS[form.size as TierKey]
+  const { budgetMin, budgetMax } = tier
+  const pct = ((form.budget - budgetMin) / (budgetMax - budgetMin)) * 100
+
   return (
     <div>
-      <StepHeader title="What's your budget?" sub="Set what you'd like to spend. You can adjust before booking." />
+      <StepHeader title="Set your moving budget." sub="Tell us your maximum — we'll calculate the best price for your move." />
 
-      <div className="text-center mb-10 tabular-nums">
+      <div className="text-center mb-8 tabular-nums">
         <div className="text-[64px] sm:text-[72px] font-semibold tracking-[-0.04em] leading-none">
           <NumberFlow
             value={form.budget}
@@ -855,13 +847,13 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
             transformTiming={{ duration: 600, easing: 'cubic-bezier(0.32, 0.72, 0, 1)' }}
           />
         </div>
-        <div className="text-[10px] uppercase tracking-[0.24em] text-white/35 mt-3 font-medium">Your target</div>
+        <div className="text-[10px] uppercase tracking-[0.24em] text-white/35 mt-3 font-medium">Maximum budget</div>
       </div>
 
       <input
         type="range"
-        min={BUDGET_MIN}
-        max={BUDGET_MAX}
+        min={budgetMin}
+        max={budgetMax}
         step={10}
         value={form.budget}
         onChange={e => setForm(f => ({ ...f, budget: Number(e.target.value) }))}
@@ -869,16 +861,20 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
         aria-label="Budget"
       />
       <div className="flex justify-between text-[11px] text-white/35 mt-3 font-medium tabular-nums">
-        <span>${BUDGET_MIN}</span>
-        <span>${BUDGET_MAX}</span>
+        <span>${budgetMin.toLocaleString()}</span>
+        <span>${budgetMax.toLocaleString()}</span>
       </div>
+
+      <p className="text-[13px] text-white/35 mt-6 text-center leading-relaxed">
+        Your exact price will be shown on the next step — fully insured, no hidden fees.
+      </p>
 
       <style jsx>{`
         .ntm-slider {
           -webkit-appearance: none;
           appearance: none;
           height: 6px;
-          background: linear-gradient(90deg, #6B3A1F 0%, #6B3A1F ${((form.budget - BUDGET_MIN) / (BUDGET_MAX - BUDGET_MIN)) * 100}%, rgba(255,255,255,0.06) ${((form.budget - BUDGET_MIN) / (BUDGET_MAX - BUDGET_MIN)) * 100}%, rgba(255,255,255,0.06) 100%);
+          background: linear-gradient(90deg, #6B3A1F 0%, #6B3A1F ${pct}%, rgba(255,255,255,0.06) ${pct}%, rgba(255,255,255,0.06) 100%);
           border-radius: 999px;
           outline: none;
           transition: background 0.2s ease;
@@ -914,34 +910,24 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
   )
 }
 
-/* -------------------- STEP 4 — Pricing tiers (Doppelrand on Premium) -------------------- */
+/* -------------------- STEP 4 — Price confirmation + market comparison -------------------- */
 
 function Step4({
   form,
-  setForm,
   pricing,
 }: {
   form: FormState
   setForm: React.Dispatch<React.SetStateAction<FormState>>
-  pricing: ReturnType<typeof calculatePricing> | null
+  pricing: PriceBreakdown | null
 }) {
-  // If budget >= base rate, Flexible already pays more — show only Flexible and auto-select it
-  const showPriority = form.size ? form.budget < TIERS[form.size as TierKey].base : false
-
-  useEffect(() => {
-    if (!showPriority) {
-      setForm(f => ({ ...f, selectedTier: 'yourPrice' }))
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showPriority])
+  const [tab, setTab] = useState<'quote' | 'market'>('quote')
 
   useEffect(() => {
     if (!pricing || !form.size) return
     sendGAEvent('event', 'price_seen', {
       event_category: 'booking',
       size: form.size,
-      flexible_price: pricing.yourPrice,
-      priority_price: pricing.premium,
+      total_price: pricing.total,
       miles: form.miles,
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -949,165 +935,86 @@ function Step4({
 
   if (!pricing || !form.size) return null
 
-  const equipment = TIERS[form.size as TierKey].equipment
-  const gas = Math.round(form.miles * GAS_RATE_PER_MILE)
+  const tier = TIERS[form.size as TierKey]
+  const maxBar = Math.max(...tier.competitors.map(c => c.price))
+  const savings = Math.round(tier.competitors[tier.competitors.length - 1].price - pricing.total)
 
-  const allTiers: { key: PriceTier; label: string; sub: string; price: number; recommended?: boolean; benefits: { text: string; ok: boolean }[]; breakdown?: { budget: number; equipment: number; gas: number; miles: number } }[] = [
-    {
-      key: 'yourPrice',
-      label: 'Flexible',
-      sub: 'You set the budget',
-      price: pricing.yourPrice,
-      breakdown: { budget: form.budget, equipment, gas, miles: form.miles },
-      benefits: [
-        { ok: true,  text: '2 movers guaranteed' },
-        { ok: true,  text: 'You set the budget — full cost control' },
-        { ok: true,  text: 'Great for small moves or tight budgets' },
-        { ok: false, text: "Lower prices may delay acceptance — your move isn't guaranteed until a mover accepts" },
-      ],
-    },
-    {
-      key: 'premium',
-      label: 'Priority',
-      sub: 'Recommended · full service',
-      price: pricing.premium,
-      recommended: true,
-      benefits: [
-        { ok: true, text: '2 movers guaranteed' },
-        { ok: true, text: '3rd mover available at no extra charge' },
-        { ok: true, text: 'Priority scheduling — pick your exact time slot' },
-        { ok: true, text: 'Instant acceptance — your move is locked in immediately' },
-      ],
-    },
+  const rows = [
+    ...tier.competitors.map(c => ({
+      label: c.name,
+      price: c.price,
+      pct: Math.round((c.price / maxBar) * 100),
+      highlight: false,
+    })),
+    { label: 'NoTimeMover (you)', price: pricing.total, pct: Math.round((pricing.total / maxBar) * 100), highlight: true },
   ]
-
-  const tiers = showPriority ? allTiers : allTiers.filter(t => t.key === 'yourPrice')
 
   return (
     <div>
-      <StepHeader
-        title={showPriority ? 'Your move options' : 'Your move price'}
-        sub={showPriority ? 'Choose the one that fits you best.' : 'Based on your budget.'}
-      />
-      <motion.div
-        className="space-y-3"
-        initial="hidden"
-        animate="show"
-        variants={{ hidden: {}, show: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } } }}
-      >
-        {tiers.map(t => {
-          const active = form.selectedTier === t.key
-          if (t.recommended) {
-            return (
-              <motion.div key={t.key} variants={fadeUp} className="rounded-[1.5rem] p-1.5" style={{
-                background: 'rgba(255,255,255,0.06)',
-                boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.08), 0 0 0 1px rgba(255,255,255,0.10)',
-              }}>
-                <button
-                  type="button"
-                  onClick={() => { setForm(f => ({ ...f, selectedTier: t.key })); sendGAEvent('event', 'tier_selected', { tier: t.key, price: t.price, event_category: 'booking' }) }}
-                  className="w-full text-left p-5 transition-all duration-500 ease-spring active:scale-[0.99]"
-                  style={{
-                    borderRadius: 'calc(1.5rem - 0.375rem)',
-                    background: active
-                      ? 'linear-gradient(180deg, #5b3a23 0%, #2A1405 100%)'
-                      : 'linear-gradient(180deg, #3a2415 0%, #1A0E04 100%)',
-                    boxShadow: active
-                      ? 'inset 0 1px 1px rgba(255,255,255,0.14), 0 0 50px -10px rgba(107,58,31,0.55)'
-                      : 'inset 0 1px 1px rgba(255,255,255,0.08)',
-                  }}
-                >
-                  <TierRow tier={t} />
-                </button>
-              </motion.div>
-            )
-          }
-          return (
-            <motion.button
-              key={t.key}
-              type="button"
-              variants={fadeUp}
-              onClick={() => { setForm(f => ({ ...f, selectedTier: t.key })); sendGAEvent('event', 'tier_selected', { tier: t.key, price: t.price, event_category: 'booking' }) }}
-              className={`w-full text-left p-5 rounded-2xl border transition-all duration-500 ease-spring active:scale-[0.99] ${
-                active
-                  ? 'border-white/30 bg-white/[0.05]'
-                  : 'border-white/8 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/15'
-              }`}
-              style={active ? { boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.08)' } : {}}
-            >
-              <TierRow tier={t} />
-            </motion.button>
-          )
-        })}
-      </motion.div>
-    </div>
-  )
-}
+      <StepHeader title="Your quote." sub="Here's what your move will cost." />
 
-function TierRow({
-  tier,
-}: {
-  tier: { label: string; sub: string; price: number; recommended?: boolean; benefits: { text: string; ok: boolean }[]; breakdown?: { budget: number; equipment: number; gas: number; miles: number } }
-}) {
-  return (
-    <div className="flex flex-col">
-      <div className="flex items-start justify-between">
-        <div className="flex-1 pr-4">
-          <div className="flex items-center gap-2">
-            <span className="text-[15px] font-medium text-white">{tier.label}</span>
-            {tier.recommended && (
-              <span className="text-[9px] uppercase tracking-[0.18em] px-2 py-0.5 rounded-full bg-white text-ink font-semibold">
-                Recommended
-              </span>
-            )}
-          </div>
-          <div className="text-[13px] text-white/55 mt-0.5">{tier.sub}</div>
-          <ul className="mt-3 space-y-1.5">
-            {tier.benefits.map((b, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span
-                  className="mt-[1px] shrink-0 text-[11px] font-semibold"
-                  style={{ color: b.ok ? '#7db87d' : '#c97a6e' }}
-                >
-                  {b.ok ? '✓' : '✕'}
-                </span>
-                <span className={`text-[12px] leading-snug ${b.ok ? 'text-white/58' : 'text-white/32 italic'}`}>
-                  {b.text}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="text-right tabular-nums shrink-0">
-          <div className="text-[26px] font-semibold tracking-tight">
-            <NumberFlow value={tier.price} format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }} />
-          </div>
-        </div>
+      {/* Tab toggle */}
+      <div className="flex gap-1 p-1 rounded-xl bg-white/[0.05] mb-6" style={{ border: '1px solid rgba(255,255,255,0.07)' }}>
+        {(['quote', 'market'] as const).map(t => (
+          <button
+            key={t}
+            type="button"
+            onClick={() => setTab(t)}
+            className={`flex-1 py-2 rounded-lg text-[13px] font-medium transition-all duration-300 ${
+              tab === t ? 'bg-white text-ink' : 'text-white/50 hover:text-white/70'
+            }`}
+          >
+            {t === 'quote' ? 'Your quote' : 'vs. Market'}
+          </button>
+        ))}
       </div>
 
-      {tier.breakdown && (
-        <div className="mt-4 pt-3.5 border-t border-white/[0.07] space-y-1.5">
-          <div className="flex justify-between text-[11px] text-white/35 tabular-nums">
-            <span>Labor (your budget)</span>
-            <span>{formatUSD(tier.breakdown.budget)}</span>
+      {tab === 'quote' ? (
+        <motion.div key="quote" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+          {/* Big total */}
+          <div className="text-center mb-6">
+            <div className="text-[64px] sm:text-[72px] font-semibold tracking-[-0.04em] leading-none tabular-nums">
+              <NumberFlow value={pricing.total} format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }} />
+            </div>
+            <div className="text-[10px] uppercase tracking-[0.24em] text-white/35 mt-3 font-medium">Total estimate</div>
           </div>
-          {tier.breakdown.equipment > 0 && (
-            <div className="flex justify-between text-[11px] text-white/35 tabular-nums">
-              <span>Equipment</span>
-              <span>+{formatUSD(tier.breakdown.equipment)}</span>
+
+          {/* Breakdown */}
+          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4">
+            <div className="flex justify-between text-[13px] font-semibold tabular-nums">
+              <span className="text-white/80">Your quote</span>
+              <span className="text-white">{formatUSD(pricing.total)}</span>
+            </div>
+          </div>
+        </motion.div>
+      ) : (
+        <motion.div key="market" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+          <div className="space-y-4 mb-5">
+            {rows.map(r => (
+              <div key={r.label}>
+                <div className="flex justify-between text-[12px] mb-1.5">
+                  <span className={r.highlight ? 'text-white font-medium' : 'text-white/50'}>{r.label}</span>
+                  <span className={`tabular-nums font-medium ${r.highlight ? 'text-coffee-light' : 'text-white/50'}`}>{formatUSD(r.price)}</span>
+                </div>
+                <div className="h-2 rounded-full bg-white/[0.06] overflow-hidden">
+                  <motion.div
+                    className="h-full rounded-full"
+                    style={{ background: r.highlight ? 'linear-gradient(90deg, #6B3A1F, #c97a3a)' : 'rgba(255,255,255,0.15)' }}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${r.pct}%` }}
+                    transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1], delay: rows.indexOf(r) * 0.08 }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+          {savings > 0 && (
+            <div className="rounded-2xl p-4 text-center" style={{ background: 'rgba(107,58,31,0.18)', border: '1px solid rgba(107,58,31,0.35)' }}>
+              <p className="text-[13px] text-white/70">You&rsquo;re saving <span className="text-white font-semibold">{formatUSD(savings)}</span> vs. Two Men and a Truck</p>
             </div>
           )}
-          {tier.breakdown.gas > 0 && (
-            <div className="flex justify-between text-[11px] text-white/35 tabular-nums">
-              <span>Fuel ({tier.breakdown.miles} mi × ${GAS_RATE_PER_MILE.toFixed(2)})</span>
-              <span>+{formatUSD(tier.breakdown.gas)}</span>
-            </div>
-          )}
-          <div className="flex justify-between text-[12px] text-white/55 font-medium tabular-nums pt-1 border-t border-white/[0.06]">
-            <span>Total estimate</span>
-            <span>{formatUSD(tier.breakdown.budget + tier.breakdown.equipment + tier.breakdown.gas)}</span>
-          </div>
-        </div>
+          <p className="text-[11px] text-white/30 mt-3 text-center">Based on typical all-in Boston quotes incl. travel, fuel &amp; fees.</p>
+        </motion.div>
       )}
     </div>
   )
