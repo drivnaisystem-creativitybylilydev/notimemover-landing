@@ -923,8 +923,6 @@ function Step4({
   setForm: React.Dispatch<React.SetStateAction<FormState>>
   pricing: PriceBreakdown | null
 }) {
-  const [tab, setTab] = useState<'quote' | 'market'>('quote')
-
   useEffect(() => {
     if (!pricing || !form.size) return
     sendGAEvent('event', 'price_seen', {
@@ -938,87 +936,23 @@ function Step4({
 
   if (!pricing || !form.size) return null
 
-  const tier = TIERS[form.size as TierKey]
-  const maxBar = Math.max(...tier.competitors.map(c => c.price))
-  const savings = Math.round(tier.competitors[tier.competitors.length - 1].price - pricing.total)
-
-  const rows = [
-    ...tier.competitors.map(c => ({
-      label: c.name,
-      price: c.price,
-      pct: Math.round((c.price / maxBar) * 100),
-      highlight: false,
-    })),
-    { label: 'NoTimeMover (you)', price: pricing.total, pct: Math.round((pricing.total / maxBar) * 100), highlight: true },
-  ]
-
   return (
     <div>
       <StepHeader title="Your quote." sub="Here's what your move will cost." />
 
-      {/* Tab toggle */}
-      <div className="flex gap-1 p-1 rounded-xl bg-white/[0.05] mb-6" style={{ border: '1px solid rgba(255,255,255,0.07)' }}>
-        {(['quote', 'market'] as const).map(t => (
-          <button
-            key={t}
-            type="button"
-            onClick={() => setTab(t)}
-            className={`flex-1 py-2 rounded-lg text-[13px] font-medium transition-all duration-300 ${
-              tab === t ? 'bg-white text-ink' : 'text-white/50 hover:text-white/70'
-            }`}
-          >
-            {t === 'quote' ? 'Your quote' : 'vs. Market'}
-          </button>
-        ))}
+      <div className="text-center mb-6">
+        <div className="text-[64px] sm:text-[72px] font-semibold tracking-[-0.04em] leading-none tabular-nums">
+          <NumberFlow value={pricing.total} format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }} />
+        </div>
+        <div className="text-[10px] uppercase tracking-[0.24em] text-white/35 mt-3 font-medium">Total estimate</div>
       </div>
 
-      {tab === 'quote' ? (
-        <motion.div key="quote" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-          {/* Big total */}
-          <div className="text-center mb-6">
-            <div className="text-[64px] sm:text-[72px] font-semibold tracking-[-0.04em] leading-none tabular-nums">
-              <NumberFlow value={pricing.total} format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }} />
-            </div>
-            <div className="text-[10px] uppercase tracking-[0.24em] text-white/35 mt-3 font-medium">Total estimate</div>
-          </div>
-
-          {/* Breakdown */}
-          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4">
-            <div className="flex justify-between text-[13px] font-semibold tabular-nums">
-              <span className="text-white/80">Your quote</span>
-              <span className="text-white">{formatUSD(pricing.total)}</span>
-            </div>
-          </div>
-        </motion.div>
-      ) : (
-        <motion.div key="market" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-          <div className="space-y-4 mb-5">
-            {rows.map(r => (
-              <div key={r.label}>
-                <div className="flex justify-between text-[12px] mb-1.5">
-                  <span className={r.highlight ? 'text-white font-medium' : 'text-white/50'}>{r.label}</span>
-                  <span className={`tabular-nums font-medium ${r.highlight ? 'text-coffee-light' : 'text-white/50'}`}>{formatUSD(r.price)}</span>
-                </div>
-                <div className="h-2 rounded-full bg-white/[0.06] overflow-hidden">
-                  <motion.div
-                    className="h-full rounded-full"
-                    style={{ background: r.highlight ? 'linear-gradient(90deg, #6B3A1F, #c97a3a)' : 'rgba(255,255,255,0.15)' }}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${r.pct}%` }}
-                    transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1], delay: rows.indexOf(r) * 0.08 }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-          {savings > 0 && (
-            <div className="rounded-2xl p-4 text-center" style={{ background: 'rgba(107,58,31,0.18)', border: '1px solid rgba(107,58,31,0.35)' }}>
-              <p className="text-[13px] text-white/70">You&rsquo;re saving <span className="text-white font-semibold">{formatUSD(savings)}</span> vs. Two Men and a Truck</p>
-            </div>
-          )}
-          <p className="text-[11px] text-white/30 mt-3 text-center">Based on typical all-in Boston quotes incl. travel, fuel &amp; fees.</p>
-        </motion.div>
-      )}
+      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4">
+        <div className="flex justify-between text-[13px] font-semibold tabular-nums">
+          <span className="text-white/80">Your quote</span>
+          <span className="text-white">{formatUSD(pricing.total)}</span>
+        </div>
+      </div>
     </div>
   )
 }
