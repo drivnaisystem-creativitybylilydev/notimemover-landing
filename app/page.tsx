@@ -1,60 +1,54 @@
 import Hero from '@/components/Hero'
 import Footer from '@/components/Footer'
+import FaqSection from '@/components/FaqSection'
 import { getAllPosts } from '@/lib/blog'
+
+const HOME_FAQS = [
+  {
+    q: 'Is NoTimeMover insured?',
+    a: 'Yes — NoTimeMover is fully insured on every move. We carry general liability coverage across all jobs, and we can provide a certificate of insurance for any building that requires one before move day. Just mention it when you submit your quote request.',
+  },
+  {
+    q: 'How does pricing work?',
+    a: 'You set your budget before we ever contact you. Enter your pickup and dropoff addresses, choose your home size, and set a price range — we follow up to confirm what that covers and lock in timing. No surprise quotes after the fact.',
+  },
+  {
+    q: 'How far in advance do I need to book?',
+    a: 'We take moves with as little as 24 hours notice. Same-day moves are available if you reach out before noon. For weekends and peak season — especially around September 1st in Boston — booking 3–5 days ahead is recommended.',
+  },
+  {
+    q: 'What areas do you serve?',
+    a: 'All of Boston and Greater Massachusetts — Back Bay, Allston, South End, Somerville, Cambridge, Dorchester, Charlestown, Jamaica Plain, Newton, Quincy, and more. We also handle out-of-state moves from Massachusetts to any destination.',
+  },
+  {
+    q: 'How long does a move take?',
+    a: "A studio or 1-bedroom typically takes 2–4 hours. A 2-bedroom runs 4–6 hours. Larger homes and long-distance moves get scoped individually when you get your quote. We'll give you a realistic time window before move day.",
+  },
+  {
+    q: 'Do you charge extra for stairs or walk-ups?',
+    a: "No. Stair fees are not part of how we price. Whether you're in a triple-decker in Allston or a brownstone in Back Bay, the price you agree to is the price you pay — nothing added on move day.",
+  },
+  {
+    q: "What's included in the price?",
+    a: 'Labor, truck, and fuel. We move your items door to door — loading, transport, and unloading. Packing materials are separate. Any add-ons get discussed and agreed before move day, never dropped in as a surprise.',
+  },
+  {
+    q: 'Do you do same-day moves?',
+    a: "Yes. Contact us before noon and we'll confirm same-day availability. It's not a special service — it's built into how NoTimeMover operates. Short-notice moves are what the name is built around.",
+  },
+]
 
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'How does your pricing work?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'You name the number before we ever pick up the phone. Fill out the quote form with your pickup address, dropoff address, home size, and a budget range you are comfortable with. We follow up within minutes to confirm availability and details. Most Boston local moves land between $400 and $900 depending on size and distance. Out-of-state jobs are scoped individually on a quick confirmation call — still no counter-offers, still no surprises.',
-      },
+  mainEntity: HOME_FAQS.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.a,
     },
-    {
-      '@type': 'Question',
-      name: 'Do you charge for stairs or extra floors?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'No stair fees, no elevator fees, no long-carry fees. Boston walk-ups are the default — Back Bay brownstones, Allston three-deckers, Fenway buildings with no elevator. The price you set is what you pay, period.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Are you insured?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes, fully. NoTimeMover carries general liability insurance on every move. Your belongings are covered from the moment we load the first item to the moment we set down the last box. If your building requires a Certificate of Insurance before move day, contact us a few days ahead and we will have it ready.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'How quickly will I hear back after I submit a quote request?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Within minutes during business hours, never more than a few hours. A real person reviews your request and reaches out by phone or text to confirm timing and details — not an automated drip sequence.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Do you handle Boston parking permits for the moving truck?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes. Boston requires a moving truck permit on most residential streets, applied through the city at least 10 to 14 business days before your move date. We will tell you exactly which streets need permits and how to file, or coordinate it directly with you.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'How far in advance should I book a mover in Boston?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'For weekday moves, three to five days notice usually works. For weekend moves — especially anything in September — book at least one to two weeks out. September 1 is the single busiest moving day in the country because of Boston lease cycles. Same-day moves are available on weekdays if you reach out before noon.',
-      },
-    },
-  ],
+  })),
 }
 
 export default function Home() {
@@ -69,6 +63,7 @@ export default function Home() {
       <main className="min-h-screen bg-ink text-white">
         <Hero posts={posts} />
       </main>
+      <FaqSection faqs={HOME_FAQS} />
       <Footer />
     </>
   )

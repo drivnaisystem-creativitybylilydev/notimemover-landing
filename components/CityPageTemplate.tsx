@@ -1,6 +1,36 @@
 import Link from 'next/link'
 import Footer from '@/components/Footer'
+import FaqSection from '@/components/FaqSection'
 import type { Location } from '@/lib/locations'
+
+function cityFaqs(city: string) {
+  return [
+    {
+      q: `How much does it cost to move in ${city}?`,
+      a: `For most ${city} moves — studios through 2-bedrooms — expect a range between $450 and $900 depending on home size and distance. You set a budget in the booking flow before we call, so there's no surprise number at the end. Enter your addresses to get a specific range for your move.`,
+    },
+    {
+      q: `How far in advance should I book movers in ${city}?`,
+      a: `For most ${city} moves, 2–3 days notice is enough. Same-day availability is possible if you contact us before noon. During peak season — especially around September 1st — booking 5–7 days ahead locks in your preferred date.`,
+    },
+    {
+      q: `Do you cover all of ${city}?`,
+      a: `Yes. We serve throughout ${city} and the surrounding neighborhoods. If you're unsure about a specific street or building, enter your address in the booking flow and we'll confirm coverage when we follow up.`,
+    },
+    {
+      q: `Are you insured for moves in ${city}?`,
+      a: `Yes — NoTimeMover is fully insured on every move, including all ${city} jobs. We carry general liability coverage and can provide a certificate of insurance for any building that requires one before move day.`,
+    },
+    {
+      q: `How long does a ${city} move take?`,
+      a: `Most ${city} studio and 1-bedroom moves take 2–4 hours. A 2-bedroom typically runs 4–6 hours. We give you a realistic time estimate when we follow up on your quote so you can plan the day.`,
+    },
+    {
+      q: `Do you handle stairs and walk-ups in ${city}?`,
+      a: `Yes, and we don't charge extra for them. Walk-ups are standard across ${city} — we price them the same as ground-floor apartments. The budget you set is the price you pay.`,
+    },
+  ]
+}
 
 const STEPS = [
   {
@@ -41,8 +71,23 @@ const BENEFITS = [
 ]
 
 export default function CityPageTemplate({ loc }: { loc: Location }) {
+  const faqs = cityFaqs(loc.city)
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a },
+    })),
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="min-h-screen bg-ink text-white">
         <nav
           className="w-full flex items-center justify-between px-5 sm:px-8 py-5"
@@ -237,6 +282,12 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
             </div>
           </div>
         </section>
+
+        <FaqSection
+          faqs={faqs}
+          eyebrow={`${loc.city} moving FAQ`}
+          heading="Questions about your move."
+        />
 
         <section
           className="border-t"
