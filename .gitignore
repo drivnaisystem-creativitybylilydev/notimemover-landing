@@ -50,4 +50,6 @@ skills/
 # Local Netlify folder
 .netlify
 .vercel
-\n# GA4 service account key — never commit\nga4-service-account.json
+
+# GA4 service account key — never commit
+ga4-service-account.json
