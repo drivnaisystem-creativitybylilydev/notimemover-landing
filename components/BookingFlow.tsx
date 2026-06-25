@@ -215,6 +215,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
   const submit = async () => {
     setSubmitting(true)
     setSubmitError(null)
+    const eventId = crypto.randomUUID()
     const payload = {
       pickup: form.pickup,
       pickupFormatted: formatAddress(form.pickup),
@@ -231,6 +232,7 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
       phone: form.phone,
       moveDate: form.moveDate || undefined,
       submittedAt: new Date().toISOString(),
+      eventId,
     }
     try {
       const res = await fetch('/api/lead', {
@@ -253,6 +255,10 @@ export default function BookingFlow({ isOpen, onClose, initialConfirm, initialSt
         size: form.size,
         final_price: pricing ? pricing.total : null,
       })
+      const fbq = (window as unknown as { fbq?: (...a: unknown[]) => void }).fbq
+      if (typeof fbq === 'function') {
+        fbq('track', 'Lead', { value: pricing ? pricing.total : undefined, currency: 'USD' }, { eventID: eventId })
+      }
       setSubmitted(true)
     } catch {
       setSubmitError('Network error—check your connection and try again.')
@@ -834,6 +840,7 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
   const tier = TIERS[form.size as TierKey]
   const { budgetMin, budgetMax, defaultBudget } = tier
   const pct = ((form.budget - budgetMin) / (budgetMax - budgetMin)) * 100
+  const floorPct = ((defaultBudget - budgetMin) / (budgetMax - budgetMin)) * 100
 
   return (
     <div>
@@ -850,23 +857,48 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
         <div className="text-[10px] uppercase tracking-[0.24em] text-white/35 mt-3 font-medium">Maximum budget</div>
       </div>
 
-      <input
-        type="range"
-        min={budgetMin}
-        max={budgetMax}
-        step={100}
-        value={form.budget}
-        onChange={e => setForm(f => ({ ...f, budget: Math.max(defaultBudget, Number(e.target.value)) }))}
-        className="ntm-slider w-full"
-        aria-label="Budget"
-      />
-      <div className="flex justify-between text-[11px] text-white/35 mt-3 font-medium tabular-nums">
+      {/* Slider + floor tick */}
+      <div className="relative w-full" style={{ marginBottom: '38px' }}>
+        <input
+          type="range"
+          min={budgetMin}
+          max={budgetMax}
+          step={100}
+          value={form.budget}
+          onChange={e => setForm(f => ({ ...f, budget: Math.max(defaultBudget, Number(e.target.value)) }))}
+          className="ntm-slider w-full"
+          aria-label="Budget"
+        />
+        {/* Floor tick mark + label — positioned below the track */}
+        <div
+          className="absolute pointer-events-none flex flex-col items-center"
+          style={{
+            left: `calc(${floorPct / 100} * (100% - 30px) + 15px)`,
+            top: 'calc(100% + 7px)',
+            transform: 'translateX(-50%)',
+          }}
+        >
+          <div style={{
+            width: '1.5px',
+            height: '7px',
+            background: 'rgba(194,120,78,0.45)',
+            borderRadius: '1px',
+          }} />
+          <span style={{
+            fontSize: '10px',
+            color: 'rgba(255,255,255,0.36)',
+            fontWeight: 500,
+            whiteSpace: 'nowrap',
+            letterSpacing: '0.05em',
+            marginTop: '3px',
+          }}>Move floor</span>
+        </div>
+      </div>
+
+      <div className="flex justify-between text-[11px] text-white/28 font-medium tabular-nums">
         <span>${budgetMin.toLocaleString()}</span>
         <span>${budgetMax.toLocaleString()}</span>
       </div>
-      <p className="text-center text-[12px] text-white/40 mt-3 tabular-nums font-medium">
-        Your range: ${budgetMin.toLocaleString()} – ${form.budget.toLocaleString()}
-      </p>
 
       <p className="text-[13px] text-white/35 mt-6 text-center leading-relaxed">
         Your exact price will be shown on the next step — fully insured, no hidden fees.
@@ -877,7 +909,15 @@ function Step3({ form, setForm }: { form: FormState; setForm: React.Dispatch<Rea
           -webkit-appearance: none;
           appearance: none;
           height: 6px;
-          background: linear-gradient(90deg, #6B3A1F 0%, #6B3A1F ${pct}%, rgba(255,255,255,0.06) ${pct}%, rgba(255,255,255,0.06) 100%);
+          background: linear-gradient(
+            90deg,
+            rgba(107,58,31,0.28) 0%,
+            rgba(107,58,31,0.28) ${floorPct}%,
+            #6B3A1F ${floorPct}%,
+            #6B3A1F ${pct}%,
+            rgba(255,255,255,0.06) ${pct}%,
+            rgba(255,255,255,0.06) 100%
+          );
           border-radius: 999px;
           outline: none;
           transition: background 0.2s ease;
