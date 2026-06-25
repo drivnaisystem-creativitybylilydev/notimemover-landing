@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { createHash } from 'crypto'
 import { google } from 'googleapis'
 import { Resend } from 'resend'
 import { render } from '@react-email/render'
@@ -9,8 +10,57 @@ import {
   leadPayloadToRow,
   type LeadPayload,
 } from '@/lib/leadSheet'
+import { sendTelegram } from '@/lib/telegram'
 
 export const runtime = 'nodejs'
+
+function sha256(value: string) {
+  return createHash('sha256').update(value).digest('hex')
+}
+
+function normalizePhone(phone: string) {
+  const digits = phone.replace(/\D/g, '')
+  return digits.length === 10 ? `1${digits}` : digits
+}
+
+async function fireMetaCAPI(
+  payload: LeadPayload,
+  eventId: string | undefined,
+  req: Request,
+) {
+  const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID
+  const token = process.env.META_CAPI_TOKEN
+  if (!pixelId || !token) return
+
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim()
+    || req.headers.get('x-real-ip')
+    || undefined
+  const ua = req.headers.get('user-agent') || undefined
+
+  const body = JSON.stringify({
+    data: [{
+      event_name: 'Lead',
+      event_time: Math.floor(Date.now() / 1000),
+      ...(eventId ? { event_id: eventId } : {}),
+      action_source: 'website',
+      event_source_url: 'https://notimemover.com',
+      user_data: {
+        em: [sha256(payload.email.toLowerCase().trim())],
+        ph: [sha256(normalizePhone(payload.phone))],
+        ...(ip ? { client_ip_address: ip } : {}),
+        ...(ua ? { client_user_agent: ua } : {}),
+      },
+      custom_data: {
+        ...(payload.finalPrice != null ? { value: payload.finalPrice, currency: 'USD' } : {}),
+      },
+    }],
+  })
+
+  await fetch(
+    `https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${token}`,
+    { method: 'POST', headers: { 'Content-Type': 'application/json' }, body },
+  ).catch(err => console.error('[api/lead] Meta CAPI failed:', err))
+}
 
 function isNonEmptyString(v: unknown): v is string {
   return typeof v === 'string' && v.trim().length > 0
@@ -106,6 +156,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: 'Invalid JSON' }, { status: 400 })
   }
 
+  const eventId = typeof (json as Record<string, unknown>)?.eventId === 'string'
+    ? (json as Record<string, unknown>).eventId as string
+    : undefined
+
   const payload = validateLead(json)
   if (!payload) {
     return NextResponse.json({ ok: false, error: 'Invalid lead payload' }, { status: 400 })
@@ -151,6 +205,23 @@ export async function POST(req: Request) {
       insertDataOption: 'INSERT_ROWS',
       requestBody: { values: [row] },
     })
+
+    // Fire Meta CAPI non-blocking — don't let it delay the response
+    fireMetaCAPI(payload, eventId, req).catch(() => {})
+
+    // Telegram notification — non-blocking
+    const dateLine = payload.moveDate ? `\n📅 Move date: ${payload.moveDate}` : ''
+    const quoteLine = payload.finalPrice != null
+      ? `\n💰 Budget $${payload.budget.toLocaleString()} → Quote <b>$${payload.finalPrice.toLocaleString()}</b>`
+      : `\n💰 Budget $${payload.budget.toLocaleString()}`
+    sendTelegram(
+      `🔔 <b>New Move Request — notimemover.com</b>\n\n` +
+      `👤 ${payload.name} · ${payload.phone}\n` +
+      `📦 ${payload.sizeLabel || payload.size}\n` +
+      `📍 ${payload.pickupFormatted} → ${payload.dropoffFormatted} (~${Math.round(payload.miles)} mi)` +
+      quoteLine +
+      dateLine
+    ).catch(() => {})
 
     if (process.env.RESEND_API_KEY) {
       try {
