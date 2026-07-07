@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Footer from '@/components/Footer'
 import FaqSection from '@/components/FaqSection'
-import type { Location } from '@/lib/locations'
+import { getLocationByCityName, type Location } from '@/lib/locations'
 
 // Derived from the real housingStock text already written per location —
 // not a new fact, just a signal used to pick which copy fits better.
@@ -136,11 +136,25 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
     })),
   }
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://notimemover.com' },
+      { '@type': 'ListItem', position: 2, name: 'Service Areas', item: 'https://notimemover.com/#areas' },
+      { '@type': 'ListItem', position: 3, name: `Movers in ${loc.city}, MA`, item: `https://notimemover.com/${loc.slug}` },
+    ],
+  }
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <div className="min-h-screen bg-ink text-white">
         <nav
@@ -298,23 +312,38 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
               </h2>
               <p className="text-[15px] text-white/50 leading-relaxed max-w-2xl mb-8">
                 {suburban
-                  ? `We move throughout ${loc.city} and its neighboring towns — full house moves, more furniture, no extra charge for the extra square footage. If you don't see your town, enter your address in the flow and we'll confirm coverage.`
-                  : `We move throughout ${loc.city} and its neighboring neighborhoods. Below are the areas we cover most — if you don't see yours, enter your address in the flow and we'll confirm coverage.`}
+                  ? `We move throughout ${loc.city} and out toward ${loc.neighborhoods.slice(0, 3).join(', ')} — full house moves, more furniture, no extra charge for the extra square footage. If you don't see your town, enter your address in the flow and we'll confirm coverage.`
+                  : `We move throughout ${loc.city} and the neighborhoods around it — ${loc.neighborhoods.slice(0, 3).join(', ')}, and beyond. If you don't see yours listed, enter your address in the flow and we'll confirm coverage.`}
               </p>
               <div className="flex flex-wrap gap-3">
-                {loc.neighborhoods.map((hood) => (
-                  <span
-                    key={hood}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-4 py-2 text-[13px] font-medium text-white/70"
-                  >
+                {loc.neighborhoods.map((hood) => {
+                  const linkedLoc = getLocationByCityName(hood)
+                  const dot = (
                     <span
                       className="h-1.5 w-1.5 rounded-full shrink-0"
                       style={{ backgroundColor: '#8B5230' }}
                       aria-hidden
                     />
-                    {hood}
-                  </span>
-                ))}
+                  )
+                  return linkedLoc ? (
+                    <Link
+                      key={hood}
+                      href={`/${linkedLoc.slug}`}
+                      className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-4 py-2 text-[13px] font-medium text-white/70 hover:text-white hover:border-white/[0.2] hover:bg-white/[0.06] transition-colors duration-200"
+                    >
+                      {dot}
+                      {hood}
+                    </Link>
+                  ) : (
+                    <span
+                      key={hood}
+                      className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-4 py-2 text-[13px] font-medium text-white/70"
+                    >
+                      {dot}
+                      {hood}
+                    </span>
+                  )
+                })}
               </div>
             </div>
           </div>

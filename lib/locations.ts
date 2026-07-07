@@ -857,3 +857,7 @@ export function getLocation(slug: string): Location | undefined {
 export function getAllSlugs(): string[] {
   return locations.map((l) => l.slug)
 }
+
+export function getLocationByCityName(name: string): Location | undefined {
+  return locations.find((l) => l.city.toLowerCase() === name.toLowerCase())
+}
