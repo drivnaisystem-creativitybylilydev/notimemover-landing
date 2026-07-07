@@ -21,12 +21,20 @@ export default function Footer() {
             <p className="text-[13px] text-white/35 leading-relaxed max-w-[200px] mb-6">
               Fully insured Boston movers. Tell us your budget — we confirm same day.
             </p>
-            <div className="flex flex-col gap-2">
-              <a href="mailto:contact@notimemover.com" className="text-[12px] text-white/30 hover:text-white/60 transition-colors duration-200">
-                contact@notimemover.com
-              </a>
-              <a href="tel:+12039194098" className="text-[12px] text-white/30 hover:text-white/60 transition-colors duration-200">
+            <div className="flex flex-col gap-2.5">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-white/25 font-semibold mb-1">Business</p>
+                <p className="text-[13px] text-white/40 font-medium">NoTimeMover</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-white/25 font-semibold mb-1">Service Area</p>
+                <p className="text-[13px] text-white/40">Greater Boston, MA</p>
+              </div>
+              <a href="tel:+12039194098" className="text-[13px] text-white/40 hover:text-white/70 transition-colors duration-200 font-medium">
                 (203) 919-4098
+              </a>
+              <a href="mailto:contact@notimemover.com" className="text-[12px] text-white/40 hover:text-white/70 transition-colors duration-200">
+                contact@notimemover.com
               </a>
             </div>
           </div>
