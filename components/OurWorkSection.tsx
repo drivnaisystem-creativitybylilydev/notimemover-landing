@@ -193,9 +193,9 @@ export default function OurWorkSection({ onOpenBooking }: { onOpenBooking: () =>
             Real jobs · Boston, MA
           </p>
           <h2 className="text-[clamp(30px,5vw,52px)] font-semibold tracking-tight text-white leading-[1.05]">
-            Not stock photos.
+            This is who shows up
             <br />
-            <span className="font-serif italic text-coffee-shimmer">Our actual crew.</span>
+            <span className="font-serif italic text-coffee-shimmer">on move day.</span>
           </h2>
         </motion.div>
       </div>
