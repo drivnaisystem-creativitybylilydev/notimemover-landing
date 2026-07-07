@@ -56,12 +56,12 @@ export default function Footer() {
             <p className="text-[10px] uppercase tracking-[0.22em] text-white/25 font-semibold mb-4">Services</p>
             <ul className="flex flex-col gap-2.5">
               {[
-                { label: 'Local moves', href: '/?book=1' },
-                { label: 'Same-day moves', href: '/blog/same-day-movers-boston' },
+                { label: 'Local moving', href: '/local-moving' },
+                { label: 'Long-distance moving', href: '/long-distance-moving' },
+                { label: 'Same-day moving', href: '/same-day-moving' },
                 { label: 'Boston → New York', href: '/boston-to-new-york-movers' },
                 { label: 'Boston → New Jersey', href: '/boston-to-new-jersey-movers' },
                 { label: 'Boston → Connecticut', href: '/boston-to-connecticut-movers' },
-                { label: 'Boston → Philadelphia', href: '/boston-to-philadelphia-movers' },
               ].map(({ label, href }) => (
                 <li key={href}>
                   <Link href={href} className="text-[13px] text-white/40 hover:text-white/80 transition-colors duration-200">

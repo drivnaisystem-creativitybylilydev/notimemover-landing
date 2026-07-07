@@ -4,6 +4,7 @@ import { MetadataRoute } from 'next'
 import { getAllSlugs } from '@/lib/locations'
 import { getAllOosSlugs } from '@/lib/oos-routes'
 import { getAllPosts } from '@/lib/blog'
+import { getAllServiceSlugs } from '@/lib/services'
 
 function fileModified(relativePath: string): Date {
   try {
@@ -36,6 +37,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: oosModified,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
+    })),
+    ...getAllServiceSlugs().map((slug) => ({
+      url: `https://notimemover.com/${slug}`,
+      lastModified: fileModified('lib/services.ts'),
+      changeFrequency: 'monthly' as const,
+      priority: 0.85,
     })),
     {
       url: 'https://notimemover.com/contact',
