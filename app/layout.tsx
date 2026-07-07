@@ -68,6 +68,11 @@ const structuredData = {
     latitude: 42.36008,
     longitude: -71.05888,
   },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: 5.0,
+    reviewCount: 7,
+  },
   openingHours: 'Mo-Su 00:00-23:59',
   priceRange: '$600-$3000',
 }
