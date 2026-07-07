@@ -76,6 +76,11 @@ const structuredData = {
   },
   openingHours: 'Mo-Su 00:00-23:59',
   priceRange: '$600-$3000',
+  sameAs: [
+    'https://g.page/r/CdncHLvRFKEXEBM/review',
+    'https://www.facebook.com/notimemover',
+    'https://www.instagram.com/notimemover',
+  ],
 }
 
 export default function RootLayout({

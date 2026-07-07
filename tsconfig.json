@@ -43,7 +43,8 @@
     "components/**/*.ts",
     "components/**/*.tsx",
     "lib/**/*.ts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".next-verify/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

@@ -3,8 +3,6 @@
 import { useRef, useEffect, useState } from 'react'
 import {
   motion,
-  useScroll,
-  useTransform,
   useInView,
   useMotionValue,
   animate,
@@ -51,7 +49,6 @@ function Reveal({
     </motion.div>
   )
 }
-const CREW_IMG = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DXXMZN9SbWqkGqaQ24QtDHNfxy/hf_20260609_173535_516bcd8b-6811-467c-bc6c-adda4397c5cc_min.webp'
 
 
 const FAQ_ITEMS = [
@@ -97,11 +94,12 @@ function AnimatedCount({
   const ref = useRef<HTMLSpanElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.3 })
   const count = useMotionValue(0)
-  const [display, setDisplay] = useState(0)
+  const [display, setDisplay] = useState(value)
 
   useEffect(() => count.on('change', (v) => setDisplay(Math.round(v))), [count])
   useEffect(() => {
     if (!inView) return
+    count.set(0)
     const a = animate(count, value, { duration: 1.4, ease: 'easeOut' })
     return a.stop
   }, [inView, count, value])
@@ -409,65 +407,106 @@ function BentoSection() {
 }
 
 /* ─────────────────────────────────────────────
-   CREW
+   COMPARISON — NoTimeMover vs. other Boston movers
 ───────────────────────────────────────────── */
 
-function CrewSection() {
-  const imageRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: imageRef, offset: ['start end', 'end start'] })
-  const scale = useTransform(scrollYProgress, [0, 0.55], [0.95, 1.0])
+const COMPARISON_ROWS = [
+  {
+    feature: 'You set your budget first — we confirm what it covers before you commit',
+    them: false,
+  },
+  {
+    feature: 'No charge for stairs or walk-ups',
+    them: false,
+  },
+  {
+    feature: 'Same-day quote response, usually within the hour',
+    them: false,
+  },
+  {
+    feature: 'Small, owner-operated crew — no franchise dispatch, no subcontractors',
+    them: false,
+  },
+  {
+    feature: 'Typically 20–30% less than big franchise movers',
+    them: false,
+  },
+] as const
 
+function CompareCheck() {
   return (
-    <section className="w-full py-16 sm:py-20">
-      <div className="grid grid-cols-1 md:grid-cols-2 min-h-[520px]">
+    <span
+      className="inline-flex items-center justify-center w-7 h-7 rounded-full shrink-0"
+      style={{ background: 'rgba(107,58,31,0.18)', border: '1px solid rgba(139,82,48,0.35)' }}
+    >
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(139,82,48,1)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20 6L9 17l-5-5" />
+      </svg>
+    </span>
+  )
+}
 
-        {/* Image — left, full bleed */}
-        <Reveal from="right" distance={60} amount={0.1} className="relative overflow-hidden min-h-[340px] md:min-h-[520px]">
-          <div ref={imageRef} className="absolute inset-0 will-change-transform">
-            <motion.div className="absolute inset-0" style={{ scale }}>
-              <Image
-                src={CREW_IMG}
-                alt="NoTimeMover crew loading a truck"
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-                style={{ filter: 'brightness(0.88) contrast(1.05)' }}
-              />
-            </motion.div>
-            {/* right-edge fade into section bg */}
-            <div className="absolute inset-y-0 right-0 w-24 hidden md:block" style={{ background: 'linear-gradient(to right, transparent, #050505)' }} />
-            {/* bottom fade on mobile */}
-            <div className="absolute inset-x-0 bottom-0 h-24 md:hidden" style={{ background: 'linear-gradient(to bottom, transparent, #050505)' }} />
-          </div>
+function CompareDash() {
+  return (
+    <span className="inline-flex items-center justify-center w-7 h-7 rounded-full shrink-0 border border-white/[0.1]">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.28)" strokeWidth="2.4" strokeLinecap="round">
+        <path d="M5 12h14" />
+      </svg>
+    </span>
+  )
+}
+
+function ComparisonSection() {
+  return (
+    <section className="w-full py-16 sm:py-24">
+      <div className="max-w-4xl mx-auto px-6 sm:px-10">
+        <Reveal from="bottom" className="mb-12 sm:mb-16 text-center">
+          <p className="text-[10px] uppercase tracking-[0.28em] text-coffee-light font-semibold mb-3">
+            Why NoTimeMover
+          </p>
+          <h2 className="text-[clamp(28px,5vw,44px)] font-semibold tracking-tight text-white leading-tight">
+            Not your average
+            <br />
+            <span className="font-serif italic text-coffee-shimmer">Boston moving company.</span>
+          </h2>
         </Reveal>
 
-        {/* Text — right */}
-        <Reveal from="left" distance={60} amount={0.1} className="flex flex-col justify-center px-8 sm:px-14 lg:px-20 py-14 md:py-0">
-          <h2 className="text-[clamp(28px,4vw,48px)] font-semibold tracking-tight text-white leading-[1.1] mb-5">
-            The people you book
-            <br />
-            <span className="font-serif italic text-coffee-shimmer">
-              are the ones who show up.
-            </span>
-          </h2>
-          <p className="text-[15px] text-white/42 leading-relaxed mb-10 max-w-md">
-            NoTimeMover is a small Boston-based team. No franchise dispatch. No subcontractors. The crew that confirms your move is the crew that handles it.
-          </p>
-          <div className="grid grid-cols-2 gap-x-10 gap-y-6">
-            {[
-              ['Fully', 'insured'],
-              ['Same-week', 'availability'],
-              ['No stair', 'fees, ever'],
-              ['Boston', 'based'],
-            ].map(([top, bottom]) => (
-              <div key={top}>
-                <p className="text-[15px] font-semibold text-white leading-tight">{top}</p>
-                <p className="text-[11px] uppercase tracking-[0.18em] text-white/30 font-medium mt-1">{bottom}</p>
+        <Reveal from="bottom" delay={0.08} amount={0.1}>
+          <div
+            className="rounded-2xl border border-white/[0.08] overflow-hidden"
+            style={{ background: 'rgba(0,0,0,0.25)', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06)' }}
+          >
+            <div className="grid grid-cols-[1fr,64px,64px] sm:grid-cols-[1fr,140px,140px] items-center gap-3 px-5 sm:px-8 py-4 sm:py-5 border-b border-white/[0.08]">
+              <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-white/30 font-semibold">
+                What you get
+              </span>
+              <span className="text-[12px] sm:text-[14px] font-bold text-coffee-shimmer text-center">
+                NoTimeMover
+              </span>
+              <span className="text-[10px] sm:text-[13px] font-medium text-white/35 text-center leading-tight">
+                Other Movers
+              </span>
+            </div>
+            {COMPARISON_ROWS.map((row, i) => (
+              <div
+                key={row.feature}
+                className={`grid grid-cols-[1fr,64px,64px] sm:grid-cols-[1fr,140px,140px] items-center gap-3 px-5 sm:px-8 py-5 ${
+                  i < COMPARISON_ROWS.length - 1 ? 'border-b border-white/[0.05]' : ''
+                }`}
+              >
+                <span className="text-[13px] sm:text-[14px] text-white/70 leading-snug pr-2">
+                  {row.feature}
+                </span>
+                <span className="flex justify-center">
+                  <CompareCheck />
+                </span>
+                <span className="flex justify-center">
+                  {row.them ? <CompareCheck /> : <CompareDash />}
+                </span>
               </div>
             ))}
           </div>
         </Reveal>
-
       </div>
     </section>
   )
@@ -568,6 +607,81 @@ function TrustSection() {
 }
 
 /* ─────────────────────────────────────────────
+   TESTIMONIALS — real Google reviews
+───────────────────────────────────────────── */
+
+const TESTIMONIALS = [
+  {
+    quote: 'NoTimeMover did an excellent job. They were fast, careful, and very professional. Everything went smoothly, and I would definitely use them again.',
+    name: 'Linards Lipskis',
+  },
+  {
+    quote: 'Amazing price for the efficiency and care for my belongings. Showed up on time and professional. Would definitely recommend for anyone looking to move their stuff.',
+    name: 'Jordan Sohal',
+  },
+  {
+    quote: 'Great service and very fair price! I can definitely recommend them! Everything was simple and didn’t take long. Very good costumer service!',
+    name: 'Neil Hofmann',
+  },
+  {
+    quote: 'good on timing, great guys. good price, better than other companies. great efficiency when was on a time crunch to move out. definitely would recommend someone to use in the future.',
+    name: 'TJ Levisee',
+  },
+] as const
+
+function StarRow() {
+  return (
+    <span className="inline-flex items-center gap-[2px] text-coffee-light" aria-hidden="true">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.5l2.9 6.4 6.98.7-5.24 4.77 1.53 6.9L12 17.6l-6.17 3.67 1.53-6.9L2.12 9.6l6.98-.7L12 2.5z" />
+        </svg>
+      ))}
+    </span>
+  )
+}
+
+function TestimonialsSection() {
+  return (
+    <section className="w-full py-16 sm:py-24">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10">
+        <Reveal from="bottom" className="mb-12 sm:mb-16">
+          <p className="text-[10px] uppercase tracking-[0.28em] text-coffee-light font-semibold mb-3">
+            5.0 on Google &middot; 7 reviews
+          </p>
+          <h2 className="text-[clamp(28px,5vw,44px)] font-semibold tracking-tight text-white leading-tight">
+            What Massachusetts{' '}
+            <span className="font-serif italic text-coffee-shimmer">is saying.</span>
+          </h2>
+        </Reveal>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {TESTIMONIALS.map((t, i) => (
+            <Reveal key={t.name} from="bottom" delay={i * 0.06} amount={0.15}>
+              <div
+                className="h-full rounded-2xl border border-white/[0.08] p-6 sm:p-7 flex flex-col gap-4"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(107,58,31,0.10) 0%, rgba(20,10,3,0.40) 60%, rgba(5,5,5,0.55) 100%)',
+                  boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06)',
+                }}
+              >
+                <StarRow />
+                <p className="text-[13px] sm:text-[14px] text-white/70 leading-relaxed flex-1">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <p className="text-[12px] font-semibold text-white/90 tracking-tight">
+                  {t.name}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ─────────────────────────────────────────────
    SERVICE AREAS
 ───────────────────────────────────────────── */
 
@@ -656,17 +770,23 @@ export default function LandingSections({ onOpenBooking, posts = [] }: { onOpenB
 
       <div className="h-px bg-white/[0.04]" />
 
+      <OurWorkSection onOpenBooking={onOpenBooking} />
+
+      <div className="border-t border-white/[0.05]">
+        <TestimonialsSection />
+      </div>
+
+      <div className="h-px bg-white/[0.04]" />
+
       <BentoSection />
 
       <div className="border-t border-white/[0.05]">
-        <CrewSection />
+        <ComparisonSection />
       </div>
 
       <div className="border-t border-white/[0.05]">
         <TrustSection />
       </div>
-
-      <OurWorkSection onOpenBooking={onOpenBooking} />
 
       {/* Service Areas */}
       <div className="border-t border-white/[0.05]">
