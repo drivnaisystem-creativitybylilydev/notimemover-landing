@@ -12,8 +12,9 @@ function isSuburbanCharacter(housingStock: string): boolean {
 }
 
 function cityFaqPool(loc: Location) {
-  const { city, transit, housingStock, driveTime } = loc
+  const { city, transit, housingStock, driveTime, neighborhoods } = loc
   const suburban = isSuburbanCharacter(housingStock)
+  const nearBy = neighborhoods.slice(0, 3).join(', ')
   return [
     {
       q: `How much does it cost to move in ${city}?`,
@@ -25,7 +26,7 @@ function cityFaqPool(loc: Location) {
     },
     {
       q: `Do you cover all of ${city}?`,
-      a: `Yes. We serve throughout ${city} and the surrounding neighborhoods. If you're unsure about a specific street or building, enter your address in the booking flow and we'll confirm coverage when we follow up.`,
+      a: `Yes — all of ${city}, plus ${nearBy}. If you're unsure about a specific street or building, enter your address in the booking flow and we'll confirm coverage when we follow up.`,
     },
     {
       q: `Are you insured for moves in ${city}?`,
@@ -80,29 +81,6 @@ function cityFaqs(loc: Location) {
   return rotated.slice(0, 6)
 }
 
-const STEPS = [
-  {
-    num: '01',
-    title: 'Pick your addresses',
-    body: 'Enter your pickup and dropoff locations. We serve all of Greater Massachusetts.',
-  },
-  {
-    num: '02',
-    title: 'Choose your home size',
-    body: 'Studio, 1-bed, 2-bed, or larger — select the option that fits your situation.',
-  },
-  {
-    num: '03',
-    title: 'Set your budget',
-    body: 'Pick a price range you are comfortable with. We match you to a tier that fits.',
-  },
-  {
-    num: '04',
-    title: 'Get quoted instantly',
-    body: 'Submit and we follow up fast to confirm timing — no waiting days for a callback.',
-  },
-]
-
 function getBenefits(suburban: boolean) {
   return [
     {
@@ -117,7 +95,9 @@ function getBenefits(suburban: boolean) {
     },
     {
       title: 'Book in 60 seconds',
-      body: 'Two addresses, home size, budget — done. We follow up to lock in timing and specifics on a quick call.',
+      body: suburban
+        ? 'Two addresses, home size, budget — done. Bigger lots and longer driveways don\'t slow down the quote.'
+        : 'Two addresses, home size, budget — done. We know the local parking and loading patterns, so timing estimates are realistic, not generic.',
     },
   ]
 }
@@ -189,7 +169,7 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
             <span className="font-serif italic">on your terms.</span>
           </h1>
           <p className="mt-6 text-[15px] sm:text-[17px] text-white/50 leading-relaxed max-w-2xl mx-auto">
-            {loc.description}
+            {loc.description} We also cover {loc.neighborhoods.slice(0, 2).join(' and ')} for anyone moving between the two.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
@@ -247,47 +227,6 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
                 </p>
                 <p className="text-[14px] text-white/60 leading-relaxed">{loc.housingStock}</p>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section
-          className="border-t"
-          style={{ borderColor: 'rgba(255,255,255,0.05)' }}
-        >
-          <div className="max-w-5xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
-            <div className="text-center mb-14">
-              <p
-                className="text-[11px] sm:text-[12px] uppercase tracking-[0.24em] font-semibold mb-4"
-                style={{ color: '#8B5230' }}
-              >
-                How it works
-              </p>
-              <h2 className="text-[32px] sm:text-[40px] font-semibold tracking-tight text-white leading-[1.1]">
-                Four steps to a confirmed move.
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {STEPS.map((step) => (
-                <div
-                  key={step.num}
-                  className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6"
-                  style={{ boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.05)' }}
-                >
-                  <div
-                    className="text-[11px] uppercase tracking-[0.24em] font-semibold mb-4"
-                    style={{ color: '#8B5230' }}
-                  >
-                    Step {step.num}
-                  </div>
-                  <h3 className="text-[15px] font-semibold tracking-tight text-white mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-[13px] text-white/50 leading-relaxed">
-                    {step.body}
-                  </p>
-                </div>
-              ))}
             </div>
           </div>
         </section>
