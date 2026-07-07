@@ -1,31 +1,45 @@
+import fs from 'fs'
+import path from 'path'
 import { MetadataRoute } from 'next'
 import { getAllSlugs } from '@/lib/locations'
 import { getAllOosSlugs } from '@/lib/oos-routes'
-import { getAllPostSlugs } from '@/lib/blog'
+import { getAllPosts } from '@/lib/blog'
+
+function fileModified(relativePath: string): Date {
+  try {
+    return fs.statSync(path.join(process.cwd(), relativePath)).mtime
+  } catch {
+    return new Date()
+  }
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const locationsModified = fileModified('lib/locations.ts')
+  const oosModified = fileModified('lib/oos-routes.ts')
+  const homepageModified = fileModified('app/page.tsx')
+
   return [
     {
       url: 'https://notimemover.com',
-      lastModified: new Date(),
+      lastModified: homepageModified,
       changeFrequency: 'monthly' as const,
       priority: 1,
     },
     ...getAllSlugs().map((slug) => ({
       url: `https://notimemover.com/${slug}`,
-      lastModified: new Date(),
+      lastModified: locationsModified,
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     })),
     ...getAllOosSlugs().map((slug) => ({
       url: `https://notimemover.com/${slug}`,
-      lastModified: new Date(),
+      lastModified: oosModified,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     })),
     {
       url: 'https://notimemover.com/contact',
-      lastModified: new Date(),
+      lastModified: fileModified('app/contact/page.tsx'),
       changeFrequency: 'yearly' as const,
       priority: 0.6,
     },
@@ -35,9 +49,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     },
-    ...getAllPostSlugs().map((slug) => ({
-      url: `https://notimemover.com/blog/${slug}`,
-      lastModified: new Date(),
+    ...getAllPosts().map((post) => ({
+      url: `https://notimemover.com/blog/${post.slug}`,
+      lastModified: new Date(post.date),
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     })),

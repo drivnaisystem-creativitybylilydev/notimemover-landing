@@ -7,6 +7,9 @@ const loc = getLocation('movers-springfield-ma')!
 export const metadata: Metadata = {
   title: loc.metaTitle,
   description: loc.metaDescription,
+  alternates: {
+    canonical: '/movers-springfield-ma',
+  },
 }
 
 export default function Page() {

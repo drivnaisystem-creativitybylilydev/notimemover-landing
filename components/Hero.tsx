@@ -365,7 +365,7 @@ export default function Hero({ posts = [] }: { posts?: PostSummary[] }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             >
-              The only moving company where
+              Boston's only moving company where
             </motion.span>
             <motion.span
               className="block font-editorial text-coffee-shimmer text-[clamp(40px,6vw,58px)] tracking-tight px-6 pb-2"

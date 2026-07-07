@@ -18,6 +18,9 @@ export async function generateMetadata({
   return {
     title: loc.metaTitle,
     description: loc.metaDescription,
+    alternates: {
+      canonical: `/${loc.slug}`,
+    },
   }
 }
 

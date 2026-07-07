@@ -3,7 +3,8 @@ import Footer from '@/components/Footer'
 import FaqSection from '@/components/FaqSection'
 import type { Location } from '@/lib/locations'
 
-function cityFaqs(city: string) {
+function cityFaqPool(loc: Location) {
+  const { city, transit, housingStock, driveTime } = loc
   return [
     {
       q: `How much does it cost to move in ${city}?`,
@@ -27,9 +28,43 @@ function cityFaqs(city: string) {
     },
     {
       q: `Do you handle stairs and walk-ups in ${city}?`,
-      a: `Yes, and we don't charge extra for them. Walk-ups are standard across ${city} — we price them the same as ground-floor apartments. The budget you set is the price you pay.`,
+      a: `Yes, and we don't charge extra for them. Walk-ups are standard in ${city} — we price them the same as ground-floor apartments. The budget you set is the price you pay.`,
+    },
+    {
+      q: `What's ${city} like to move in or out of?`,
+      a: `${city} is mostly ${housingStock.charAt(0).toLowerCase() + housingStock.slice(1)}. It's ${driveTime.replace('~', 'about ').replace('downtown Boston', 'downtown')}, and the main transit link is ${transit.split(';')[0]}. Our crews know the parking, loading, and access patterns specific to the area.`,
+    },
+    {
+      q: `Do you offer packing help for ${city} moves?`,
+      a: `Yes. Let us know when you submit your quote if you want help packing — we'll factor it into your budget upfront rather than adding it as a surprise line item on move day.`,
+    },
+    {
+      q: `What's the best day to move in ${city}?`,
+      a: `Weekdays are typically easier to schedule and often faster, since weekends fill up fastest. Around September 1st, book as early as possible regardless of day — that's the single busiest week for moves in and around ${city}.`,
+    },
+    {
+      q: `Is there a minimum move size for ${city}?`,
+      a: `No. We handle everything from a single-room move to a full house in ${city} — the budget-first model works the same either way. Set your price range and we confirm what it covers.`,
     },
   ]
+}
+
+function hashSlug(slug: string) {
+  let hash = 0
+  for (let i = 0; i < slug.length; i++) {
+    hash = (hash * 31 + slug.charCodeAt(i)) >>> 0
+  }
+  return hash
+}
+
+function cityFaqs(loc: Location) {
+  const pool = cityFaqPool(loc)
+  const hash = hashSlug(loc.slug)
+  // Rotate the pool by a slug-derived offset, then take 6 — gives every page
+  // a different subset and order instead of the identical 6 questions.
+  const offset = hash % pool.length
+  const rotated = [...pool.slice(offset), ...pool.slice(0, offset)]
+  return rotated.slice(0, 6)
 }
 
 const STEPS = [
@@ -71,7 +106,7 @@ const BENEFITS = [
 ]
 
 export default function CityPageTemplate({ loc }: { loc: Location }) {
-  const faqs = cityFaqs(loc.city)
+  const faqs = cityFaqs(loc)
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -117,8 +152,8 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
             Movers in {loc.city}, MA
           </p>
           <h1 className="text-[clamp(36px,8vw,72px)] font-semibold tracking-tight text-white leading-[1.04] max-w-4xl mx-auto">
-            {loc.city} moves on{' '}
-            <span className="font-serif italic">your terms.</span>
+            Movers in {loc.city}, MA{' '}
+            <span className="font-serif italic">on your terms.</span>
           </h1>
           <p className="mt-6 text-[15px] sm:text-[17px] text-white/50 leading-relaxed max-w-2xl mx-auto">
             {loc.description}
@@ -149,6 +184,37 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
                 </svg>
               </span>
             </Link>
+          </div>
+        </section>
+
+        <section
+          className="border-t"
+          style={{ borderColor: 'rgba(255,255,255,0.05)' }}
+        >
+          <div className="max-w-5xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
+            <div
+              className="grid grid-cols-1 sm:grid-cols-3 gap-5 rounded-[1.75rem] border border-white/[0.08] bg-white/[0.02] p-7 sm:p-9"
+              style={{ boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.05)' }}
+            >
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.24em] font-semibold mb-2" style={{ color: '#8B5230' }}>
+                  Getting there
+                </p>
+                <p className="text-[14px] text-white/60 leading-relaxed">{loc.driveTime}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.24em] font-semibold mb-2" style={{ color: '#8B5230' }}>
+                  Transit access
+                </p>
+                <p className="text-[14px] text-white/60 leading-relaxed">{loc.transit}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.24em] font-semibold mb-2" style={{ color: '#8B5230' }}>
+                  Housing stock
+                </p>
+                <p className="text-[14px] text-white/60 leading-relaxed">{loc.housingStock}</p>
+              </div>
+            </div>
           </div>
         </section>
 

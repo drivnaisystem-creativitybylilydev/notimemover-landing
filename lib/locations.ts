@@ -7,6 +7,9 @@ export interface Location {
   metaDescription: string
   neighborhoods: string[]
   areasLabel: string
+  transit: string
+  housingStock: string
+  driveTime: string
 }
 
 export const locations: Location[] = [
@@ -20,6 +23,9 @@ export const locations: Location[] = [
     metaDescription: "Allston's rental market moves fast. NoTimeMover is ready — set your budget upfront, no surprise quotes. Fully insured crew for walk-ups and tight hallways.",
     neighborhoods: ['Brighton', 'Back Bay', 'Fenway', 'Cambridge', 'Brookline', 'Mission Hill', 'Watertown', 'South End'],
     areasLabel: 'Allston & nearby neighborhoods',
+    transit: 'Green Line B branch (Packard\'s Corner, Harvard Ave, Allston St)',
+    housingStock: 'Dense multi-family triple-deckers and student apartment buildings',
+    driveTime: '~10 min from downtown Boston',
   },
   {
     slug: 'movers-back-bay-ma',
@@ -30,6 +36,9 @@ export const locations: Location[] = [
     metaDescription: 'Back Bay brownstones and tight streets require a crew that knows what they\'re doing. Set your budget upfront — fully insured, same-day response.',
     neighborhoods: ['South End', 'Fenway', 'Beacon Hill', 'Allston', 'Brookline', 'Kenmore', 'Newbury St', 'Copley'],
     areasLabel: 'Back Bay & surrounding areas',
+    transit: 'Orange Line (Back Bay), Green Line (Copley, Arlington, Hynes)',
+    housingStock: 'Historic brownstones and converted rowhouse apartments with narrow stairwells',
+    driveTime: '~5 min from downtown Boston',
   },
   {
     slug: 'movers-brighton-ma',
@@ -40,6 +49,9 @@ export const locations: Location[] = [
     metaDescription: 'Brighton apartment moves, September 1st rush or any time of year. Set your budget before we call — fully insured crew, same-day response.',
     neighborhoods: ['Allston', 'Newton', 'Brookline', 'Watertown', 'Oak Square', 'Cleveland Circle', 'Chestnut Hill', 'Back Bay'],
     areasLabel: 'Brighton & nearby areas',
+    transit: 'Green Line B branch (Washington St, Sutherland Rd, Chestnut Hill Ave)',
+    housingStock: 'Triple-deckers and large apartment complexes with heavy September turnover',
+    driveTime: '~12 min from downtown Boston',
   },
   {
     slug: 'movers-charlestown-ma',
@@ -50,6 +62,9 @@ export const locations: Location[] = [
     metaDescription: 'Charlestown townhouses and Navy Yard condos. NoTimeMover handles the move — set your budget upfront, no surprise fees. Fully insured, same-day response.',
     neighborhoods: ['North End', 'East Boston', 'Cambridge', 'Somerville', 'Bunker Hill', 'Sullivan Square', 'Downtown Boston', 'Back Bay'],
     areasLabel: 'Charlestown & nearby neighborhoods',
+    transit: 'Orange Line (Community College), plus MBTA ferry to Long Wharf',
+    housingStock: 'Federal-era townhouses alongside newer Navy Yard condo buildings',
+    driveTime: '~8 min from downtown Boston',
   },
   {
     slug: 'movers-dorchester-ma',
@@ -60,6 +75,9 @@ export const locations: Location[] = [
     metaDescription: 'Dorchester moving made simple. Set your budget before we call — no hourly surprises. Fully insured crew serving all of Dorchester and Greater Boston.',
     neighborhoods: ['South Boston', 'Roxbury', 'Mattapan', 'Milton', 'Hyde Park', 'Jamaica Plain', 'Quincy', 'Braintree'],
     areasLabel: 'Dorchester & surrounding areas',
+    transit: 'Red Line Ashmont branch, plus the Fairmount Line commuter rail',
+    housingStock: 'Boston\'s largest stock of triple-deckers, spread across a wide area',
+    driveTime: '~10-15 min from downtown Boston',
   },
   {
     slug: 'movers-east-boston-ma',
@@ -70,6 +88,9 @@ export const locations: Location[] = [
     metaDescription: 'East Boston movers, fully insured. Set your budget before we call — new builds, triple-deckers, any size move. Same-day response.',
     neighborhoods: ['Charlestown', 'Winthrop', 'Revere', 'Chelsea', 'South Boston', 'Airport District', 'Maverick', 'Downtown Boston'],
     areasLabel: 'East Boston & nearby areas',
+    transit: 'Blue Line (Maverick, Airport, Wood Island, Orient Heights)',
+    housingStock: 'Triple-deckers alongside new waterfront condo development',
+    driveTime: '~8 min from downtown Boston via the Sumner/Callahan Tunnel',
   },
   {
     slug: 'movers-fenway-ma',
@@ -80,6 +101,9 @@ export const locations: Location[] = [
     metaDescription: 'Fenway movers for apartments, studios, and student moves. Set your budget upfront — fully insured crew, walk-ups welcome, same-day response.',
     neighborhoods: ['Back Bay', 'Allston', 'Mission Hill', 'Kenmore', 'Brookline', 'South End', 'Jamaica Plain', 'Longwood'],
     areasLabel: 'Fenway & nearby neighborhoods',
+    transit: 'Green Line D/E branches (Fenway, Longwood)',
+    housingStock: 'Dense student apartment buildings near Fenway Park and the Longwood Medical Area',
+    driveTime: '~7 min from downtown Boston',
   },
   {
     slug: 'movers-jamaica-plain-ma',
@@ -90,6 +114,9 @@ export const locations: Location[] = [
     metaDescription: 'Jamaica Plain movers for Victorians, condos, and apartments. Set your budget before we call — fully insured, same-day response.',
     neighborhoods: ['Roxbury', 'Roslindale', 'West Roxbury', 'Mission Hill', 'Fenway', 'Brookline', 'Hyde Park', 'South End'],
     areasLabel: 'Jamaica Plain & surrounding areas',
+    transit: 'Orange Line (Stony Brook, Green St, Forest Hills)',
+    housingStock: 'Victorian triple-deckers, single-families near Jamaica Pond, and newer condos',
+    driveTime: '~12 min from downtown Boston',
   },
   {
     slug: 'movers-south-boston-ma',
@@ -100,6 +127,9 @@ export const locations: Location[] = [
     metaDescription: 'South Boston movers for Seaport condos and Southie triple-deckers. Set your budget upfront — fully insured crew, September 1st ready.',
     neighborhoods: ['Dorchester', 'Roxbury', 'East Boston', 'Downtown Boston', 'Seaport', 'South End', 'Quincy', 'Milton'],
     areasLabel: 'South Boston & nearby areas',
+    transit: 'Red Line (Broadway, Andrew), plus the Silver Line to Seaport',
+    housingStock: 'Classic Southie triple-deckers alongside new Seaport high-rises',
+    driveTime: '~8 min from downtown Boston',
   },
   {
     slug: 'movers-south-end-ma',
@@ -110,6 +140,9 @@ export const locations: Location[] = [
     metaDescription: 'South End brownstones and rowhouses handled with care. Set your budget before we call — fully insured, same-day response, no surprise fees.',
     neighborhoods: ['Back Bay', 'Roxbury', 'Dorchester', 'Fenway', 'South Boston', 'Beacon Hill', 'Chinatown', 'Jamaica Plain'],
     areasLabel: 'South End & surrounding neighborhoods',
+    transit: 'Orange Line (Back Bay, Tufts Medical Center), plus the Silver Line',
+    housingStock: 'Victorian brick rowhouses and converted brownstone apartments',
+    driveTime: '~6 min from downtown Boston',
   },
   {
     slug: 'movers-roxbury-ma',
@@ -120,6 +153,9 @@ export const locations: Location[] = [
     metaDescription: 'Roxbury movers, fully insured. Set your budget before we call — no surprise quotes. Serving Roxbury and all of Greater Boston, same-day response.',
     neighborhoods: ['Dorchester', 'Jamaica Plain', 'South End', 'Mission Hill', 'Mattapan', 'South Boston', 'Hyde Park', 'Fenway'],
     areasLabel: 'Roxbury & nearby neighborhoods',
+    transit: 'Orange Line (Roxbury Crossing, Ruggles), plus the Fairmount Line',
+    housingStock: 'Mix of triple-deckers and newer multi-family developments',
+    driveTime: '~8 min from downtown Boston',
   },
   {
     slug: 'movers-mission-hill-ma',
@@ -130,6 +166,9 @@ export const locations: Location[] = [
     metaDescription: 'Mission Hill apartment movers — walk-ups, no stair fees. Set your budget upfront, fully insured crew, same-day response. Student moves welcome.',
     neighborhoods: ['Fenway', 'Jamaica Plain', 'Roxbury', 'Brookline', 'Allston', 'Back Bay', 'South End', 'Longwood'],
     areasLabel: 'Mission Hill & surrounding areas',
+    transit: 'Orange Line (Roxbury Crossing), Green Line E branch nearby',
+    housingStock: 'Dense student and medical-worker apartment buildings on steep streets',
+    driveTime: '~8 min from downtown Boston',
   },
   {
     slug: 'movers-hyde-park-ma',
@@ -140,6 +179,9 @@ export const locations: Location[] = [
     metaDescription: 'Hyde Park movers for houses, condos, and apartments. Set your budget before we call — fully insured crew, same-day response, no hourly surprises.',
     neighborhoods: ['Roslindale', 'West Roxbury', 'Mattapan', 'Canton', 'Dedham', 'Milton', 'Jamaica Plain', 'Dorchester'],
     areasLabel: 'Hyde Park & nearby areas',
+    transit: 'Fairmount and Franklin Line commuter rail (Hyde Park, Readville)',
+    housingStock: 'Larger single- and two-family homes — Boston\'s most suburban neighborhood',
+    driveTime: '~18 min from downtown Boston',
   },
   {
     slug: 'movers-roslindale-ma',
@@ -150,6 +192,9 @@ export const locations: Location[] = [
     metaDescription: 'Roslindale movers for houses, apartments, and condos. No surprise fees — fully insured, same-day response, no hidden charges on move day.',
     neighborhoods: ['Jamaica Plain', 'Hyde Park', 'West Roxbury', 'Dedham', 'Mattapan', 'Dorchester', 'Forest Hills', 'Arnold Arboretum'],
     areasLabel: 'Roslindale & surrounding areas',
+    transit: 'Needham Line commuter rail (Roslindale Village)',
+    housingStock: 'Single- and multi-family homes around a walkable village center',
+    driveTime: '~15 min from downtown Boston',
   },
   {
     slug: 'movers-west-roxbury-ma',
@@ -160,6 +205,9 @@ export const locations: Location[] = [
     metaDescription: 'West Roxbury residential movers. Set your budget before we call — fully insured crew, same-day response. Houses and condos welcome.',
     neighborhoods: ['Roslindale', 'Hyde Park', 'Jamaica Plain', 'Dedham', 'Needham', 'Newton', 'Brookline', 'Chestnut Hill'],
     areasLabel: 'West Roxbury & nearby areas',
+    transit: 'Needham Line commuter rail (West Roxbury, Highland)',
+    housingStock: 'Single-family homes on tree-lined streets — Boston\'s most suburban feel',
+    driveTime: '~18 min from downtown Boston',
   },
   {
     slug: 'movers-beacon-hill-ma',
@@ -170,6 +218,9 @@ export const locations: Location[] = [
     metaDescription: 'Beacon Hill movers for narrow streets, brownstones, and walk-ups. Set your budget before we call — fully insured, no stair fees, same-day response.',
     neighborhoods: ['Back Bay', 'North End', 'Downtown Boston', 'West End', 'Cambridge Street', 'Government Center', 'Bowdoin Square', 'Louisburg Square'],
     areasLabel: 'Beacon Hill & surrounding areas',
+    transit: 'Red/Green Line (Park St, Charles/MGH)',
+    housingStock: 'Historic brick rowhouses on narrow, largely car-free streets',
+    driveTime: '~3 min from downtown Boston',
   },
   {
     slug: 'movers-north-end-ma',
@@ -180,6 +231,9 @@ export const locations: Location[] = [
     metaDescription: 'North End Boston movers for narrow streets and walk-ups. No stair fees. Set your budget before we call — fully insured, same-day response.',
     neighborhoods: ['Beacon Hill', 'Charlestown', 'East Boston', 'Downtown Boston', 'Waterfront', 'Government Center', 'Haymarket', 'West End'],
     areasLabel: 'North End & surrounding neighborhoods',
+    transit: 'Green/Orange Line (Haymarket)',
+    housingStock: 'Pre-war walk-up apartments on some of the oldest streets in the US',
+    driveTime: '~3 min from downtown Boston',
   },
   {
     slug: 'movers-seaport-ma',
@@ -190,6 +244,9 @@ export const locations: Location[] = [
     metaDescription: 'Seaport District Boston movers for luxury condos and new apartment buildings. Set your budget upfront — fully insured, COI available, same-day response.',
     neighborhoods: ['South Boston', 'Downtown Boston', 'South End', 'Fort Point', 'Financial District', 'East Boston', 'Chinatown', 'Congress Street area'],
     areasLabel: 'Seaport & South Boston Waterfront',
+    transit: 'Silver Line (World Trade Center, Courthouse)',
+    housingStock: 'New-construction high-rises with elevators and loading docks',
+    driveTime: '~5 min from downtown Boston',
   },
   {
     slug: 'movers-chinatown-ma',
@@ -200,6 +257,9 @@ export const locations: Location[] = [
     metaDescription: 'Chinatown Boston movers for apartments and condos. Set your budget before we call — fully insured crew, no stair fees, same-day response.',
     neighborhoods: ['South End', 'Downtown Boston', 'Seaport', 'Back Bay', 'Theater District', 'South Boston', 'Roxbury', 'Bay Village'],
     areasLabel: 'Chinatown & surrounding neighborhoods',
+    transit: 'Orange Line (Chinatown, Tufts Medical Center), plus the Silver Line',
+    housingStock: 'Dense mix of walk-ups and mid-rise apartment buildings',
+    driveTime: '~4 min from downtown Boston',
   },
   {
     slug: 'movers-downtown-boston-ma',
@@ -210,6 +270,9 @@ export const locations: Location[] = [
     metaDescription: 'Downtown Boston movers for condos and high-rises. COI available on request. Set your budget upfront — fully insured, same-day response.',
     neighborhoods: ['Beacon Hill', 'Back Bay', 'Seaport', 'Chinatown', 'South End', 'North End', 'Financial District', 'Midtown'],
     areasLabel: 'Downtown Boston & Financial District',
+    transit: 'Red, Orange, Green, and Blue Lines converge (Park St, Downtown Crossing, State)',
+    housingStock: 'High-rise condos, including converted office and historic buildings',
+    driveTime: '0 min — downtown Boston',
   },
   {
     slug: 'movers-mattapan-ma',
@@ -220,6 +283,9 @@ export const locations: Location[] = [
     metaDescription: 'Mattapan movers for triple-deckers, houses, and apartments. Set your budget before we call — fully insured crew, same-day response, no hidden fees.',
     neighborhoods: ['Dorchester', 'Hyde Park', 'Roxbury', 'Jamaica Plain', 'Milton', 'Roslindale', 'Blue Hill Avenue area', 'Readville'],
     areasLabel: 'Mattapan & surrounding neighborhoods',
+    transit: 'Mattapan Trolley (High-Speed Line), plus the Fairmount Line',
+    housingStock: 'Triple-deckers and single-family homes across Boston\'s southern edge',
+    driveTime: '~15 min from downtown Boston',
   },
   {
     slug: 'movers-kenmore-square-ma',
@@ -230,6 +296,9 @@ export const locations: Location[] = [
     metaDescription: 'Kenmore Square movers near BU and Fenway. Set your budget before we call — fully insured, walk-ups welcome, September 1st ready.',
     neighborhoods: ['Fenway', 'Allston', 'Brighton', 'Back Bay', 'Coolidge Corner', 'Mission Hill', 'Brookline', 'Commonwealth Avenue area'],
     areasLabel: 'Kenmore Square & nearby neighborhoods',
+    transit: 'Green Line (Kenmore, all branches)',
+    housingStock: 'Dense student apartment buildings near BU and Fenway Park',
+    driveTime: '~6 min from downtown Boston',
   },
   {
     slug: 'movers-longwood-ma',
@@ -240,6 +309,9 @@ export const locations: Location[] = [
     metaDescription: 'Longwood Medical Area movers for students and staff. Set your budget upfront — fully insured crew, same-day response, walk-ups welcome.',
     neighborhoods: ['Mission Hill', 'Fenway', 'Jamaica Plain', 'Brookline', 'Roxbury', 'South End', 'Back Bay', 'Harvard Medical School area'],
     areasLabel: 'Longwood & Medical Area neighborhoods',
+    transit: 'Green Line D/E branches (Longwood, Brookline Village)',
+    housingStock: 'Apartments and short-term housing serving the Longwood Medical Area',
+    driveTime: '~7 min from downtown Boston',
   },
   // ── Greater Boston suburbs ────────────────────────────────────────────────
   {
@@ -251,6 +323,9 @@ export const locations: Location[] = [
     metaDescription: 'Boston\'s busiest moving day is September 1st. NoTimeMover is ready — set your budget upfront, skip the surprise quotes. Fully insured crew, walk-ups welcome.',
     neighborhoods: ['Back Bay', 'South End', 'Allston', 'Brighton', 'Fenway', 'Charlestown', 'Jamaica Plain', 'Dorchester', 'Somerville', 'Cambridge'],
     areasLabel: 'Boston neighborhoods & beyond',
+    transit: 'All four MBTA rapid transit lines, plus regional and Amtrak rail',
+    housingStock: 'Everything from triple-deckers to high-rise condos, block by block',
+    driveTime: 'no commute — Boston is home base',
   },
   {
     slug: 'movers-cambridge-ma',
@@ -261,6 +336,9 @@ export const locations: Location[] = [
     metaDescription: 'Moving near Harvard or MIT? Cambridge triple-deckers and high-rises are our specialty. Set your budget upfront — fully insured crew, same-day response.',
     neighborhoods: ['Somerville', 'Arlington', 'Belmont', 'Watertown', 'Allston', 'Brighton', 'Boston', 'Medford'],
     areasLabel: 'Cambridge & nearby neighborhoods',
+    transit: 'Red Line (Harvard, Central, Kendall/MIT, Porter)',
+    housingStock: 'Triple-deckers, historic multi-families, and new high-rises near MIT/Kendall',
+    driveTime: '~8 min from downtown Boston',
   },
   {
     slug: 'movers-somerville-ma',
@@ -271,6 +349,9 @@ export const locations: Location[] = [
     metaDescription: 'Somerville triple-deckers and condos. Set your budget before we call — fully insured crew, no stair fees, same-day response.',
     neighborhoods: ['Cambridge', 'Medford', 'Arlington', 'Malden', 'Everett', 'Charlestown', 'Boston', 'Davis Square'],
     areasLabel: 'Somerville & nearby areas',
+    transit: 'Red Line (Davis, Porter) and the Green Line Extension (Union Sq, Ball Sq, Gilman Sq)',
+    housingStock: 'Some of the densest triple-decker housing stock in New England',
+    driveTime: '~10 min from downtown Boston',
   },
   {
     slug: 'movers-brookline-ma',
@@ -281,6 +362,9 @@ export const locations: Location[] = [
     metaDescription: 'Brookline movers for houses, condos, and apartments. Set your budget upfront — fully insured crew, same-day response, no surprise fees.',
     neighborhoods: ['Newton', 'Back Bay', 'Allston', 'Brighton', 'Fenway', 'Jamaica Plain', 'West Roxbury', 'Chestnut Hill'],
     areasLabel: 'Brookline & surrounding areas',
+    transit: 'Green Line C/D branches (Coolidge Corner, Brookline Village, Chestnut Hill)',
+    housingStock: 'Large single-family homes and pre-war apartment buildings',
+    driveTime: '~10 min from downtown Boston',
   },
   {
     slug: 'movers-newton-ma',
@@ -291,6 +375,9 @@ export const locations: Location[] = [
     metaDescription: 'Newton movers for large homes, condos, and apartments across all 13 villages. Set your budget before we call — fully insured, same-day response.',
     neighborhoods: ['Brookline', 'Waltham', 'Needham', 'Wellesley', 'West Roxbury', 'Chestnut Hill', 'Watertown', 'Brighton'],
     areasLabel: 'Newton & surrounding neighborhoods',
+    transit: 'Green Line D branch (Newton Centre, Newton Highlands, Waban, Woodland)',
+    housingStock: 'Large single-family homes across Newton\'s 13 villages',
+    driveTime: '~15 min from downtown Boston',
   },
   {
     slug: 'movers-quincy-ma',
@@ -301,6 +388,9 @@ export const locations: Location[] = [
     metaDescription: 'Quincy movers for condos, apartments, and houses. Set your budget upfront — fully insured crew, same-day response. Serving Quincy and the South Shore.',
     neighborhoods: ['Braintree', 'Milton', 'Dorchester', 'South Boston', 'Weymouth', 'Randolph', 'Holbrook', 'Hingham'],
     areasLabel: 'Quincy & South Shore areas',
+    transit: 'Red Line (Quincy Center, Wollaston, North Quincy, Quincy Adams)',
+    housingStock: 'New downtown condo towers alongside classic South Shore family homes',
+    driveTime: '~15 min from downtown Boston',
   },
   {
     slug: 'movers-medford-ma',
@@ -311,6 +401,9 @@ export const locations: Location[] = [
     metaDescription: 'Medford movers, fully insured. Set your budget before we call — no surprise quotes. Serving Medford, Somerville, Malden, and all of Greater Boston.',
     neighborhoods: ['Somerville', 'Cambridge', 'Malden', 'Arlington', 'Everett', 'Woburn', 'Winchester', 'Tufts University area'],
     areasLabel: 'Medford & nearby areas',
+    transit: 'Green Line Extension (Medford/Tufts, Ball Sq)',
+    housingStock: 'Triple-deckers and single-families near Tufts University',
+    driveTime: '~12 min from downtown Boston',
   },
   {
     slug: 'movers-malden-ma',
@@ -321,6 +414,9 @@ export const locations: Location[] = [
     metaDescription: 'Malden movers on your terms. Set your budget before we call — fully insured crew, same-day response. Serving Malden and Greater Boston.',
     neighborhoods: ['Medford', 'Somerville', 'Everett', 'Revere', 'Saugus', 'Woburn', 'Melrose', 'Malden Center'],
     areasLabel: 'Malden & surrounding areas',
+    transit: 'Orange Line (Malden Center)',
+    housingStock: 'Affordable multi-family apartment buildings — one of Greater Boston\'s most diverse rental markets',
+    driveTime: '~12 min from downtown Boston',
   },
   {
     slug: 'movers-everett-ma',
@@ -331,6 +427,9 @@ export const locations: Location[] = [
     metaDescription: 'Everett movers — new builds and older apartments. Set your budget before we reach out — fully insured, same-day response, no surprise fees.',
     neighborhoods: ['Somerville', 'Malden', 'Chelsea', 'East Boston', 'Revere', 'Medford', 'Charlestown', 'Encore area'],
     areasLabel: 'Everett & nearby areas',
+    transit: 'Bus and Silver Line connections to Wellington and Assembly (Orange Line)',
+    housingStock: 'Older triple-deckers alongside fast-moving new development',
+    driveTime: '~10 min from downtown Boston',
   },
   {
     slug: 'movers-revere-ma',
@@ -341,6 +440,9 @@ export const locations: Location[] = [
     metaDescription: 'Revere movers, fully insured. Set your budget before we call — same-day response, no stair fees. Serving Revere and the North Shore.',
     neighborhoods: ['East Boston', 'Chelsea', 'Everett', 'Malden', 'Winthrop', 'Saugus', 'Lynn', 'Beachmont'],
     areasLabel: 'Revere & nearby areas',
+    transit: 'Blue Line (Wonderland, Revere Beach, Beachmont)',
+    housingStock: 'Dense apartment buildings near the beach, with growing rental demand',
+    driveTime: '~12 min from downtown Boston',
   },
   {
     slug: 'movers-chelsea-ma',
@@ -351,6 +453,9 @@ export const locations: Location[] = [
     metaDescription: 'Chelsea movers, fully insured. Set your budget upfront — no hourly surprises. Serving Chelsea, East Boston, Revere, and all of Greater Boston.',
     neighborhoods: ['East Boston', 'Revere', 'Everett', 'Somerville', 'Charlestown', 'Winthrop', 'Malden', 'Downtown Boston'],
     areasLabel: 'Chelsea & nearby areas',
+    transit: 'Silver Line SL3 and the Newburyport/Rockport Line commuter rail',
+    housingStock: 'Affordable multi-family apartments in a rapidly changing housing market',
+    driveTime: '~8 min from downtown Boston',
   },
   {
     slug: 'movers-waltham-ma',
@@ -361,6 +466,9 @@ export const locations: Location[] = [
     metaDescription: 'Waltham movers for apartments, condos, and houses. Set your budget before we call — fully insured, same-day response. Brandeis and beyond.',
     neighborhoods: ['Newton', 'Watertown', 'Belmont', 'Arlington', 'Lexington', 'Needham', 'Wellesley', 'Brighton'],
     areasLabel: 'Waltham & surrounding areas',
+    transit: 'Fitchburg Line commuter rail (Waltham station)',
+    housingStock: 'Dense apartments near Brandeis and the Route 128 biotech corridor',
+    driveTime: '~15 min from downtown Boston',
   },
   {
     slug: 'movers-watertown-ma',
@@ -371,6 +479,9 @@ export const locations: Location[] = [
     metaDescription: 'Watertown movers for condos and apartments. Set your budget upfront — fully insured crew, same-day response. Between Cambridge, Newton, and Waltham.',
     neighborhoods: ['Cambridge', 'Newton', 'Waltham', 'Arlington', 'Belmont', 'Brighton', 'Allston', 'Brookline'],
     areasLabel: 'Watertown & nearby areas',
+    transit: 'Bus routes to Harvard (Red Line); no direct rail station in town',
+    housingStock: 'Growing condo development alongside older multi-family homes',
+    driveTime: '~12 min from downtown Boston',
   },
   {
     slug: 'movers-arlington-ma',
@@ -381,6 +492,9 @@ export const locations: Location[] = [
     metaDescription: 'Arlington movers for houses, condos, and apartments. Set your budget before we call — fully insured crew, same-day response, no surprise fees.',
     neighborhoods: ['Cambridge', 'Belmont', 'Lexington', 'Medford', 'Somerville', 'Watertown', 'Waltham', 'Winchester'],
     areasLabel: 'Arlington & nearby towns',
+    transit: 'Bus routes to Alewife (Red Line); no direct rail station in town',
+    housingStock: 'Single- and two-family homes in a family-oriented housing market',
+    driveTime: '~12 min from downtown Boston',
   },
   {
     slug: 'movers-belmont-ma',
@@ -391,6 +505,9 @@ export const locations: Location[] = [
     metaDescription: 'Belmont movers for houses and condos. Set your budget before we call — fully insured, same-day response, no hourly billing surprises.',
     neighborhoods: ['Cambridge', 'Arlington', 'Watertown', 'Waltham', 'Lexington', 'Medford', 'Somerville', 'Brighton'],
     areasLabel: 'Belmont & nearby towns',
+    transit: 'Fitchburg Line commuter rail (Belmont Center, Waverley)',
+    housingStock: 'Larger single-family homes on quiet residential streets',
+    driveTime: '~15 min from downtown Boston',
   },
   {
     slug: 'movers-needham-ma',
@@ -401,6 +518,9 @@ export const locations: Location[] = [
     metaDescription: 'Needham movers for full house and condo moves. Set your budget upfront — fully insured crew, same-day response, no hidden fees on move day.',
     neighborhoods: ['Newton', 'Dedham', 'Wellesley', 'West Roxbury', 'Brookline', 'Natick', 'Norwood', 'Walpole'],
     areasLabel: 'Needham & surrounding towns',
+    transit: 'Needham Line commuter rail (Needham Center, Needham Heights)',
+    housingStock: 'Large single-family homes on bigger lots',
+    driveTime: '~20 min from downtown Boston',
   },
   {
     slug: 'movers-dedham-ma',
@@ -411,6 +531,9 @@ export const locations: Location[] = [
     metaDescription: 'Dedham movers for houses, condos, and apartments. Set your budget before we call — fully insured, same-day response, no stair fees.',
     neighborhoods: ['Norwood', 'Needham', 'West Roxbury', 'Milton', 'Westwood', 'Canton', 'Hyde Park', 'Roslindale'],
     areasLabel: 'Dedham & nearby towns',
+    transit: 'Franklin Line commuter rail (Dedham Corporate Center, Endicott)',
+    housingStock: 'Single-family homes and townhouse developments',
+    driveTime: '~20 min from downtown Boston',
   },
   {
     slug: 'movers-braintree-ma',
@@ -421,6 +544,9 @@ export const locations: Location[] = [
     metaDescription: 'Braintree movers for condos, houses, and apartments. Set your budget upfront — fully insured crew, same-day response. South Shore and Boston.',
     neighborhoods: ['Quincy', 'Weymouth', 'Randolph', 'Milton', 'Holbrook', 'Norwell', 'Avon', 'Holbrook'],
     areasLabel: 'Braintree & South Shore areas',
+    transit: 'Red Line southern terminus (Braintree station)',
+    housingStock: 'Mix of condos near the T and single-family homes further out',
+    driveTime: '~20 min from downtown Boston',
   },
   {
     slug: 'movers-milton-ma',
@@ -431,6 +557,9 @@ export const locations: Location[] = [
     metaDescription: 'Milton residential movers for houses and condos. Set your budget before we call — fully insured, same-day response, no surprise fees.',
     neighborhoods: ['Quincy', 'Dorchester', 'Hyde Park', 'Braintree', 'Canton', 'Stoughton', 'Randolph', 'East Milton'],
     areasLabel: 'Milton & nearby towns',
+    transit: 'Mattapan Trolley (Central Ave, Valley Rd, Capen St)',
+    housingStock: 'Large single-family homes — one of the South Shore\'s quieter towns',
+    driveTime: '~18 min from downtown Boston',
   },
   {
     slug: 'movers-lynn-ma',
@@ -441,6 +570,9 @@ export const locations: Location[] = [
     metaDescription: 'Lynn movers, fully insured. Set your budget before we call — no hourly surprises. Serving Lynn, Saugus, Peabody, and the North Shore.',
     neighborhoods: ['Saugus', 'Peabody', 'Salem', 'Revere', 'Malden', 'Everett', 'Swampscott', 'Nahant'],
     areasLabel: 'Lynn & North Shore areas',
+    transit: 'Newburyport/Rockport Line commuter rail (Lynn station)',
+    housingStock: 'Dense multi-family housing — one of the North Shore\'s most active rental markets',
+    driveTime: '~20 min from downtown Boston',
   },
   {
     slug: 'movers-winthrop-ma',
@@ -451,6 +583,9 @@ export const locations: Location[] = [
     metaDescription: 'Winthrop movers, fully insured. Set your budget before we call — same-day response, no hidden fees. East of Boston, close to Logan.',
     neighborhoods: ['East Boston', 'Revere', 'Chelsea', 'Everett', 'Malden', 'Swampscott', 'Lynn', 'Beachmont'],
     areasLabel: 'Winthrop & nearby areas',
+    transit: 'Bus connections to Orient Heights (Blue Line); no direct rail station in town',
+    housingStock: 'Tight-knit peninsula housing stock with limited new construction',
+    driveTime: '~15 min from downtown Boston',
   },
   {
     slug: 'movers-woburn-ma',
@@ -461,6 +596,9 @@ export const locations: Location[] = [
     metaDescription: 'Woburn movers for apartments, condos, and houses. Set your budget before we call — fully insured crew, same-day response, no surprise fees.',
     neighborhoods: ['Medford', 'Malden', 'Burlington', 'Winchester', 'Stoneham', 'Lexington', 'Woburn Center', 'Wilmington'],
     areasLabel: 'Woburn & nearby towns',
+    transit: 'Lowell Line commuter rail (Anderson Regional Transportation Center)',
+    housingStock: 'Mix of apartment complexes and single-family homes near Route 128',
+    driveTime: '~20 min from downtown Boston',
   },
   {
     slug: 'movers-burlington-ma',
@@ -471,6 +609,9 @@ export const locations: Location[] = [
     metaDescription: 'Burlington movers for new apartments and established homes. Set your budget upfront — fully insured, same-day response, no hourly billing surprises.',
     neighborhoods: ['Woburn', 'Lexington', 'Wilmington', 'Bedford', 'Billerica', 'Waltham', 'Stoneham', 'Route 128 corridor'],
     areasLabel: 'Burlington & nearby towns',
+    transit: 'No direct rail station; served by Routes 128/95 and local bus',
+    housingStock: 'New apartment development near the tech corridor, plus single-family neighborhoods',
+    driveTime: '~20 min from downtown Boston',
   },
   {
     slug: 'movers-lexington-ma',
@@ -481,6 +622,9 @@ export const locations: Location[] = [
     metaDescription: 'Lexington movers for large homes and condos. Set your budget before we call — fully insured crew, same-day response, no hidden fees.',
     neighborhoods: ['Arlington', 'Belmont', 'Waltham', 'Burlington', 'Bedford', 'Concord', 'Lincoln', 'Winchester'],
     areasLabel: 'Lexington & surrounding towns',
+    transit: 'Bus routes to Alewife (Red Line); no direct rail station in town',
+    housingStock: 'Large single-family homes in one of Greater Boston\'s top-rated school districts',
+    driveTime: '~20 min from downtown Boston',
   },
   {
     slug: 'movers-framingham-ma',
@@ -491,6 +635,9 @@ export const locations: Location[] = [
     metaDescription: 'Framingham movers for apartments, condos, and houses. Set your budget before we call — fully insured crew, same-day response, MetroWest and beyond.',
     neighborhoods: ['Natick', 'Ashland', 'Sudbury', 'Marlborough', 'Southborough', 'Holliston', 'Hopkinton', 'Sherborn'],
     areasLabel: 'Framingham & MetroWest areas',
+    transit: 'Framingham/Worcester Line commuter rail (Framingham station)',
+    housingStock: 'Mix of apartments, condos, and single-family homes along Route 9',
+    driveTime: '~25 min from downtown Boston',
   },
   {
     slug: 'movers-natick-ma',
@@ -501,6 +648,9 @@ export const locations: Location[] = [
     metaDescription: 'Natick movers for condos, houses, and apartments. Set your budget upfront — fully insured crew, same-day response, no surprise fees on move day.',
     neighborhoods: ['Framingham', 'Wellesley', 'Needham', 'Ashland', 'Wayland', 'Sherborn', 'Holliston', 'Route 9 corridor'],
     areasLabel: 'Natick & MetroWest towns',
+    transit: 'Framingham/Worcester Line commuter rail (Natick Center, West Natick)',
+    housingStock: 'New condo development alongside classic New England single-families',
+    driveTime: '~25 min from downtown Boston',
   },
   {
     slug: 'movers-wellesley-ma',
@@ -511,6 +661,9 @@ export const locations: Location[] = [
     metaDescription: 'Wellesley movers for large homes and condos. Set your budget before we call — fully insured crew, same-day response, handled with care.',
     neighborhoods: ['Needham', 'Newton', 'Natick', 'Weston', 'Dedham', 'Westwood', 'Dover', 'Route 9 corridor'],
     areasLabel: 'Wellesley & surrounding towns',
+    transit: 'Framingham/Worcester Line commuter rail (Wellesley Sq, Wellesley Hills, Wellesley Farms)',
+    housingStock: 'Large historic homes near Wellesley College',
+    driveTime: '~20 min from downtown Boston',
   },
   {
     slug: 'movers-peabody-ma',
@@ -521,6 +674,9 @@ export const locations: Location[] = [
     metaDescription: 'Peabody movers, fully insured. Set your budget before we call — no hourly surprises. Serving Peabody, Salem, Beverly, and the North Shore.',
     neighborhoods: ['Salem', 'Beverly', 'Lynn', 'Danvers', 'Marblehead', 'Swampscott', 'Saugus', 'Topsfield'],
     areasLabel: 'Peabody & North Shore areas',
+    transit: 'No direct rail station; nearby Salem stop on the Newburyport/Rockport Line',
+    housingStock: 'Affordable multi-family housing and single-family neighborhoods',
+    driveTime: '~25 min from downtown Boston',
   },
   {
     slug: 'movers-salem-ma',
@@ -531,6 +687,9 @@ export const locations: Location[] = [
     metaDescription: 'Salem movers for Victorians, condos, and apartments. Set your budget upfront — fully insured crew, same-day response. North Shore covered.',
     neighborhoods: ['Peabody', 'Beverly', 'Marblehead', 'Swampscott', 'Lynn', 'Danvers', 'Ipswich', 'Hamilton'],
     areasLabel: 'Salem & North Shore areas',
+    transit: 'Newburyport/Rockport Line commuter rail (Salem station)',
+    housingStock: 'Historic Victorian homes and a dense, walkable downtown',
+    driveTime: '~25 min from downtown Boston',
   },
   {
     slug: 'movers-beverly-ma',
@@ -541,6 +700,9 @@ export const locations: Location[] = [
     metaDescription: 'Beverly movers, fully insured. Set your budget before we call — same-day response, no hidden fees. North Shore and Greater Boston.',
     neighborhoods: ['Salem', 'Peabody', 'Danvers', 'Wenham', 'Hamilton', 'Gloucester', 'Manchester', 'Marblehead'],
     areasLabel: 'Beverly & North Shore towns',
+    transit: 'Newburyport/Rockport Line commuter rail (Beverly, Montserrat, Prides Crossing)',
+    housingStock: 'Mix of coastal homes and denser near-downtown housing',
+    driveTime: '~30 min from downtown Boston',
   },
   // ── Extended MA ───────────────────────────────────────────────────────────
   {
@@ -552,6 +714,9 @@ export const locations: Location[] = [
     metaDescription: "Worcester's second-largest city deserves straightforward moving. Set your budget before we call — no hourly surprises. Fully insured crew, same-day response.",
     neighborhoods: ['Shrewsbury', 'Millbury', 'Auburn', 'Grafton', 'Northborough', 'Westborough', 'Paxton', 'Holden'],
     areasLabel: 'Worcester & surrounding cities',
+    transit: 'Framingham/Worcester Line commuter rail (Union Station), I-90/I-290',
+    housingStock: 'Triple-deckers and apartments near Clark, WPI, and Holy Cross',
+    driveTime: '~50 min from downtown Boston',
   },
   {
     slug: 'movers-lowell-ma',
@@ -562,6 +727,9 @@ export const locations: Location[] = [
     metaDescription: 'Moving near UMass Lowell or anywhere in the Mill City? Set your budget upfront and we tell you exactly what it covers. Fully insured crew, same-day response.',
     neighborhoods: ['Chelmsford', 'Dracut', 'Tewksbury', 'Billerica', 'Wilmington', 'Methuen', 'Lawrence', 'Haverhill'],
     areasLabel: 'Lowell & Merrimack Valley areas',
+    transit: 'Lowell Line commuter rail (Lowell station), Route 495/93',
+    housingStock: 'Historic mill-city apartments and a revitalized downtown near UMass Lowell',
+    driveTime: '~40 min from downtown Boston',
   },
   {
     slug: 'movers-springfield-ma',
@@ -572,6 +740,9 @@ export const locations: Location[] = [
     metaDescription: "Western MA's movers for local and out-of-state moves. Set your budget before we reach out — no surprise quotes. Fully insured, same-day response.",
     neighborhoods: ['Chicopee', 'Holyoke', 'Ludlow', 'Agawam', 'West Springfield', 'Longmeadow', 'East Longmeadow', 'Wilbraham'],
     areasLabel: 'Springfield & Pioneer Valley areas',
+    transit: 'Amtrak service, I-91/I-90 (Mass Pike)',
+    housingStock: 'Diverse mix of triple-deckers, apartments, and single-family homes',
+    driveTime: '~90 min from downtown Boston',
   },
   {
     slug: 'movers-lawrence-ma',
@@ -582,6 +753,9 @@ export const locations: Location[] = [
     metaDescription: 'Lawrence movers, fully insured. Set your budget before we call — no surprise quotes, same-day response. Serving Lawrence and the Merrimack Valley.',
     neighborhoods: ['Methuen', 'Andover', 'North Andover', 'Haverhill', 'Lowell', 'Salem NH', 'Bradford', 'Dracut'],
     areasLabel: 'Lawrence & Merrimack Valley areas',
+    transit: 'Haverhill Line commuter rail (Lawrence station), Route 495/93',
+    housingStock: 'Dense mill-city apartment buildings — one of the Merrimack Valley\'s busiest rental markets',
+    driveTime: '~35 min from downtown Boston',
   },
   {
     slug: 'movers-haverhill-ma',
@@ -592,6 +766,9 @@ export const locations: Location[] = [
     metaDescription: 'Haverhill movers, fully insured. Set your budget before we contact you — same-day response, no surprise fees. Merrimack Valley covered.',
     neighborhoods: ['Lawrence', 'Methuen', 'Bradford', 'Amesbury', 'Salisbury', 'Newburyport', 'Groveland', 'Plaistow NH'],
     areasLabel: 'Haverhill & nearby towns',
+    transit: 'Haverhill Line commuter rail (Haverhill station), Route 495',
+    housingStock: 'Revitalized downtown apartments alongside single-family neighborhoods',
+    driveTime: '~40 min from downtown Boston',
   },
   {
     slug: 'movers-brockton-ma',
@@ -602,6 +779,9 @@ export const locations: Location[] = [
     metaDescription: 'Brockton movers, fully insured. Set your budget before we call — no hourly surprises, same-day response. Serving Brockton and southeastern MA.',
     neighborhoods: ['Stoughton', 'Avon', 'Easton', 'West Bridgewater', 'Bridgewater', 'Abington', 'Whitman', 'Randolph'],
     areasLabel: 'Brockton & southeastern MA areas',
+    transit: 'Middleborough/Lakeville Line commuter rail (Brockton station), Route 24',
+    housingStock: 'Large, diverse mix of multi-family and single-family housing',
+    driveTime: '~30 min from downtown Boston',
   },
   {
     slug: 'movers-new-bedford-ma',
@@ -612,6 +792,9 @@ export const locations: Location[] = [
     metaDescription: 'New Bedford movers, fully insured. Set your budget upfront — no surprise fees, same-day response. SouthCoast MA covered.',
     neighborhoods: ['Dartmouth', 'Fairhaven', 'Acushnet', 'Fall River', 'Taunton', 'Wareham', 'Marion', 'Mattapoisett'],
     areasLabel: 'New Bedford & SouthCoast areas',
+    transit: 'South Coast Rail commuter service to Boston, I-195',
+    housingStock: 'Historic working-class multi-family homes near the harbor',
+    driveTime: '~60 min from downtown Boston',
   },
   {
     slug: 'movers-fall-river-ma',
@@ -622,6 +805,9 @@ export const locations: Location[] = [
     metaDescription: 'Fall River movers, fully insured. Set your budget before we call — same-day response, no hidden fees. MA/RI border and beyond.',
     neighborhoods: ['New Bedford', 'Taunton', 'Swansea', 'Somerset', 'Dighton', 'Seekonk', 'Attleboro', 'Providence RI area'],
     areasLabel: 'Fall River & SouthCoast areas',
+    transit: 'South Coast Rail commuter service to Boston, I-195/Route 24',
+    housingStock: 'Dense multi-family housing near the Rhode Island border',
+    driveTime: '~60 min from downtown Boston',
   },
   {
     slug: 'movers-taunton-ma',
@@ -632,6 +818,9 @@ export const locations: Location[] = [
     metaDescription: 'Taunton movers, fully insured. Set your budget upfront — no hourly surprises, same-day response. Southeastern MA and beyond.',
     neighborhoods: ['Brockton', 'Raynham', 'Easton', 'Norton', 'Berkley', 'Dighton', 'Bridgewater', 'Attleboro'],
     areasLabel: 'Taunton & southeastern MA areas',
+    transit: 'Car-dependent, with commuter rail expansion underway; Route 24/495',
+    housingStock: 'Mix of single-family homes and multi-family housing',
+    driveTime: '~45 min from downtown Boston',
   },
   {
     slug: 'movers-plymouth-ma',
@@ -642,6 +831,9 @@ export const locations: Location[] = [
     metaDescription: 'Plymouth movers for new construction and established homes. Set your budget before we call — fully insured, same-day response, South Shore covered.',
     neighborhoods: ['Kingston', 'Duxbury', 'Marshfield', 'Wareham', 'Carver', 'Middleborough', 'Pembroke', 'Hanson'],
     areasLabel: 'Plymouth & South Shore towns',
+    transit: 'Kingston/Plymouth Line commuter rail (Cordage Park, Plymouth)',
+    housingStock: 'New waterfront condos and established single-family neighborhoods',
+    driveTime: '~45 min from downtown Boston',
   },
 ]
 

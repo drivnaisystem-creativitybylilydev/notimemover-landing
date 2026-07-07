@@ -7,6 +7,9 @@ const route = getOosRoute('boston-to-philadelphia-movers')!
 export const metadata: Metadata = {
   title: route.metaTitle,
   description: route.metaDescription,
+  alternates: {
+    canonical: '/boston-to-philadelphia-movers',
+  },
 }
 
 export default function Page() {

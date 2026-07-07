@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     google: 's4PeiDBEdKAfhaX6aGQk7hw9sjtowGwTJiDbLH0q32I',
   },
   metadataBase: new URL('https://notimemover.com'),
+  alternates: {
+    canonical: '/',
+  },
   title: 'Boston Moving Company — NoTimeMover | No Surprise Fees',
   description: 'Fully insured Boston movers. Tell us your budget — we work around it. Local, out-of-state, and same-day moves across Greater Massachusetts. No surprise quotes.',
   openGraph: {

@@ -20,6 +20,9 @@ export async function generateMetadata({
   return {
     title: `${post.title} | NoTimeMover`,
     description: post.description,
+    alternates: {
+      canonical: `/blog/${slug}`,
+    },
     openGraph: {
       title: post.title,
       description: post.description,
@@ -58,7 +61,10 @@ export default async function BlogPostPage({
     headline: post.title,
     description: post.description,
     datePublished: post.date,
-    author: { '@type': 'Organization', name: 'NoTimeMover', url: 'https://notimemover.com' },
+    author:
+      post.author === 'Jermaine Williams'
+        ? { '@type': 'Person', name: 'Jermaine Williams', jobTitle: 'Founder, NoTimeMover', url: 'https://notimemover.com' }
+        : { '@type': 'Organization', name: post.author, url: 'https://notimemover.com' },
     publisher: { '@type': 'Organization', name: 'NoTimeMover', url: 'https://notimemover.com' },
   }
 
@@ -120,7 +126,10 @@ export default async function BlogPostPage({
           <p className="text-[15px] sm:text-[16px] text-white/50 leading-relaxed max-w-2xl">
             {post.description}
           </p>
-          <p className="mt-5 text-[12px] text-white/25">By {post.author}</p>
+          <p className="mt-5 text-[12px] text-white/25">
+            By {post.author}
+            {post.author === 'Jermaine Williams' && <span className="text-white/15"> — Founder, NoTimeMover</span>}
+          </p>
         </div>
       </header>
 
