@@ -27,6 +27,34 @@ export default function ServicePageTemplate({ service }: { service: Service }) {
     ],
   }
 
+  const serviceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: service.name,
+    name: service.name,
+    description: service.description,
+    url: `https://notimemover.com/${service.slug}`,
+    provider: {
+      '@type': 'MovingCompany',
+      name: 'NoTimeMover',
+      url: 'https://notimemover.com',
+      telephone: '+12039194098',
+    },
+    areaServed: {
+      '@type': 'State',
+      name: 'Massachusetts',
+    },
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'USD',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        minPrice: TIERS.studio.budgetMin,
+        priceCurrency: 'USD',
+      },
+    },
+  }
+
   const relatedLocations = service.relatedLocationSlugs.map((slug) => getLocation(slug)).filter(Boolean)
   const relatedOos = service.relatedOosSlugs.map((slug) => getOosRoute(slug)).filter(Boolean)
 
@@ -34,6 +62,7 @@ export default function ServicePageTemplate({ service }: { service: Service }) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <div className="min-h-screen bg-ink text-white">
         <nav
           className="w-full flex items-center justify-between px-5 sm:px-8 py-5"
