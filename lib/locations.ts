@@ -10,6 +10,7 @@ export interface Location {
   transit: string
   housingStock: string
   driveTime: string
+  localCopy: string[]
 }
 
 export const locations: Location[] = [
@@ -26,6 +27,10 @@ export const locations: Location[] = [
     transit: 'Green Line B branch (Packard\'s Corner, Harvard Ave, Allston St)',
     housingStock: 'Dense multi-family triple-deckers and student apartment buildings',
     driveTime: '~10 min from downtown Boston',
+    localCopy: [
+      'Allston turns over faster than almost anywhere in the state. So many leases end on September 1st that the sidewalks fill with furniture people didn\'t want to haul to the next place — locals call it Allston Christmas, and it\'s real: couches, lamps, whole bookshelves, free for the taking, for about 48 hours a year.',
+      'That kind of turnover means the housing stock is built for it. Triple-deckers and group houses dominate, split into three or four bedrooms and rented by students and twenty-somethings who move almost every year. Narrow staircases, shared hallways, street parking that disappears entirely in early September — we\'ve seen all of it, more than once.',
+    ],
   },
   {
     slug: 'movers-back-bay-ma',
@@ -39,6 +44,10 @@ export const locations: Location[] = [
     transit: 'Orange Line (Back Bay), Green Line (Copley, Arlington, Hynes)',
     housingStock: 'Historic brownstones and converted rowhouse apartments with narrow stairwells',
     driveTime: '~5 min from downtown Boston',
+    localCopy: [
+      'Back Bay isn\'t actually a bay anymore. In the 1850s the city filled in the tidal marsh that used to sit here, laid out a grid of streets in alphabetical order — Arlington, Berkeley, Clarendon, Dartmouth, Exeter — and built some of the most consistent Victorian brownstone architecture in the country on top of it.',
+      'Consistent architecture means consistent problems for anyone moving in or out. Most of these buildings predate elevators, so a third-floor unit means a third-floor carry, every time, no shortcuts. Street parking is metered and permit-only on most blocks, which is why we always ask for a heads-up on loading before move day rather than figuring it out at the curb.',
+    ],
   },
   {
     slug: 'movers-brighton-ma',
@@ -52,6 +61,10 @@ export const locations: Location[] = [
     transit: 'Green Line B branch (Washington St, Sutherland Rd, Chestnut Hill Ave)',
     housingStock: 'Triple-deckers and large apartment complexes with heavy September turnover',
     driveTime: '~12 min from downtown Boston',
+    localCopy: [
+      'Brighton sits just west of Allston and gets lumped in with it constantly, but it\'s its own thing — a little more settled, a little less chaotic, with a long-standing Irish community and a growing Brazilian one clustered around Brighton Center and Oak Square.',
+      'It still empties out and refills every September, just with slightly less of the sidewalk-furniture spectacle next door. Apartment buildings and triple-deckers make up most of the stock, and a lot of our Brighton jobs involve a second stop in Allston or Cambridge on the same day — the two neighborhoods share a lot of the same renters.',
+    ],
   },
   {
     slug: 'movers-charlestown-ma',
@@ -65,6 +78,10 @@ export const locations: Location[] = [
     transit: 'Orange Line (Community College), plus MBTA ferry to Long Wharf',
     housingStock: 'Federal-era townhouses alongside newer Navy Yard condo buildings',
     driveTime: '~8 min from downtown Boston',
+    localCopy: [
+      'The USS Constitution is still docked in the Charlestown Navy Yard — the actual ship, still commissioned, still crewed. That\'s the anchor (no pun intended) for a neighborhood that mixes 19th-century rowhouses on Bunker Hill with newer condo buildings built into the old Navy Yard warehouses.',
+      'Both types of building come with their own headaches. The historic rowhouses have the same narrow-stair, no-elevator problem as Beacon Hill; the converted Navy Yard buildings tend to have stricter move-in paperwork and elevator reservation windows. We\'ve done both enough times to know which questions to ask before the truck shows up.',
+    ],
   },
   {
     slug: 'movers-dorchester-ma',
@@ -78,6 +95,10 @@ export const locations: Location[] = [
     transit: 'Red Line Ashmont branch, plus the Fairmount Line commuter rail',
     housingStock: 'Boston\'s largest stock of triple-deckers, spread across a wide area',
     driveTime: '~10-15 min from downtown Boston',
+    localCopy: [
+      'Dorchester is Boston\'s biggest neighborhood by a wide margin, and it doesn\'t behave like one place — it\'s really a string of villages. Fields Corner has one of the largest Vietnamese communities in New England, Ashmont and Savin Hill lean more Irish and Caribbean, Lower Mills sits right on the Neponset River.',
+      'What ties it together for us is the housing: triple-deckers, block after block of them, most without an elevator and plenty with a small side yard that makes truck placement more of a puzzle than it looks. We ask for the specific street, not just "Dorchester," because the answer to "can the truck park close" genuinely depends on which part of it you\'re in.',
+    ],
   },
   {
     slug: 'movers-east-boston-ma',
@@ -91,6 +112,10 @@ export const locations: Location[] = [
     transit: 'Blue Line (Maverick, Airport, Wood Island, Orient Heights)',
     housingStock: 'Triple-deckers alongside new waterfront condo development',
     driveTime: '~8 min from downtown Boston via the Sumner/Callahan Tunnel',
+    localCopy: [
+      'Eastie is only reachable from the rest of Boston by tunnel, bridge, or the Blue Line, and that separation shaped it — it stayed an immigrant port neighborhood long after other parts of the city gentrified, first Italian, now largely Salvadoran and Colombian.',
+      'It\'s changing fast now. New waterfront buildings are going up along the harbor with modern loading docks and elevators, while a few blocks inland the triple-deckers from a century ago haven\'t changed much at all. We move both kinds of building regularly, and the planes taking off from Logan a few hundred feet overhead are just part of the job here.',
+    ],
   },
   {
     slug: 'movers-fenway-ma',
@@ -104,6 +129,10 @@ export const locations: Location[] = [
     transit: 'Green Line D/E branches (Fenway, Longwood)',
     housingStock: 'Dense student apartment buildings near Fenway Park and the Longwood Medical Area',
     driveTime: '~7 min from downtown Boston',
+    localCopy: [
+      'Fenway Park anchors the neighborhood, obviously, but most of our jobs here aren\'t anywhere near game day traffic — they\'re in the dense student housing that fills the blocks between the park and the Longwood Medical Area, packed with Northeastern, Berklee, and MassArt students.',
+      'The Emerald Necklace, Frederick Law Olmsted\'s chain of connected parks, runs right through the neighborhood, which is a nice detail and also means some buildings back right up to a park with limited truck access on that side. Walk-ups are the default here, and we don\'t charge more for them.',
+    ],
   },
   {
     slug: 'movers-jamaica-plain-ma',
@@ -117,6 +146,10 @@ export const locations: Location[] = [
     transit: 'Orange Line (Stony Brook, Green St, Forest Hills)',
     housingStock: 'Victorian triple-deckers, single-families near Jamaica Pond, and newer condos',
     driveTime: '~12 min from downtown Boston',
+    localCopy: [
+      'JP has always drawn people who wanted more space than the inner neighborhoods but didn\'t want to leave the city — Jamaica Pond, the Arnold Arboretum, and streets of actual single-family Victorians alongside the triple-deckers you\'d expect closer to Boston.',
+      'That mix means moves here vary more than most. A Victorian near the Pond might mean a full house and a real driveway; a triple-decker off Centre Street means the standard third-floor walk-up. We size the crew to whichever one you\'re in rather than assuming.',
+    ],
   },
   {
     slug: 'movers-south-boston-ma',
@@ -130,6 +163,10 @@ export const locations: Location[] = [
     transit: 'Red Line (Broadway, Andrew), plus the Silver Line to Seaport',
     housingStock: 'Classic Southie triple-deckers alongside new Seaport high-rises',
     driveTime: '~8 min from downtown Boston',
+    localCopy: [
+      'Southie is two different neighborhoods wearing one name. Inland, it\'s still the triple-decker, Irish-American Southie that\'s been there for generations. Down by the water, the Seaport side has turned into glass high-rises and luxury condo buildings that didn\'t exist twenty years ago.',
+      'We move both, and they\'re not remotely the same job. The old triple-deckers are stairs and street parking; the new Seaport towers are freight elevators, loading dock reservations, and building management that wants a certificate of insurance before you\'re allowed in the lobby. We keep one on file specifically because of how often it comes up here.',
+    ],
   },
   {
     slug: 'movers-south-end-ma',
@@ -143,6 +180,10 @@ export const locations: Location[] = [
     transit: 'Orange Line (Back Bay, Tufts Medical Center), plus the Silver Line',
     housingStock: 'Victorian brick rowhouses and converted brownstone apartments',
     driveTime: '~6 min from downtown Boston',
+    localCopy: [
+      'The South End has the largest collection of intact Victorian rowhouses of any historic district in the country — brick, bow-fronted, block after block of them, most built in the 1860s and 70s when this was one of Boston\'s first planned residential neighborhoods.',
+      'Beautiful streets, tough moves. These buildings were built before anyone imagined a couch that wide or a mattress that thick going up a spiral staircase, and plenty of them still don\'t have elevators. We\'ve learned to ask about stair width and turn radius before we ask almost anything else.',
+    ],
   },
   {
     slug: 'movers-roxbury-ma',
@@ -156,6 +197,10 @@ export const locations: Location[] = [
     transit: 'Orange Line (Roxbury Crossing, Ruggles), plus the Fairmount Line',
     housingStock: 'Mix of triple-deckers and newer multi-family developments',
     driveTime: '~8 min from downtown Boston',
+    localCopy: [
+      'Roxbury has been the center of Boston\'s Black community for generations, and Dudley Square — renamed Nubian Square in 2020 — is still its commercial and cultural core, with a mix of older triple-deckers and newer affordable housing developments filling out the residential blocks around it.',
+      'It\'s central, which is part of why it works logistically for us: close to Jamaica Plain, the South End, and Dorchester, so a Roxbury move rarely means an isolated trip. Building types vary block to block more than in most neighborhoods, so we treat every quote here individually rather than assuming triple-decker by default.',
+    ],
   },
   {
     slug: 'movers-mission-hill-ma',
@@ -169,6 +214,10 @@ export const locations: Location[] = [
     transit: 'Orange Line (Roxbury Crossing), Green Line E branch nearby',
     housingStock: 'Dense student and medical-worker apartment buildings on steep streets',
     driveTime: '~8 min from downtown Boston',
+    localCopy: [
+      'Mission Hill is named for what it is — a genuinely steep hill, which nobody who\'s carried a couch up Tremont Street toward Roxbury Crossing forgets. It\'s dense with students and hospital staff from the Longwood Medical Area just down the slope.',
+      'The grade matters more here than in most neighborhoods: a truck that can park flat two blocks over might not have anywhere close and level near your actual building. We factor that into timing rather than treating every Mission Hill address the same.',
+    ],
   },
   {
     slug: 'movers-hyde-park-ma',
@@ -182,6 +231,10 @@ export const locations: Location[] = [
     transit: 'Fairmount and Franklin Line commuter rail (Hyde Park, Readville)',
     housingStock: 'Larger single- and two-family homes — Boston\'s most suburban neighborhood',
     driveTime: '~18 min from downtown Boston',
+    localCopy: [
+      'Hyde Park is Boston\'s southernmost neighborhood and doesn\'t feel much like the rest of the city — the Neponset River runs along its edge, lots are bigger, and single and two-family homes outnumber apartment buildings by a wide margin.',
+      'That means bigger moves on average: more furniture, more rooms, sometimes a garage or basement full of things that never made it onto the original inventory. We size the crew for a house move here rather than defaulting to the two-person apartment crew we\'d send to somewhere denser.',
+    ],
   },
   {
     slug: 'movers-roslindale-ma',
@@ -195,6 +248,10 @@ export const locations: Location[] = [
     transit: 'Needham Line commuter rail (Roslindale Village)',
     housingStock: 'Single- and multi-family homes around a walkable village center',
     driveTime: '~15 min from downtown Boston',
+    localCopy: [
+      'Roslindale Village is the kind of walkable town-center-within-a-city that a lot of Boston neighborhoods lost decades ago — a real Main Street feel, a farmers market, and streets of single and multi-family homes fanning out from it.',
+      'Rozzie moves tend to be calmer than the inner-neighborhood scramble: less street-parking chaos, more actual driveways, fewer three-flight walk-ups. It\'s close enough to the Arnold Arboretum that a few of our jobs here have had to work around root systems as much as parking restrictions.',
+    ],
   },
   {
     slug: 'movers-west-roxbury-ma',
@@ -208,6 +265,10 @@ export const locations: Location[] = [
     transit: 'Needham Line commuter rail (West Roxbury, Highland)',
     housingStock: 'Single-family homes on tree-lined streets — Boston\'s most suburban feel',
     driveTime: '~18 min from downtown Boston',
+    localCopy: [
+      'West Roxbury is about as suburban as Boston proper gets — tree-lined streets, single-family homes on real lots, driveways instead of permit parking. It borders Newton and Dedham and honestly feels more like either of them than like downtown Boston.',
+      'Moves out here look more like a Newton or Needham job than an Allston one: bigger homes, more furniture per move, and usually somewhere to actually park the truck. We adjust the crew size and time estimate accordingly rather than pricing it like a studio apartment.',
+    ],
   },
   {
     slug: 'movers-beacon-hill-ma',
@@ -221,6 +282,10 @@ export const locations: Location[] = [
     transit: 'Red/Green Line (Park St, Charles/MGH)',
     housingStock: 'Historic brick rowhouses on narrow, largely car-free streets',
     driveTime: '~3 min from downtown Boston',
+    localCopy: [
+      'Parts of Beacon Hill are still lit by actual gas lamps at night — not a design choice, a holdover, maintained because the neighborhood has been a protected historic district since the 1950s. Louisburg Square, lined with Federal-era rowhouses, is one of the most photographed blocks in the city.',
+      'None of that makes it easy to move. The brick sidewalks and narrow one-way streets weren\'t built for moving trucks, on-street parking is essentially nonexistent, and most buildings predate elevators entirely. We plan Beacon Hill jobs around where the truck can actually stop, not just where the building is.',
+    ],
   },
   {
     slug: 'movers-north-end-ma',
@@ -234,6 +299,10 @@ export const locations: Location[] = [
     transit: 'Green/Orange Line (Haymarket)',
     housingStock: 'Pre-war walk-up apartments on some of the oldest streets in the US',
     driveTime: '~3 min from downtown Boston',
+    localCopy: [
+      'The North End is Boston\'s oldest residential neighborhood, laid out before cars existed and still built that way — alleys and streets so narrow that a standard moving truck sometimes can\'t get within a block of the door. Paul Revere\'s house is still standing a few streets over.',
+      'It\'s stayed a real Italian-American enclave for over a century, and the apartments reflect that history: small, walk-up, built for a different century of furniture. We don\'t charge stair fees here, but we do plan the carry distance from truck to door before the day, because in the North End that distance is rarely zero.',
+    ],
   },
   {
     slug: 'movers-seaport-ma',
@@ -247,6 +316,10 @@ export const locations: Location[] = [
     transit: 'Silver Line (World Trade Center, Courthouse)',
     housingStock: 'New-construction high-rises with elevators and loading docks',
     driveTime: '~5 min from downtown Boston',
+    localCopy: [
+      'The Seaport didn\'t really exist as a residential neighborhood twenty years ago — it was working waterfront and parking lots. Now it\'s glass high-rises, the ICA, and some of the newest housing stock in the city, built on land that used to be industrial.',
+      'New buildings mean a different kind of move: freight elevators instead of stairs, loading dock reservations instead of finding curb space, and building management that wants a certificate of insurance on file before anyone touches the elevator. We keep one ready specifically because Seaport buildings ask for it more than anywhere else we work.',
+    ],
   },
   {
     slug: 'movers-chinatown-ma',
@@ -260,6 +333,10 @@ export const locations: Location[] = [
     transit: 'Orange Line (Chinatown, Tufts Medical Center), plus the Silver Line',
     housingStock: 'Dense mix of walk-ups and mid-rise apartment buildings',
     driveTime: '~4 min from downtown Boston',
+    localCopy: [
+      'Boston\'s Chinatown is one of the largest and oldest on the East Coast, packed into a few dense blocks between the South End, Downtown, and the Theater District — older walk-up buildings mixed with newer mid-rise construction, with almost no gap between them.',
+      'Density is the whole story here. Buildings sit close together, streets are narrow, and truck access is tighter than almost anywhere else we work. We don\'t add stair fees or minimum charges for it, but we do build in extra time for navigating the block itself.',
+    ],
   },
   {
     slug: 'movers-downtown-boston-ma',
@@ -273,6 +350,10 @@ export const locations: Location[] = [
     transit: 'Red, Orange, Green, and Blue Lines converge (Park St, Downtown Crossing, State)',
     housingStock: 'High-rise condos, including converted office and historic buildings',
     driveTime: '0 min — downtown Boston',
+    localCopy: [
+      'Downtown Boston spent most of the last century being purely commercial — banks, offices, the Financial District. That\'s shifted; a growing number of old office buildings have been converted into residential condos, part of a trend playing out in cities nationwide since the pandemic changed how much office space companies actually need.',
+      'Converted buildings tend to have strict management rules that a rowhouse never would: certificates of insurance, scheduled elevator windows, loading dock sign-ups. We\'re set up for that paperwork by default rather than scrambling for it the week of your move.',
+    ],
   },
   {
     slug: 'movers-mattapan-ma',
@@ -286,6 +367,10 @@ export const locations: Location[] = [
     transit: 'Mattapan Trolley (High-Speed Line), plus the Fairmount Line',
     housingStock: 'Triple-deckers and single-family homes across Boston\'s southern edge',
     driveTime: '~15 min from downtown Boston',
+    localCopy: [
+      'Mattapan runs the actual Mattapan Trolley — vintage PCC streetcars from the 1940s, still in daily service on the line connecting to Ashmont. It\'s one of Boston\'s largest Haitian and Caribbean communities, and despite being fully inside the city, it feels quieter and more residential than most of its neighbors.',
+      'Triple-deckers and single-family homes share the streets here about evenly, more so than almost anywhere else in Boston proper. We ask which one you\'re in before we quote, since the crew and truck size look pretty different depending on the answer.',
+    ],
   },
   {
     slug: 'movers-kenmore-square-ma',
@@ -299,6 +384,10 @@ export const locations: Location[] = [
     transit: 'Green Line (Kenmore, all branches)',
     housingStock: 'Dense student apartment buildings near BU and Fenway Park',
     driveTime: '~6 min from downtown Boston',
+    localCopy: [
+      'The Citgo sign over Kenmore Square is one of the most recognizable landmarks in Boston — you can see it from inside Fenway Park during a game, and it\'s been there since 1965, minus a brief scare in the 80s when the company wanted to take it down.',
+      'BU\'s campus wraps around the square on most sides, so the housing stock here is almost entirely student apartments, dense and turned over constantly. September 1st hits Kenmore Square about as hard as it hits Allston, and we staff accordingly during that week.',
+    ],
   },
   {
     slug: 'movers-longwood-ma',
@@ -312,6 +401,10 @@ export const locations: Location[] = [
     transit: 'Green Line D/E branches (Longwood, Brookline Village)',
     housingStock: 'Apartments and short-term housing serving the Longwood Medical Area',
     driveTime: '~7 min from downtown Boston',
+    localCopy: [
+      'The Longwood Medical Area packs Harvard Medical School, Brigham and Women\'s, Boston Children\'s, and Dana-Farber into a few blocks — one of the largest concentrations of hospitals and medical research in the world, all within walking distance of each other.',
+      'That means a lot of our Longwood moves are med students, residents, and hospital staff on short leases and tight schedules — someone starting a rotation in three days, not three weeks. We keep same-day and next-day availability open here specifically because the timelines are shorter than average.',
+    ],
   },
   // ── Greater Boston suburbs ────────────────────────────────────────────────
   {
@@ -326,6 +419,10 @@ export const locations: Location[] = [
     transit: 'All four MBTA rapid transit lines, plus regional and Amtrak rail',
     housingStock: 'Everything from triple-deckers to high-rise condos, block by block',
     driveTime: 'no commute — Boston is home base',
+    localCopy: [
+      'Every neighborhood in this city has its own moving day rhythm, but they all share one thing: September 1st. Most Massachusetts leases turn over on the same date, which means the last week of August is the single busiest, most chaotic moving stretch anywhere in New England — trucks double-parked on every block, elevators booked solid, U-Hauls circling for parking that doesn\'t exist.',
+      'We built the booking flow around that reality. You tell us your budget before we ever call, we confirm what it covers, and we don\'t add surprise fees when the truck shows up and finds a third-floor walk-up instead of the ground-floor unit someone described over the phone. That part doesn\'t change whether you\'re moving within the Seaport or out to Somerville.',
+    ],
   },
   {
     slug: 'movers-cambridge-ma',
@@ -339,6 +436,10 @@ export const locations: Location[] = [
     transit: 'Red Line (Harvard, Central, Kendall/MIT, Porter)',
     housingStock: 'Triple-deckers, historic multi-families, and new high-rises near MIT/Kendall',
     driveTime: '~8 min from downtown Boston',
+    localCopy: [
+      'Cambridge has two of the most selective universities on earth inside city limits, and it shows in the housing: dense triple-deckers and grad-student apartments near Central and Inman, glassy new high-rises going up around Kendall Square as biotech and tech companies keep expanding.',
+      'Both ends of that spectrum come with their own move-day logistics. The older triple-deckers mean narrow stairs and permit parking; the Kendall Square towers mean freight elevators, loading dock reservations, and building management that wants everything scheduled in advance. We handle the paperwork for both without treating either as an exception.',
+    ],
   },
   {
     slug: 'movers-somerville-ma',
@@ -352,6 +453,10 @@ export const locations: Location[] = [
     transit: 'Red Line (Davis, Porter) and the Green Line Extension (Union Sq, Ball Sq, Gilman Sq)',
     housingStock: 'Some of the densest triple-decker housing stock in New England',
     driveTime: '~10 min from downtown Boston',
+    localCopy: [
+      'Somerville is the most densely populated city in New England — more people per square mile than Boston itself — packed almost entirely into triple-deckers that were built for exactly this kind of density a century ago.',
+      'The Green Line Extension added new stops at Union Square, Gilman Square, and East Somerville a few years back, and it\'s changed which blocks are easiest to move in and out of — some streets that used to mean a long carry from the nearest parking now have a station two minutes away. We adjust time estimates based on which part of the city you\'re actually in, not just the ZIP code.',
+    ],
   },
   {
     slug: 'movers-brookline-ma',
@@ -365,6 +470,10 @@ export const locations: Location[] = [
     transit: 'Green Line C/D branches (Coolidge Corner, Brookline Village, Chestnut Hill)',
     housingStock: 'Large single-family homes and pre-war apartment buildings',
     driveTime: '~10 min from downtown Boston',
+    localCopy: [
+      'Brookline isn\'t part of Boston — it\'s a separate town that Boston grew around on three sides, which is why it has its own school system, its own police department, and its own very Brookline identity, anchored by Coolidge Corner\'s shops and theaters.',
+      'The housing runs bigger here than in most of the neighborhoods that border it: pre-war apartment buildings alongside genuinely large single-family homes, especially toward the Newton line. We size the crew for whichever one you\'re in rather than defaulting to a small-apartment estimate.',
+    ],
   },
   {
     slug: 'movers-newton-ma',
@@ -378,6 +487,10 @@ export const locations: Location[] = [
     transit: 'Green Line D branch (Newton Centre, Newton Highlands, Waban, Woodland)',
     housingStock: 'Large single-family homes across Newton\'s 13 villages',
     driveTime: '~15 min from downtown Boston',
+    localCopy: [
+      'Newton calls itself the Garden City, and it\'s really thirteen separate villages stitched into one town — Newton Centre, Newtonville, Waban, Chestnut Hill, and nine others, each with its own small commercial strip and its own character.',
+      'It\'s also one of the wealthier suburbs in the state, which tends to mean larger homes, more furniture, and moves that take longer than the standard apartment job. We scope Newton moves as full-house jobs by default and adjust down if that\'s not what you need, rather than the other way around.',
+    ],
   },
   {
     slug: 'movers-quincy-ma',
@@ -391,6 +504,10 @@ export const locations: Location[] = [
     transit: 'Red Line (Quincy Center, Wollaston, North Quincy, Quincy Adams)',
     housingStock: 'New downtown condo towers alongside classic South Shore family homes',
     driveTime: '~15 min from downtown Boston',
+    localCopy: [
+      'Quincy is the birthplace of two U.S. presidents — John Adams and his son John Quincy Adams, both born within a few blocks of each other, with their homesteads still standing and open to visitors. It was also a major shipbuilding city for over a century before that industry moved on.',
+      'What\'s replaced it is a genuinely fast-growing downtown, with new condo towers going up around Quincy Center and a large, established Asian-American community that\'s shaped the city\'s restaurants and small businesses for decades. We see both the new-construction condo jobs and the older triple-decker moves further from the center, and they don\'t get quoted the same way.',
+    ],
   },
   {
     slug: 'movers-medford-ma',
@@ -404,6 +521,10 @@ export const locations: Location[] = [
     transit: 'Green Line Extension (Medford/Tufts, Ball Sq)',
     housingStock: 'Triple-deckers and single-families near Tufts University',
     driveTime: '~12 min from downtown Boston',
+    localCopy: [
+      'Medford\'s economy used to run on shipbuilding and rum — Medford rum was a real, nationally known product in the 1800s, distilled from molasses that came in on the same ships being built along the Mystic River.',
+      'Tufts University sits on the western edge of town now, which means a mix of student rentals near campus and quieter family neighborhoods like West Medford further out, home to one of the area\'s longest-established Black communities. The move looks different depending on which side of that line you\'re on, and we ask before we quote.',
+    ],
   },
   {
     slug: 'movers-malden-ma',
@@ -417,6 +538,10 @@ export const locations: Location[] = [
     transit: 'Orange Line (Malden Center)',
     housingStock: 'Affordable multi-family apartment buildings — one of Greater Boston\'s most diverse rental markets',
     driveTime: '~12 min from downtown Boston',
+    localCopy: [
+      'Malden is consistently ranked among the most ethnically diverse cities in Massachusetts — walk down Pleasant Street and you\'ll pass Chinese, Brazilian, Haitian, and South Asian businesses within a few blocks of each other, a mix that\'s built up over decades of immigration through the Orange Line corridor.',
+      'The housing stock reflects an affordable, high-turnover rental market: multi-family buildings dominate, and a lot of our Malden jobs are quick turnarounds rather than planned months out. We keep short-notice availability open here because that\'s genuinely how the demand shows up.',
+    ],
   },
   {
     slug: 'movers-everett-ma',
@@ -430,6 +555,10 @@ export const locations: Location[] = [
     transit: 'Bus and Silver Line connections to Wellington and Assembly (Orange Line)',
     housingStock: 'Older triple-deckers alongside fast-moving new development',
     driveTime: '~10 min from downtown Boston',
+    localCopy: [
+      'Everett spent most of the last century as an industrial city — oil and gas storage tanks line the waterfront, and you can still see them from the bridge coming in from Boston. That\'s changing fast: Encore Boston Harbor, the state\'s largest casino resort, opened here in 2019 and pulled a wave of new development with it.',
+      'Older triple-deckers and newer apartment buildings now sit closer together than they used to, which means we see a real range of move types in Everett — sometimes in the same week. We quote based on the specific building, not an assumption about which era it\'s from.',
+    ],
   },
   {
     slug: 'movers-revere-ma',
@@ -443,6 +572,10 @@ export const locations: Location[] = [
     transit: 'Blue Line (Wonderland, Revere Beach, Beachmont)',
     housingStock: 'Dense apartment buildings near the beach, with growing rental demand',
     driveTime: '~12 min from downtown Boston',
+    localCopy: [
+      'Revere Beach was the first public beach in America, opened in 1896 as a place city dwellers could reach by train instead of needing a summer house — it\'s still the reason a lot of people move to Revere today, even with the T ride into Boston in the mix.',
+      'The city has a large and growing Latino community, mostly concentrated in dense apartment buildings a few blocks back from the water. We do a fair number of beach-adjacent moves here where street parking during summer weekends is its own separate problem from the move itself, and we plan around it.',
+    ],
   },
   {
     slug: 'movers-chelsea-ma',
@@ -456,6 +589,10 @@ export const locations: Location[] = [
     transit: 'Silver Line SL3 and the Newburyport/Rockport Line commuter rail',
     housingStock: 'Affordable multi-family apartments in a rapidly changing housing market',
     driveTime: '~8 min from downtown Boston',
+    localCopy: [
+      'Chelsea is the smallest city in Massachusetts by land area, and it\'s packed tight because of it — mostly multi-family apartment buildings, home to one of the largest Salvadoran and broader Central American communities in New England.',
+      'It\'s also one of the most affordable places to rent this close to Boston, which keeps turnover high. We treat Chelsea jobs the way we treat any dense rental market: no stair fees, no minimum-size markup, same budget-first quote whether it\'s a studio or a full apartment.',
+    ],
   },
   {
     slug: 'movers-waltham-ma',
@@ -469,6 +606,10 @@ export const locations: Location[] = [
     transit: 'Fitchburg Line commuter rail (Waltham station)',
     housingStock: 'Dense apartments near Brandeis and the Route 128 biotech corridor',
     driveTime: '~15 min from downtown Boston',
+    localCopy: [
+      'Waltham is where the American factory system actually started — the Boston Manufacturing Company built the first fully integrated textile mill in the country here in 1814, on the Charles River, and the Waltham-Lowell system it created became the template for industrial New England.',
+      'Brandeis University sits on one end of town now, and the Route 128 biotech corridor runs along the other, which means a mix of student apartments and corporate relocations for people starting jobs at the pharma and tech companies out that way. Different budgets, different timelines — we ask which kind of move it is before we quote.',
+    ],
   },
   {
     slug: 'movers-watertown-ma',
@@ -482,6 +623,10 @@ export const locations: Location[] = [
     transit: 'Bus routes to Harvard (Red Line); no direct rail station in town',
     housingStock: 'Growing condo development alongside older multi-family homes',
     driveTime: '~12 min from downtown Boston',
+    localCopy: [
+      'Watertown has one of the largest Armenian-American communities in the country, built up over more than a century, and it still shows in the bakeries and churches along Mount Auburn Street. The old Watertown Arsenal site, a military manufacturing complex that closed in the 1990s, has been redeveloped into offices and housing.',
+      'It sits right between Cambridge, Newton, and Waltham, which makes it a common stop for people relocating within that cluster of towns rather than moving in from somewhere else entirely. A lot of our Watertown jobs are actually two-town moves — we plan for both addresses from the start.',
+    ],
   },
   {
     slug: 'movers-arlington-ma',
@@ -495,6 +640,10 @@ export const locations: Location[] = [
     transit: 'Bus routes to Alewife (Red Line); no direct rail station in town',
     housingStock: 'Single- and two-family homes in a family-oriented housing market',
     driveTime: '~12 min from downtown Boston',
+    localCopy: [
+      'Arlington used to be called West Cambridge until 1867, when it renamed itself after the Civil War cemetery — a fairly common thing for New England towns to do in that era, though Arlington\'s the one that stuck. The Minuteman Bikeway, a converted rail line, now runs straight through town toward Lexington and Bedford.',
+      'It\'s a family town by reputation, with strong public schools pulling people in from denser parts of Boston once kids enter the picture. Single and two-family homes make up most of the stock, and our Arlington moves tend to be bigger than the apartment jobs we do closer to the city — more rooms, more furniture, more time.',
+    ],
   },
   {
     slug: 'movers-belmont-ma',
@@ -508,6 +657,10 @@ export const locations: Location[] = [
     transit: 'Fitchburg Line commuter rail (Belmont Center, Waverley)',
     housingStock: 'Larger single-family homes on quiet residential streets',
     driveTime: '~15 min from downtown Boston',
+    localCopy: [
+      'Belmont is quiet by design — mostly large single-family homes, a lot of Harvard and MIT faculty, and McLean Hospital, one of the most well-known psychiatric hospitals in the country, tucked into a wooded campus on the edge of town.',
+      'Moves here skew toward full houses rather than apartments, often with more books, art, and furniture than the average move — which tracks, given who tends to live here. We bring a crew sized for that rather than assuming a standard two-bedroom.',
+    ],
   },
   {
     slug: 'movers-needham-ma',
@@ -521,6 +674,10 @@ export const locations: Location[] = [
     transit: 'Needham Line commuter rail (Needham Center, Needham Heights)',
     housingStock: 'Large single-family homes on bigger lots',
     driveTime: '~20 min from downtown Boston',
+    localCopy: [
+      'Needham is a classic MetroWest suburb — good schools, quiet streets, mostly single-family homes on real lots, close enough to Route 9 and the Mass Pike that plenty of residents commute into Boston or out to the 128 corridor for work.',
+      'The moves we do here run bigger than a city apartment by default: full houses, garages, sometimes a whole basement of things that never made it onto anyone\'s inventory list. We scope it that way from the start rather than adjusting up after the truck\'s already there.',
+    ],
   },
   {
     slug: 'movers-dedham-ma',
@@ -534,6 +691,10 @@ export const locations: Location[] = [
     transit: 'Franklin Line commuter rail (Dedham Corporate Center, Endicott)',
     housingStock: 'Single-family homes and townhouse developments',
     driveTime: '~20 min from downtown Boston',
+    localCopy: [
+      'Dedham was settled in 1636, which makes it one of the older towns in the country, not just the state — it\'s been the county seat of Norfolk County since the county existed, and the old courthouse downtown still reflects that.',
+      'It\'s grown into a solid, unglamorous commuter suburb southwest of Boston, with a mix of single-family homes and newer townhouse developments. We see a fair number of moves here that are downsizing from Boston rather than starting a family — different inventory, different timeline, and we ask which one it is.',
+    ],
   },
   {
     slug: 'movers-braintree-ma',
@@ -547,6 +708,10 @@ export const locations: Location[] = [
     transit: 'Red Line southern terminus (Braintree station)',
     housingStock: 'Mix of condos near the T and single-family homes further out',
     driveTime: '~20 min from downtown Boston',
+    localCopy: [
+      'Braintree sits at the southern end of the Red Line, which makes it the practical edge of easy T access heading toward the South Shore — a lot of people move here specifically for that last stop before driving becomes the only option.',
+      'The South Shore Plaza mall is one of the bigger retail draws in the area, and the housing around it runs from condos near the T station to single-family homes further out. We ask where in Braintree you\'re headed, because those two moves don\'t look anything alike.',
+    ],
   },
   {
     slug: 'movers-milton-ma',
@@ -560,6 +725,10 @@ export const locations: Location[] = [
     transit: 'Mattapan Trolley (Central Ave, Valley Rd, Capen St)',
     housingStock: 'Large single-family homes — one of the South Shore\'s quieter towns',
     driveTime: '~18 min from downtown Boston',
+    localCopy: [
+      'Milton borders the Blue Hills Reservation, a genuinely large stretch of woods and trails that most people don\'t expect to find this close to Boston — you can be on a hiking trail fifteen minutes after leaving downtown. Milton Academy, a well-known prep school, sits in the middle of town.',
+      'It\'s quiet and mostly residential, with larger single-family homes making up most of what we move here. Fewer walk-ups, more actual driveways — the logistics tend to be simpler than the city jobs, even if the homes themselves are bigger.',
+    ],
   },
   {
     slug: 'movers-lynn-ma',
@@ -573,6 +742,10 @@ export const locations: Location[] = [
     transit: 'Newburyport/Rockport Line commuter rail (Lynn station)',
     housingStock: 'Dense multi-family housing — one of the North Shore\'s most active rental markets',
     driveTime: '~20 min from downtown Boston',
+    localCopy: [
+      'Lynn was the shoe manufacturing capital of the country through most of the 1800s, and the factory fumes it produced back then were infamous enough to spawn a local rhyme that\'s stuck around for a century. General Electric still runs a major jet engine plant here, one of the area\'s largest employers.',
+      'The city\'s working-class roots are still visible in the housing: dense multi-family buildings, an active rental market, and a genuinely diverse population that\'s grown a lot in the last two decades. We quote Lynn the same budget-first way we quote everywhere else — no markup for being a denser, more industrial city than its neighbors.',
+    ],
   },
   {
     slug: 'movers-winthrop-ma',
@@ -586,6 +759,10 @@ export const locations: Location[] = [
     transit: 'Bus connections to Orient Heights (Blue Line); no direct rail station in town',
     housingStock: 'Tight-knit peninsula housing stock with limited new construction',
     driveTime: '~15 min from downtown Boston',
+    localCopy: [
+      'Winthrop sits on a small peninsula east of Boston, so close to Logan Airport that planes pass low overhead on approach — and close enough to the water that it was actually a resort town in the late 1800s, before it became the tight residential community it is now.',
+      'Housing supply is limited by the geography itself; there\'s only so much peninsula to build on, which keeps turnover slower and prices firmer than in more sprawling towns nearby. Most of our Winthrop jobs are smaller moves within a tight-knit community where people tend to know their next-door neighbors.',
+    ],
   },
   {
     slug: 'movers-woburn-ma',
@@ -599,6 +776,10 @@ export const locations: Location[] = [
     transit: 'Lowell Line commuter rail (Anderson Regional Transportation Center)',
     housingStock: 'Mix of apartment complexes and single-family homes near Route 128',
     driveTime: '~20 min from downtown Boston',
+    localCopy: [
+      'Woburn is best known outside Massachusetts for the wrong reason — the well-contamination case that became the book and film A Civil Action happened here in the 1980s. The town has moved on since; the Anderson Regional Transportation Center now makes it one of the better-connected commuter towns north of Boston, and Horn Pond draws people who\'d never guess the backstory.',
+      'New apartment complexes near Route 128 sit alongside older single-family neighborhoods closer to the center. We see a real mix of move types here — young professionals near the tech corridor, longer-established families further in — and quote each on what it actually is rather than a town-wide assumption.',
+    ],
   },
   {
     slug: 'movers-burlington-ma',
@@ -612,6 +793,10 @@ export const locations: Location[] = [
     transit: 'No direct rail station; served by Routes 128/95 and local bus',
     housingStock: 'New apartment development near the tech corridor, plus single-family neighborhoods',
     driveTime: '~20 min from downtown Boston',
+    localCopy: [
+      'Burlington sits right on Route 128, the highway that earned the nickname America\'s Technology Highway back when it was lined with the tech companies that made Massachusetts a computing hub in the 70s and 80s. The Burlington Mall is still one of the larger retail destinations north of the city.',
+      'New apartment development has picked up here in the last decade, mostly aimed at people working the tech corridor, alongside older single-family neighborhoods. We do a fair number of corporate relocations into Burlington specifically because of that — someone starting a new job at a company out on 128, moving on a company timeline rather than a personal one.',
+    ],
   },
   {
     slug: 'movers-lexington-ma',
@@ -625,6 +810,10 @@ export const locations: Location[] = [
     transit: 'Bus routes to Alewife (Red Line); no direct rail station in town',
     housingStock: 'Large single-family homes in one of Greater Boston\'s top-rated school districts',
     driveTime: '~20 min from downtown Boston',
+    localCopy: [
+      'The first shots of the American Revolution were fired on Lexington Green on April 19, 1775 — it\'s not a footnote here, it\'s the identity of the town, reenacted every Patriots\' Day. What\'s grown up around that history is one of the most sought-after school districts in the state.',
+      'That reputation shows up directly in the housing: large single-family homes, competitive turnover, families moving specifically for the schools. Our Lexington jobs tend to be full-house moves with real timelines tied to a school year, and we plan around that rather than treating it like a standard apartment relocation.',
+    ],
   },
   {
     slug: 'movers-framingham-ma',
@@ -638,6 +827,10 @@ export const locations: Location[] = [
     transit: 'Framingham/Worcester Line commuter rail (Framingham station)',
     housingStock: 'Mix of apartments, condos, and single-family homes along Route 9',
     driveTime: '~25 min from downtown Boston',
+    localCopy: [
+      'Framingham has run the Framingham Heart Study since 1948 — one of the most influential ongoing medical research projects in the world, and a lot of what doctors know about cardiovascular risk factors traces back to generations of Framingham residents who volunteered for it.',
+      'It\'s also one of the larger, more diverse towns in MetroWest, with a significant Brazilian community that\'s shaped the restaurants and businesses along Route 9. Housing ranges from apartments and condos near the center to single-family homes further out, and we ask which one before quoting rather than guessing from the town name alone.',
+    ],
   },
   {
     slug: 'movers-natick-ma',
@@ -651,6 +844,10 @@ export const locations: Location[] = [
     transit: 'Framingham/Worcester Line commuter rail (Natick Center, West Natick)',
     housingStock: 'New condo development alongside classic New England single-families',
     driveTime: '~25 min from downtown Boston',
+    localCopy: [
+      'Natick was one of the original praying towns — a settlement John Eliot established in the 1600s for Native Americans who\'d converted to Christianity, and the name predates almost everything else in MetroWest by two centuries. Today it\'s known more for the Natick Mall than for that history.',
+      'New condo development near the mall sits alongside classic New England single-family homes in the older parts of town. We handle both regularly, and the difference mostly comes down to elevator access and parking — the condos have one, the older homes usually have the other.',
+    ],
   },
   {
     slug: 'movers-wellesley-ma',
@@ -664,6 +861,10 @@ export const locations: Location[] = [
     transit: 'Framingham/Worcester Line commuter rail (Wellesley Sq, Wellesley Hills, Wellesley Farms)',
     housingStock: 'Large historic homes near Wellesley College',
     driveTime: '~20 min from downtown Boston',
+    localCopy: [
+      'Wellesley College has educated a genuinely notable list of alumnae, including Hillary Clinton, and its campus takes up a real chunk of the town\'s identity along with its property values. Route 9 through Wellesley is lined with the kind of shops that reflect the town\'s income level.',
+      'Homes here run large and historic, and moves tend to involve more furniture, more art, and more care than a standard relocation. We bring a crew sized for that rather than a two-person team meant for a city apartment, and we\'ve learned not to assume a Wellesley move is quick just because the address sounds simple.',
+    ],
   },
   {
     slug: 'movers-marlborough-ma',
@@ -677,6 +878,10 @@ export const locations: Location[] = [
     transit: 'No direct rail station; served by Route 20/I-495 and MetroWest Regional Transit Authority buses',
     housingStock: 'Mix of historic multi-families downtown and newer apartment complexes near the 495 corporate corridor',
     driveTime: '~40 min from downtown Boston',
+    localCopy: [
+      'Marlborough was founded in 1660 and, like a lot of towns this far west of Boston, ran a shoe manufacturing industry for generations before shifting into something else entirely — today it\'s one of the busier corporate office corridors along Route 495, home to regional offices for companies like Boston Scientific.',
+      'That corporate presence means a steady stream of relocation moves tied to new jobs, alongside a historic downtown and newer apartment complexes built for the office-park workforce. We see both, and the corporate moves in particular tend to run on a tighter start-date than the average local relocation.',
+    ],
   },
   {
     slug: 'movers-peabody-ma',
@@ -690,6 +895,10 @@ export const locations: Location[] = [
     transit: 'No direct rail station; nearby Salem stop on the Newburyport/Rockport Line',
     housingStock: 'Affordable multi-family housing and single-family neighborhoods',
     driveTime: '~25 min from downtown Boston',
+    localCopy: [
+      'Peabody is named after George Peabody, a 19th-century financier and philanthropist who funded libraries and museums across New England — the town changed its name from South Danvers to honor him in 1868. It shared Lynn\'s old leather-tanning industry for decades before that faded.',
+      'The Northshore Mall anchors a lot of the local commerce now, and the housing mixes affordable multi-family buildings with single-family neighborhoods further from the center. We quote Peabody moves based on the specific building rather than assuming either extreme.',
+    ],
   },
   {
     slug: 'movers-salem-ma',
@@ -703,6 +912,10 @@ export const locations: Location[] = [
     transit: 'Newburyport/Rockport Line commuter rail (Salem station)',
     housingStock: 'Historic Victorian homes and a dense, walkable downtown',
     driveTime: '~25 min from downtown Boston',
+    localCopy: [
+      'Everyone knows Salem for 1692 — the witch trials are still the reason a huge number of visitors come through every October, and the tourism industry built around that history is a real part of the local economy now. Underneath the Halloween branding, it\'s also a genuinely old seaport with a working historic downtown and the Peabody Essex Museum.',
+      'Victorian homes and converted sea captains\' houses make up a lot of the housing stock near the water, with denser apartment buildings further from the historic district. We plan around the tourist crowds if your move happens to land in October — parking downtown gets considerably harder that month.',
+    ],
   },
   {
     slug: 'movers-beverly-ma',
@@ -716,6 +929,10 @@ export const locations: Location[] = [
     transit: 'Newburyport/Rockport Line commuter rail (Beverly, Montserrat, Prides Crossing)',
     housingStock: 'Mix of coastal homes and denser near-downtown housing',
     driveTime: '~30 min from downtown Boston',
+    localCopy: [
+      'Beverly claims to be the birthplace of the American Navy — the schooner Hannah, commissioned by George Washington in 1775, sailed out of here, and the town has held onto that claim ever since, even though a few other New England ports argue the same thing.',
+      'It\'s quieter than Salem next door, with a mix of coastal homes near the water and denser housing closer to downtown. We do a fair number of moves here for people trading a Salem or Boston address for something with more space and less foot traffic outside the door.',
+    ],
   },
   // ── Extended MA ───────────────────────────────────────────────────────────
   {
@@ -730,6 +947,10 @@ export const locations: Location[] = [
     transit: 'Framingham/Worcester Line commuter rail (Union Station), I-90/I-290',
     housingStock: 'Triple-deckers and apartments near Clark, WPI, and Holy Cross',
     driveTime: '~50 min from downtown Boston',
+    localCopy: [
+      'Worcester is the second-largest city in New England, and it doesn\'t get talked about that way nearly often enough. It\'s also a genuine college town — Clark, WPI, Holy Cross, and several other schools keep a big student population cycling through every year, alongside the families and longtime residents who never left.',
+      'The smiley face was designed here in 1963 by a Worcester-based artist named Harvey Ball, which is the kind of trivia that shows up on local bar signs more than it comes up in conversation. Housing ranges from triple-deckers near the colleges to single-family homes in the surrounding neighborhoods, and we quote based on which one you\'re actually in.',
+    ],
   },
   {
     slug: 'movers-lowell-ma',
@@ -743,6 +964,10 @@ export const locations: Location[] = [
     transit: 'Lowell Line commuter rail (Lowell station), Route 495/93',
     housingStock: 'Historic mill-city apartments and a revitalized downtown near UMass Lowell',
     driveTime: '~40 min from downtown Boston',
+    localCopy: [
+      'Lowell is where the American Industrial Revolution actually happened — the mills along the Merrimack River employed thousands of young women in the 1820s and 30s in a system that became a national model, and Lowell National Historical Park still preserves a lot of that mill infrastructure downtown.',
+      'Jack Kerouac was born here and is buried here, and UMass Lowell has kept the city\'s student population steady for decades. A lot of the old mill buildings have been converted into apartments and condos, sitting alongside more traditional multi-family housing — we handle both regularly and they don\'t move the same way.',
+    ],
   },
   {
     slug: 'movers-springfield-ma',
@@ -756,6 +981,10 @@ export const locations: Location[] = [
     transit: 'Amtrak service, I-91/I-90 (Mass Pike)',
     housingStock: 'Diverse mix of triple-deckers, apartments, and single-family homes',
     driveTime: '~90 min from downtown Boston',
+    localCopy: [
+      'James Naismith invented basketball in Springfield in 1891, and the Basketball Hall of Fame is still here because of it — genuinely one of the more famous local-history facts in the state. Dr. Seuss, born Theodor Geisel, also grew up here, and there\'s a sculpture garden downtown dedicated to his characters.',
+      'As the largest city in Western Massachusetts, Springfield functions as the regional hub for a much bigger area than its own borders — a lot of our Springfield jobs are actually moves in from Boston or out toward Connecticut and New York, not just local relocations. We price the distance honestly either way.',
+    ],
   },
   {
     slug: 'movers-lawrence-ma',
@@ -769,6 +998,10 @@ export const locations: Location[] = [
     transit: 'Haverhill Line commuter rail (Lawrence station), Route 495/93',
     housingStock: 'Dense mill-city apartment buildings — one of the Merrimack Valley\'s busiest rental markets',
     driveTime: '~35 min from downtown Boston',
+    localCopy: [
+      'Lawrence was the site of the 1912 Bread and Roses strike, one of the most significant labor actions in American history — mill workers, many of them recent immigrants, walked out over wage cuts and won, and the strike is still taught in labor history courses today.',
+      'The city has stayed an immigrant gateway ever since, now with one of the largest Dominican populations in New England. Housing is dense and mostly multi-family, built originally to house mill workers a century ago and still doing that job for a different population now. We keep pricing consistent with that reality — no markup for density.',
+    ],
   },
   {
     slug: 'movers-haverhill-ma',
@@ -782,6 +1015,10 @@ export const locations: Location[] = [
     transit: 'Haverhill Line commuter rail (Haverhill station), Route 495',
     housingStock: 'Revitalized downtown apartments alongside single-family neighborhoods',
     driveTime: '~40 min from downtown Boston',
+    localCopy: [
+      'Haverhill ran a shoe manufacturing industry for most of the 1800s and early 1900s, much like Lynn did on the other side of the region — the factories are mostly gone now, but a lot of the old mill buildings downtown have survived and are slowly being converted into housing.',
+      'Poet John Greenleaf Whittier was born here, and the city\'s been working on revitalizing its downtown for years with mixed but real results. We see a fair number of moves into the newer converted-mill apartments alongside the more traditional single-family neighborhoods further from the center.',
+    ],
   },
   {
     slug: 'movers-brockton-ma',
@@ -795,6 +1032,10 @@ export const locations: Location[] = [
     transit: 'Middleborough/Lakeville Line commuter rail (Brockton station), Route 24',
     housingStock: 'Large, diverse mix of multi-family and single-family housing',
     driveTime: '~30 min from downtown Boston',
+    localCopy: [
+      'Brockton calls itself the City of Champions for a reason — Rocky Marciano and Marvin Hagler, two of the most famous boxers in the sport\'s history, both grew up here and trained here before either name meant anything nationally.',
+      'Like a lot of southeastern Massachusetts, Brockton ran on shoe manufacturing for generations before that industry left. What\'s here now is a large, genuinely diverse population and a mix of multi-family and single-family housing that doesn\'t follow a single pattern block to block — we ask about the specific address rather than assuming.',
+    ],
   },
   {
     slug: 'movers-new-bedford-ma',
@@ -808,6 +1049,10 @@ export const locations: Location[] = [
     transit: 'South Coast Rail commuter service to Boston, I-195',
     housingStock: 'Historic working-class multi-family homes near the harbor',
     driveTime: '~60 min from downtown Boston',
+    localCopy: [
+      'New Bedford was the whaling capital of the world in the mid-1800s — it\'s the port Ishmael sails from in Moby-Dick, and Melville wasn\'t inventing that detail, New Bedford genuinely dominated the global whaling industry at the time. It\'s still the highest-value fishing port in the entire country by dollar value of catch, decades after whaling ended.',
+      'A large Portuguese immigrant community, many with roots in the fishing industry itself, has shaped the city for generations. Housing is mostly older multi-family homes near the harbor, working-class and dense. We treat New Bedford moves the same budget-first way we treat everything closer to Boston, distance included.',
+    ],
   },
   {
     slug: 'movers-fall-river-ma',
@@ -821,6 +1066,10 @@ export const locations: Location[] = [
     transit: 'South Coast Rail commuter service to Boston, I-195/Route 24',
     housingStock: 'Dense multi-family housing near the Rhode Island border',
     driveTime: '~60 min from downtown Boston',
+    localCopy: [
+      'Fall River ran one of the largest textile manufacturing operations in the country through the late 1800s, and the granite mill buildings from that era still dominate parts of the city. It\'s also, less proudly, the site of the 1892 Lizzie Borden murders — the house is a museum and bed-and-breakfast now, and it draws a steady stream of true-crime tourists.',
+      'Like New Bedford next door, there\'s a strong Portuguese-American community here, built up through generations of mill and fishing work. Housing runs dense and multi-family closer to downtown, more spread out toward the Rhode Island line. We quote based on where in the city you actually are.',
+    ],
   },
   {
     slug: 'movers-taunton-ma',
@@ -834,6 +1083,10 @@ export const locations: Location[] = [
     transit: 'Car-dependent, with commuter rail expansion underway; Route 24/495',
     housingStock: 'Mix of single-family homes and multi-family housing',
     driveTime: '~45 min from downtown Boston',
+    localCopy: [
+      'Taunton earned the nickname the Silver City in the 1800s when Reed & Barton, one of the country\'s major silversmiths, ran a large factory here — Taunton silverware ended up in households across the country for over a century.',
+      'It sits at a genuine crossroads of southeastern Massachusetts, roughly equidistant from Boston, Providence, and New Bedford, which makes it a common stop for people relocating between those cities rather than moving in from just one direction. We plan Taunton moves with that regional context in mind.',
+    ],
   },
   {
     slug: 'movers-plymouth-ma',
@@ -847,6 +1100,10 @@ export const locations: Location[] = [
     transit: 'Kingston/Plymouth Line commuter rail (Cordage Park, Plymouth)',
     housingStock: 'New waterfront condos and established single-family neighborhoods',
     driveTime: '~45 min from downtown Boston',
+    localCopy: [
+      'Plymouth is where the Pilgrims landed in 1620, and the town leans into it — Plymouth Rock, Plimoth Patuxet (the living history museum), and the official nickname America\'s Hometown are all part of daily life here, not just a tourist backdrop.',
+      'Away from the historic waterfront, Plymouth has grown fast in the last two decades, with new waterfront condo developments alongside older single-family neighborhoods further inland. It\'s one of the largest towns by land area in the state, so "Plymouth" can mean a five-minute drive from the harbor or a twenty-minute one — we confirm the specific address before quoting distance.',
+    ],
   },
 ]
 

@@ -234,6 +234,27 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
           className="border-t"
           style={{ borderColor: 'rgba(255,255,255,0.05)' }}
         >
+          <div className="max-w-3xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
+            <p
+              className="text-[10px] uppercase tracking-[0.24em] font-semibold mb-6"
+              style={{ color: '#8B5230' }}
+            >
+              About {loc.city}
+            </p>
+            <div className="space-y-5">
+              {loc.localCopy.map((paragraph, i) => (
+                <p key={i} className="text-[15px] sm:text-[16px] text-white/60 leading-relaxed">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section
+          className="border-t"
+          style={{ borderColor: 'rgba(255,255,255,0.05)' }}
+        >
           <div className="max-w-5xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
             <div
               className="grid grid-cols-1 sm:grid-cols-3 gap-5 rounded-[1.75rem] border border-white/[0.08] bg-white/[0.02] p-7 sm:p-9"
