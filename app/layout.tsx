@@ -52,6 +52,7 @@ const structuredData = {
   '@type': 'MovingCompany',
   name: 'NoTimeMover',
   url: 'https://notimemover.com',
+  image: 'https://notimemover.com/opengraph-image.png',
   telephone: '+12039194098',
   email: 'contact@notimemover.com',
   description:
