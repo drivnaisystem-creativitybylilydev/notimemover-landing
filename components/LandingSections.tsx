@@ -412,45 +412,50 @@ function BentoSection() {
 
 const COMPARISON_ROWS = [
   {
-    feature: 'You set your budget first — we confirm what it covers before you commit',
-    them: false,
+    category: 'The price you’re quoted',
+    us: 'Binding — set before we start, confirmed in writing',
+    them: 'An “estimate” that can change once movers arrive',
   },
   {
-    feature: 'No charge for stairs or walk-ups',
-    them: false,
+    category: 'Deposit to book',
+    us: 'None required',
+    them: 'Upfront deposit often required',
   },
   {
-    feature: 'Same-day quote response, usually within the hour',
-    them: false,
+    category: 'Stairs & walk-ups',
+    us: 'Never an extra charge',
+    them: 'Common add-on fee per flight',
   },
   {
-    feature: 'Small, owner-operated crew — no franchise dispatch, no subcontractors',
-    them: false,
+    category: 'Who shows up on move day',
+    us: 'The same crew you talked to — no subcontractors',
+    them: 'Work is often subcontracted to a third crew',
   },
   {
-    feature: 'Typically 20–30% less than big franchise movers',
-    them: false,
+    category: 'Insurance',
+    us: 'Fully insured, certificate of insurance on request',
+    them: 'Varies — always confirm before you book',
+  },
+  {
+    category: 'Quote response time',
+    us: 'Usually within the hour, same day',
+    them: '1–3 day turnaround is typical',
+  },
+  {
+    category: 'Price vs. the big franchises',
+    us: 'Typically 20–30% less than the major national moving franchises',
+    them: 'Standard franchise dispatch rates',
   },
 ] as const
 
 function CompareCheck() {
   return (
     <span
-      className="inline-flex items-center justify-center w-7 h-7 rounded-full shrink-0"
+      className="inline-flex items-center justify-center w-6 h-6 rounded-full shrink-0"
       style={{ background: 'rgba(107,58,31,0.18)', border: '1px solid rgba(139,82,48,0.35)' }}
     >
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(139,82,48,1)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(139,82,48,1)" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M20 6L9 17l-5-5" />
-      </svg>
-    </span>
-  )
-}
-
-function CompareDash() {
-  return (
-    <span className="inline-flex items-center justify-center w-7 h-7 rounded-full shrink-0 border border-white/[0.1]">
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.28)" strokeWidth="2.4" strokeLinecap="round">
-        <path d="M5 12h14" />
       </svg>
     </span>
   )
@@ -460,15 +465,18 @@ function ComparisonSection() {
   return (
     <section className="w-full py-16 sm:py-24">
       <div className="max-w-4xl mx-auto px-6 sm:px-10">
-        <Reveal from="bottom" className="mb-12 sm:mb-16 text-center">
-          <p className="text-[10px] uppercase tracking-[0.28em] text-coffee-light font-semibold mb-3">
+        <Reveal from="bottom" className="mb-10 sm:mb-14 text-center">
+          <p className="text-[12px] sm:text-[13px] uppercase tracking-[0.28em] text-coffee-light font-semibold mb-3">
             Why NoTimeMover
           </p>
-          <h2 className="text-[clamp(28px,5vw,44px)] font-semibold tracking-tight text-white leading-tight">
-            Not your average
+          <h2 className="text-[clamp(32px,6vw,52px)] font-semibold tracking-tight text-white leading-tight mb-4">
+            What actually matters
             <br />
-            <span className="font-serif italic text-coffee-shimmer">Boston moving company.</span>
+            <span className="font-serif italic text-coffee-shimmer">when you're hiring movers.</span>
           </h2>
+          <p className="text-[16px] sm:text-[18px] text-white max-w-lg mx-auto leading-relaxed">
+            Here's how our budget-first model compares to how most Boston moving companies typically operate.
+          </p>
         </Reveal>
 
         <Reveal from="bottom" delay={0.08} amount={0.1}>
@@ -476,33 +484,40 @@ function ComparisonSection() {
             className="rounded-2xl border border-white/[0.08] overflow-hidden"
             style={{ background: 'rgba(0,0,0,0.25)', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06)' }}
           >
-            <div className="grid grid-cols-[1fr,64px,64px] sm:grid-cols-[1fr,140px,140px] items-center gap-3 px-5 sm:px-8 py-4 sm:py-5 border-b border-white/[0.08]">
-              <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-white/30 font-semibold">
-                What you get
+            <div className="grid grid-cols-2 sm:grid-cols-[1fr,1.4fr,1.4fr] items-center gap-6 sm:gap-10 px-5 sm:px-8 py-4 sm:py-5 border-b border-white/[0.08]">
+              <span className="hidden sm:block text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-white font-semibold">
+                What matters
               </span>
-              <span className="text-[12px] sm:text-[14px] font-bold text-coffee-shimmer text-center">
-                NoTimeMover
+              <span className="text-[14px] sm:text-[16px] font-bold tracking-tight">
+                <span className="text-white">NoTime</span>
+                <span className="text-coffee-light">Mover</span>
               </span>
-              <span className="text-[10px] sm:text-[13px] font-medium text-white/35 text-center leading-tight">
+              <span className="text-[10px] sm:text-[13px] font-medium text-white leading-tight">
                 Other Movers
               </span>
             </div>
             {COMPARISON_ROWS.map((row, i) => (
               <div
-                key={row.feature}
-                className={`grid grid-cols-[1fr,64px,64px] sm:grid-cols-[1fr,140px,140px] items-center gap-3 px-5 sm:px-8 py-5 ${
+                key={row.category}
+                className={`px-5 sm:px-8 py-5 ${
                   i < COMPARISON_ROWS.length - 1 ? 'border-b border-white/[0.05]' : ''
                 }`}
               >
-                <span className="text-[13px] sm:text-[14px] text-white/70 leading-snug pr-2">
-                  {row.feature}
-                </span>
-                <span className="flex justify-center">
-                  <CompareCheck />
-                </span>
-                <span className="flex justify-center">
-                  {row.them ? <CompareCheck /> : <CompareDash />}
-                </span>
+                <p className="sm:hidden text-[11px] uppercase tracking-[0.14em] text-white font-semibold mb-3">
+                  {row.category}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr,1.4fr,1.4fr] gap-3 sm:gap-10 sm:items-start">
+                  <span className="hidden sm:block text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-white font-semibold pr-2">
+                    {row.category}
+                  </span>
+                  <span className="flex items-start gap-2.5">
+                    <CompareCheck />
+                    <span className="text-[13px] sm:text-[14px] text-white font-medium leading-snug">{row.us}</span>
+                  </span>
+                  <span className="pl-[34px] sm:pl-0 text-[12px] sm:text-[13px] text-white leading-snug">
+                    {row.them}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
@@ -646,9 +661,28 @@ function TestimonialsSection() {
     <section className="w-full py-16 sm:py-24">
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
         <Reveal from="bottom" className="mb-12 sm:mb-16">
-          <p className="text-[10px] uppercase tracking-[0.28em] text-coffee-light font-semibold mb-3">
-            5.0 on Google &middot; 7 reviews
-          </p>
+          <a
+            href="https://www.google.com/maps/place/NoTimeMover/@42.340288,-71.0250365,11z/data=!4m6!3m5!1s0x223ebce33c8b2c21:0x17a114d1bb1cdcd9!8m2!3d42.340288!4d-71.0250365!16s%2Fg%2F11zkxt0k38"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.035] px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-[13px] font-semibold text-white/[0.88] leading-none shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] mb-4"
+          >
+            <svg width="14" height="14" viewBox="0 0 48 48" aria-hidden="true" className="shrink-0 sm:w-4 sm:h-4">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+            </svg>
+            <span className="tracking-[0.02em]">5.0</span>
+            <span className="inline-flex items-center gap-[1px]" style={{ color: '#FFC107' }} aria-hidden="true">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <svg key={i} width="9" height="9" viewBox="0 0 24 24" fill="currentColor" className="sm:w-[10px] sm:h-[10px]">
+                  <path d="M12 2.5l2.9 6.4 6.98.7-5.24 4.77 1.53 6.9L12 17.6l-6.17 3.67 1.53-6.9L2.12 9.6l6.98-.7L12 2.5z" />
+                </svg>
+              ))}
+            </span>
+            <span className="text-white/50 font-medium">&middot; 7 reviews</span>
+          </a>
           <h2 className="text-[clamp(28px,5vw,44px)] font-semibold tracking-tight text-white leading-tight">
             What Massachusetts{' '}
             <span className="font-serif italic text-coffee-shimmer">is saying.</span>

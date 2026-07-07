@@ -113,8 +113,8 @@ export default function ServicePageTemplate({ service }: { service: Service }) {
         </section>
 
         {/* Who it's for */}
-        <section className="border-t" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-          <div className="max-w-5xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+        <section>
+          <div className="max-w-5xl mx-auto px-5 sm:px-8 pb-10 sm:pb-14">
             <div className="text-center mb-14">
               <p
                 className="text-[11px] sm:text-[12px] uppercase tracking-[0.24em] font-semibold mb-4"
@@ -146,8 +146,8 @@ export default function ServicePageTemplate({ service }: { service: Service }) {
         </section>
 
         {/* Real pricing snapshot */}
-        <section className="border-t" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-          <div className="max-w-5xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+        <section>
+          <div className="max-w-5xl mx-auto px-5 sm:px-8 pb-10 sm:pb-14">
             <div className="text-center mb-14">
               <p
                 className="text-[11px] sm:text-[12px] uppercase tracking-[0.24em] font-semibold mb-4"
@@ -200,8 +200,8 @@ export default function ServicePageTemplate({ service }: { service: Service }) {
 
         {/* Related pages */}
         {(relatedLocations.length > 0 || relatedOos.length > 0) && (
-          <section className="border-t" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-            <div className="max-w-5xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+          <section>
+            <div className="max-w-5xl mx-auto px-5 sm:px-8 pb-10 sm:pb-14">
               <div
                 className="rounded-[1.75rem] border border-white/[0.08] bg-white/[0.02] p-8 sm:p-10"
                 style={{ boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.05)' }}
@@ -237,8 +237,8 @@ export default function ServicePageTemplate({ service }: { service: Service }) {
           </section>
         )}
 
-        <section className="border-t" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-          <div className="max-w-5xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+        <section>
+          <div className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-24">
             <div
               className="rounded-[1.75rem] border border-white/[0.10] p-10 sm:p-14 text-center"
               style={{ background: 'linear-gradient(145deg, rgba(107,58,31,0.22) 0%, rgba(42,20,5,0.35) 45%, rgba(5,5,5,0.60) 100%)' }}
