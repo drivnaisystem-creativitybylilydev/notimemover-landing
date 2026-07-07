@@ -3,8 +3,17 @@ import Footer from '@/components/Footer'
 import FaqSection from '@/components/FaqSection'
 import type { Location } from '@/lib/locations'
 
+// Derived from the real housingStock text already written per location —
+// not a new fact, just a signal used to pick which copy fits better.
+function isSuburbanCharacter(housingStock: string): boolean {
+  const suburban = /single-family|single- and two-family|large homes|large lots|large historic homes/i.test(housingStock)
+  const dense = /triple-decker|apartment|multi-family|high-rise|mid-rise|walk-up|condo|rowhouse|brownstone/i.test(housingStock)
+  return suburban && !dense
+}
+
 function cityFaqPool(loc: Location) {
   const { city, transit, housingStock, driveTime } = loc
+  const suburban = isSuburbanCharacter(housingStock)
   return [
     {
       q: `How much does it cost to move in ${city}?`,
@@ -24,11 +33,15 @@ function cityFaqPool(loc: Location) {
     },
     {
       q: `How long does a ${city} move take?`,
-      a: `Most ${city} studio and 1-bedroom moves take 2–4 hours. A 2-bedroom typically runs 4–6 hours. We give you a realistic time estimate when we follow up on your quote so you can plan the day.`,
+      a: suburban
+        ? `${city} homes tend to run larger, so most moves take 4–8 hours depending on furniture and floor count. We give you a realistic time estimate when we follow up on your quote so you can plan the day.`
+        : `Most ${city} studio and 1-bedroom moves take 2–4 hours. A 2-bedroom typically runs 4–6 hours. We give you a realistic time estimate when we follow up on your quote so you can plan the day.`,
     },
     {
-      q: `Do you handle stairs and walk-ups in ${city}?`,
-      a: `Yes, and we don't charge extra for them. Walk-ups are standard in ${city} — we price them the same as ground-floor apartments. The budget you set is the price you pay.`,
+      q: suburban ? `Do you handle larger homes in ${city}?` : `Do you handle stairs and walk-ups in ${city}?`,
+      a: suburban
+        ? `Yes — ${city} is mostly larger single-family homes, so we size the crew and truck to the job rather than pricing it like a small apartment move. Tell us your home size upfront and we'll match a tier that fits.`
+        : `Yes, and we don't charge extra for them. Walk-ups are standard in ${city} — we price them the same as ground-floor apartments. The budget you set is the price you pay.`,
     },
     {
       q: `What's ${city} like to move in or out of?`,
@@ -90,23 +103,29 @@ const STEPS = [
   },
 ]
 
-const BENEFITS = [
-  {
-    title: 'You set the budget',
-    body: 'Tell us what you can spend before we ever contact you. We work around it — no surprise quotes.',
-  },
-  {
-    title: 'No hidden fees',
-    body: 'What you see in the booking flow is what you pay. Every charge is spelled out before move day.',
-  },
-  {
-    title: 'Book in 60 seconds',
-    body: 'Two addresses, home size, budget — done. We follow up to lock in timing and specifics on a quick call.',
-  },
-]
+function getBenefits(suburban: boolean) {
+  return [
+    {
+      title: 'You set the budget',
+      body: 'Tell us what you can spend before we ever contact you. We work around it — no surprise quotes.',
+    },
+    {
+      title: 'No hidden fees',
+      body: suburban
+        ? 'Bigger homes usually mean more line items elsewhere. Not here — one price covers the full move, extra furniture included.'
+        : 'What you see in the booking flow is what you pay. Every charge is spelled out before move day.',
+    },
+    {
+      title: 'Book in 60 seconds',
+      body: 'Two addresses, home size, budget — done. We follow up to lock in timing and specifics on a quick call.',
+    },
+  ]
+}
 
 export default function CityPageTemplate({ loc }: { loc: Location }) {
   const faqs = cityFaqs(loc)
+  const suburban = isSuburbanCharacter(loc.housingStock)
+  const benefits = getBenefits(suburban)
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -278,9 +297,9 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
                 {loc.city} &amp; the surrounding area.
               </h2>
               <p className="text-[15px] text-white/50 leading-relaxed max-w-2xl mb-8">
-                We move throughout {loc.city} and its neighboring towns. Below are
-                the areas we cover most — if you don&rsquo;t see yours, enter your
-                address in the flow and we&rsquo;ll confirm coverage.
+                {suburban
+                  ? `We move throughout ${loc.city} and its neighboring towns — full house moves, more furniture, no extra charge for the extra square footage. If you don't see your town, enter your address in the flow and we'll confirm coverage.`
+                  : `We move throughout ${loc.city} and its neighboring neighborhoods. Below are the areas we cover most — if you don't see yours, enter your address in the flow and we'll confirm coverage.`}
               </p>
               <div className="flex flex-wrap gap-3">
                 {loc.neighborhoods.map((hood) => (
@@ -318,7 +337,7 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
               </h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-              {BENEFITS.map((benefit) => (
+              {benefits.map((benefit) => (
                 <div
                   key={benefit.title}
                   className="rounded-2xl border border-white/[0.08] p-7"
