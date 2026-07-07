@@ -182,7 +182,7 @@ export default function OurWorkSection({ onOpenBooking }: { onOpenBooking: () =>
     <section className="border-t border-white/[0.05]">
 
       {/* ── Header ─────────────────────────────────────────── */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-16 sm:pt-24 pb-12">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-16 sm:pt-24 pb-12 text-center">
         <motion.div
           ref={headerRef}
           initial={{ opacity: 0, y: 28 }}
@@ -190,12 +190,10 @@ export default function OurWorkSection({ onOpenBooking }: { onOpenBooking: () =>
           transition={{ duration: 0.65, ease: EASE_OUT }}
         >
           <p className="text-[10px] uppercase tracking-[0.28em] text-coffee-light font-semibold mb-4">
-            Real jobs · Boston, MA
+            Our work across Massachusetts
           </p>
           <h2 className="text-[clamp(30px,5vw,52px)] font-semibold tracking-tight text-white leading-[1.05]">
-            This is who shows up
-            <br />
-            <span className="font-serif italic text-coffee-shimmer">on move day.</span>
+            Our crew at work.
           </h2>
         </motion.div>
       </div>

@@ -11,18 +11,30 @@ function isSuburbanCharacter(housingStock: string): boolean {
   return suburban && !dense
 }
 
+function lowerFirst(s: string): string {
+  return s.charAt(0).toLowerCase() + s.slice(1)
+}
+
+// Every answer below threads at least one real per-location field (transit,
+// housingStock, driveTime, or a named neighborhood) directly into the
+// sentence, rather than picking between a small fixed set of canned
+// variants — so rendered text differs page to page, not just template to
+// template. See SEO-DOORWAY-PAGE-AUDIT.md for why this matters.
 function cityFaqPool(loc: Location) {
   const { city, transit, housingStock, driveTime, neighborhoods } = loc
   const suburban = isSuburbanCharacter(housingStock)
   const nearBy = neighborhoods.slice(0, 3).join(', ')
+  const transitClause = transit.split(';')[0]
+  const housingLower = lowerFirst(housingStock)
+  const driveClause = driveTime.replace('~', 'about ').replace('downtown Boston', 'downtown')
   return [
     {
       q: `How much does it cost to move in ${city}?`,
-      a: `For most ${city} moves — studios through 2-bedrooms — expect a range between $450 and $900 depending on home size and distance. You set a budget in the booking flow before we call, so there's no surprise number at the end. Enter your addresses to get a specific range for your move.`,
+      a: `For most ${city} moves — studios through 2-bedrooms — expect a range between $450 and $900, depending on home size and how far the move goes. ${city} is ${driveClause}, which factors into the gas portion of your quote. You set a budget in the booking flow before we call, so there's no surprise number at the end.`,
     },
     {
       q: `How far in advance should I book movers in ${city}?`,
-      a: `For most ${city} moves, 2–3 days notice is enough. Same-day availability is possible if you contact us before noon. During peak season — especially around September 1st — booking 5–7 days ahead locks in your preferred date.`,
+      a: `2–3 days notice is usually enough for a ${city} move, and same-day is often possible if you contact us before noon. Around September 1st — the busiest week for moves in and around ${nearBy} — book 5–7 days ahead to lock in your date.`,
     },
     {
       q: `Do you cover all of ${city}?`,
@@ -30,35 +42,51 @@ function cityFaqPool(loc: Location) {
     },
     {
       q: `Are you insured for moves in ${city}?`,
-      a: `Yes — NoTimeMover is fully insured on every move, including all ${city} jobs. We carry general liability coverage and can provide a certificate of insurance for any building that requires one before move day.`,
+      a: `Yes — NoTimeMover is fully insured on every move, including all ${city} jobs and moves to or from ${neighborhoods[0]}. We carry general liability coverage and can provide a certificate of insurance for any building that requires one before move day.`,
     },
     {
       q: `How long does a ${city} move take?`,
       a: suburban
-        ? `${city} homes tend to run larger, so most moves take 4–8 hours depending on furniture and floor count. We give you a realistic time estimate when we follow up on your quote so you can plan the day.`
-        : `Most ${city} studio and 1-bedroom moves take 2–4 hours. A 2-bedroom typically runs 4–6 hours. We give you a realistic time estimate when we follow up on your quote so you can plan the day.`,
+        ? `${city} is mostly ${housingLower}, so most moves run 4–8 hours depending on furniture and floor count. We give you a realistic time estimate when we follow up on your quote so you can plan the day.`
+        : `${city} is mostly ${housingLower}. Studio and 1-bedroom moves typically take 2–4 hours; a 2-bedroom runs 4–6 hours. We give you a realistic time estimate when we follow up on your quote.`,
     },
     {
       q: suburban ? `Do you handle larger homes in ${city}?` : `Do you handle stairs and walk-ups in ${city}?`,
       a: suburban
-        ? `Yes — ${city} is mostly larger single-family homes, so we size the crew and truck to the job rather than pricing it like a small apartment move. Tell us your home size upfront and we'll match a tier that fits.`
-        : `Yes, and we don't charge extra for them. Walk-ups are standard in ${city} — we price them the same as ground-floor apartments. The budget you set is the price you pay.`,
+        ? `Yes — ${city} is mostly ${housingLower}, so we size the crew and truck to the job rather than pricing it like a small apartment move. Tell us your home size upfront and we'll match a tier that fits.`
+        : `Yes, and we don't charge extra for them. ${city} is mostly ${housingLower}, and we price walk-ups the same as ground-floor units. The budget you set is the price you pay.`,
     },
     {
       q: `What's ${city} like to move in or out of?`,
-      a: `${city} is mostly ${housingStock.charAt(0).toLowerCase() + housingStock.slice(1)}. It's ${driveTime.replace('~', 'about ').replace('downtown Boston', 'downtown')}, and the main transit link is ${transit.split(';')[0]}. Our crews know the parking, loading, and access patterns specific to the area.`,
+      a: `${city} is mostly ${housingLower}. It's ${driveClause}, and the main transit link is ${transitClause}. Our crews know the parking, loading, and access patterns specific to the area.`,
     },
     {
       q: `Do you offer packing help for ${city} moves?`,
-      a: `Yes. Let us know when you submit your quote if you want help packing — we'll factor it into your budget upfront rather than adding it as a surprise line item on move day.`,
+      a: `Yes. Let us know when you submit your quote for your ${city} move if you want help packing — we'll factor it into your budget upfront rather than adding it as a surprise line item on move day.`,
     },
     {
       q: `What's the best day to move in ${city}?`,
-      a: `Weekdays are typically easier to schedule and often faster, since weekends fill up fastest. Around September 1st, book as early as possible regardless of day — that's the single busiest week for moves in and around ${city}.`,
+      a: `Weekdays are typically easier to schedule and often faster, since weekends fill up fastest. Around September 1st, book as early as possible regardless of day — whether you're moving within ${city} or over to ${neighborhoods[0]}.`,
     },
     {
       q: `Is there a minimum move size for ${city}?`,
       a: `No. We handle everything from a single-room move to a full house in ${city} — the budget-first model works the same either way. Set your price range and we confirm what it covers.`,
+    },
+    {
+      q: `How do I get from ${city} to Boston without a car?`,
+      a: `${city} connects to downtown Boston via ${transitClause}, ${driveClause}. If you're coordinating a move around transit schedules rather than a car, mention it when you submit your quote and we'll plan timing around it.`,
+    },
+    {
+      q: `Is ${city} inside your standard coverage area, or does it cost extra?`,
+      a: `${city} is ${driveClause} — well within our standard Greater Massachusetts coverage. No extra travel fee for the distance, and the same budget-first pricing applies as everywhere else we serve.`,
+    },
+    {
+      q: `What towns near ${city} do you also serve?`,
+      a: `Most often ${nearBy} — all covered by the same crew and the same budget-first pricing. If you're moving between ${city} and one of those, it's one quote, not two.`,
+    },
+    {
+      q: `Do you know the parking and loading situation in ${city}?`,
+      a: `Yes. ${city} is mostly ${housingLower}, and our crews already know what that means for parking, loading dock access, and building rules in the area — it's factored into the timing estimate we give you, not treated as a surprise on move day.`,
     },
   ]
 }
@@ -81,23 +109,25 @@ function cityFaqs(loc: Location) {
   return rotated.slice(0, 6)
 }
 
-function getBenefits(suburban: boolean) {
+// Threads city, housingStock, and transit directly into every card so the
+// rendered text differs page to page instead of collapsing into one of two
+// canned paragraphs shared across 30+ pages.
+function getBenefits(loc: Location) {
+  const { city, housingStock, transit, neighborhoods } = loc
+  const housingLower = lowerFirst(housingStock)
+  const transitClause = transit.split(';')[0]
   return [
     {
       title: 'You set the budget',
-      body: 'Tell us what you can spend before we ever contact you. We work around it — no surprise quotes.',
+      body: `Tell us what you can spend on your ${city} move before we ever contact you. We work around it — no surprise quotes, whether you're near ${neighborhoods[0]} or anywhere else in ${city}.`,
     },
     {
       title: 'No hidden fees',
-      body: suburban
-        ? 'Bigger homes usually mean more line items elsewhere. Not here — one price covers the full move, extra furniture included.'
-        : 'What you see in the booking flow is what you pay. Every charge is spelled out before move day.',
+      body: `${city} is mostly ${housingLower} — whatever that means for your place, it's already priced into the number you see in the booking flow. Nothing gets added on move day.`,
     },
     {
       title: 'Book in 60 seconds',
-      body: suburban
-        ? 'Two addresses, home size, budget — done. Bigger lots and longer driveways don\'t slow down the quote.'
-        : 'Two addresses, home size, budget — done. We know the local parking and loading patterns, so timing estimates are realistic, not generic.',
+      body: `Two addresses, home size, budget — done. We already know ${lowerFirst(transitClause)}, so timing estimates for ${city} are realistic, not generic.`,
     },
   ]
 }
@@ -105,7 +135,7 @@ function getBenefits(suburban: boolean) {
 export default function CityPageTemplate({ loc }: { loc: Location }) {
   const faqs = cityFaqs(loc)
   const suburban = isSuburbanCharacter(loc.housingStock)
-  const benefits = getBenefits(suburban)
+  const benefits = getBenefits(loc)
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -301,7 +331,7 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
                 Why NoTimeMover
               </p>
               <h2 className="text-[32px] sm:text-[40px] font-semibold tracking-tight text-white leading-[1.1]">
-                Moving that respects your budget.
+                {loc.city} moves, on your budget.
               </h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -361,11 +391,11 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
                 {loc.city}, MA
               </p>
               <h2 className="text-[32px] sm:text-[42px] font-semibold tracking-tight text-white leading-[1.1] mb-4">
-                Ready to move on your terms?
+                Ready to move in {loc.city}?
               </h2>
               <p className="text-[15px] text-white/50 max-w-lg mx-auto leading-relaxed mb-10">
-                Tell us your budget in 60 seconds. No obligation until you confirm
-                — we follow up to lock in the details.
+                Tell us your budget in 60 seconds — whether you're near {loc.neighborhoods[0]} or
+                anywhere else in {loc.city}. No obligation until you confirm — we follow up to lock in the details.
               </p>
               <Link
                 href="/?book=1"
