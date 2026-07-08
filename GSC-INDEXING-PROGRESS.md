@@ -1,11 +1,11 @@
 # GSC Manual Indexing Progress Tracker
-**Last updated:** 2026-07-07 (evening)
+**Last updated:** 2026-07-08 (evening)
 **Total location pages:** 64
 **Method:** Google Search Console → URL Inspection → "Request Indexing" (daily quota ~10-12 requests, resets ~midnight)
 
 ---
 
-## ✅ Already Submitted (17 pages, confirmed)
+## ✅ Already Submitted (27 pages, confirmed)
 
 **From URL inspection history (date unknown, prior session):**
 - movers-back-bay-ma
@@ -27,32 +27,28 @@
 - movers-everett-ma
 - movers-newton-ma
 
-**Today (2026-07-07), before quota hit:**
+**2026-07-07, before quota hit:**
 - movers-allston-ma
 
-**Quota exceeded on:** movers-east-boston-ma (did NOT go through — this is where tomorrow's batch starts)
+**Batch A (2026-07-08):**
+- movers-east-boston-ma
+- movers-hyde-park-ma
+- movers-roslindale-ma
+- movers-west-roxbury-ma
+- movers-beacon-hill-ma
+- movers-north-end-ma
+- movers-seaport-ma
+- movers-chinatown-ma
+- movers-downtown-boston-ma
+- movers-mattapan-ma
 
 ---
 
-## ⏳ Remaining (47 pages) — Split Into Daily Batches
+## ⏳ Remaining (37 pages) — Split Into Daily Batches
 
 Quota resets roughly at midnight Pacific (Google's internal reset, not always aligned to local midnight — if a batch fails immediately in the morning, wait a few hours and retry). Submit ~10/day via GSC → URL Inspection → paste URL → Request Indexing.
 
-### Batch A — Submit Next (Day 1)
-```
-https://notimemover.com/movers-east-boston-ma
-https://notimemover.com/movers-hyde-park-ma
-https://notimemover.com/movers-roslindale-ma
-https://notimemover.com/movers-west-roxbury-ma
-https://notimemover.com/movers-beacon-hill-ma
-https://notimemover.com/movers-north-end-ma
-https://notimemover.com/movers-seaport-ma
-https://notimemover.com/movers-chinatown-ma
-https://notimemover.com/movers-downtown-boston-ma
-https://notimemover.com/movers-mattapan-ma
-```
-
-### Batch B — Day 2
+### Batch B — Submit Next (Day 2)
 ```
 https://notimemover.com/movers-kenmore-square-ma
 https://notimemover.com/movers-longwood-ma
