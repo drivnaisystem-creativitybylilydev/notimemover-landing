@@ -29,6 +29,13 @@ export async function generateMetadata({
       url: `https://notimemover.com/blog/${slug}`,
       type: 'article',
       publishedTime: post.date,
+      images: [{ url: '/opengraph-image.png', width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      images: ['/opengraph-image.png'],
     },
   }
 }
@@ -57,7 +64,7 @@ export default async function BlogPostPage({
 
   const articleSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'BlogPosting',
     headline: post.title,
     description: post.description,
     datePublished: post.date,
