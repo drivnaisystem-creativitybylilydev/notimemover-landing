@@ -595,30 +595,103 @@ function TrustSection() {
    FREE CHECKLIST — lead-magnet banner
 ───────────────────────────────────────────── */
 
+// Stylized stand-in for a generated hero image — low-poly clipboard +
+// checklist + moving boxes in the site's amber/coffee palette. Swap for an
+// AI-rendered image once Higgsfield credits are available.
+function ChecklistIllustration() {
+  return (
+    <svg viewBox="0 0 400 460" className="w-full h-full" role="img" aria-label="Illustration of a moving checklist on a clipboard next to moving boxes">
+      <defs>
+        <radialGradient id="checklistGlow" cx="50%" cy="35%" r="65%">
+          <stop offset="0%" stopColor="#C2784E" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="#C2784E" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="clipboardFace" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#6B3A1F" />
+          <stop offset="100%" stopColor="#2A1405" />
+        </linearGradient>
+        <linearGradient id="boxFaceLight" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#8B5230" />
+          <stop offset="100%" stopColor="#4b2e1e" />
+        </linearGradient>
+        <linearGradient id="boxFaceDark" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#4b2e1e" />
+          <stop offset="100%" stopColor="#2A1405" />
+        </linearGradient>
+      </defs>
+
+      <circle cx="200" cy="170" r="220" fill="url(#checklistGlow)" />
+
+      {/* Low-poly moving box, back */}
+      <g opacity="0.9">
+        <polygon points="70,300 150,270 150,350 70,380" fill="url(#boxFaceDark)" />
+        <polygon points="150,270 230,300 230,380 150,350" fill="url(#boxFaceLight)" />
+        <polygon points="70,300 150,270 230,300 150,330" fill="#8B5230" />
+      </g>
+
+      {/* Low-poly moving box, front */}
+      <g>
+        <polygon points="220,340 300,312 300,400 220,428" fill="url(#boxFaceDark)" />
+        <polygon points="300,312 370,340 370,420 300,400" fill="url(#boxFaceLight)" />
+        <polygon points="220,340 300,312 370,340 300,368" fill="#C2784E" />
+        <line x1="260" y1="326" x2="260" y2="414" stroke="#2A1405" strokeWidth="2" opacity="0.5" />
+      </g>
+
+      {/* Clipboard */}
+      <g>
+        <rect x="120" y="60" width="170" height="230" rx="14" fill="url(#clipboardFace)" stroke="#8B5230" strokeWidth="2" />
+        <rect x="180" y="48" width="50" height="24" rx="8" fill="#8B5230" />
+        <rect x="140" y="96" width="130" height="176" rx="6" fill="#F5F1EB" opacity="0.96" />
+
+        {/* Checklist rows */}
+        {[0, 1, 2].map((i) => (
+          <g key={i}>
+            <rect x="154" y={116 + i * 40} width="16" height="16" rx="4" fill="#8B5230" />
+            <path
+              d={`M158 ${124 + i * 40} l4 5 l8 -9`}
+              stroke="#F5F1EB"
+              strokeWidth="2.5"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <rect x="182" y={121 + i * 40} width="72" height="6" rx="3" fill="#2A1405" opacity="0.35" />
+          </g>
+        ))}
+        <g>
+          <rect x="154" y="236" width="16" height="16" rx="4" fill="none" stroke="#8B5230" strokeWidth="2" />
+          <rect x="182" y="241" width="56" height="6" rx="3" fill="#2A1405" opacity="0.2" />
+        </g>
+      </g>
+    </svg>
+  )
+}
+
 function ChecklistPromoSection() {
   return (
     <section
-      className="w-full py-16 sm:py-20"
+      className="w-full px-6 sm:px-16 py-16 sm:py-24"
       style={{
-        background: 'linear-gradient(145deg, rgba(107,58,31,0.16) 0%, rgba(20,10,3,0.42) 60%, rgba(5,5,5,0.6) 100%)',
+        background: 'linear-gradient(145deg, rgba(107,58,31,0.2) 0%, rgba(42,20,5,0.36) 45%, rgba(5,5,5,0.58) 100%)',
       }}
     >
-      <div className="w-full px-6 sm:px-10">
-        <Reveal from="bottom" amount={0.15}>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.28em] text-coffee-light font-semibold mb-3">Free download</p>
-              <h2 className="text-[clamp(24px,4vw,34px)] font-semibold tracking-tight text-white leading-tight mb-3">
-                The Homeowner's{' '}
-                <span className="font-serif italic text-coffee-shimmer">Moving Checklist.</span>
-              </h2>
-              <p className="text-[14px] sm:text-[15px] text-white leading-relaxed max-w-md">
-                Every task from 8 weeks out through move day and after — insurance, utilities, permits, closing dates. Read it free, no email required.
-              </p>
-            </div>
+      <Reveal from="bottom" amount={0.15}>
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
+          <div className="w-full max-w-xs sm:max-w-sm md:max-w-none md:w-2/5 shrink-0">
+            <ChecklistIllustration />
+          </div>
+          <div className="w-full md:w-3/5 md:text-right flex flex-col md:items-end">
+            <p className="text-[10px] uppercase tracking-[0.28em] text-coffee-light font-semibold mb-5">Free download</p>
+            <h2 className="text-[clamp(28px,5.5vw,52px)] font-semibold tracking-tight text-white leading-[1.06] mb-4 max-w-xl">
+              The Homeowner's{' '}
+              <span className="font-serif italic text-coffee-shimmer">Moving Checklist.</span>
+            </h2>
+            <p className="text-[14px] sm:text-[15px] text-white max-w-md leading-relaxed mb-10">
+              Every task from 8 weeks out through move day and after — insurance, utilities, permits, closing dates. Read it free, no email required.
+            </p>
             <Link
               href="/moving-checklist"
-              className="group inline-flex items-center gap-3 pl-7 pr-2 py-2 rounded-full bg-white text-ink font-medium shrink-0 active:scale-[0.97]"
+              className="group inline-flex items-center gap-3 pl-7 pr-2 py-2 rounded-full bg-white text-ink font-medium active:scale-[0.97]"
               style={{ transition: 'transform 500ms cubic-bezier(0.32,0.72,0,1)' }}
             >
               <span className="text-[15px] tracking-tight whitespace-nowrap">Get the checklist</span>
@@ -632,8 +705,8 @@ function ChecklistPromoSection() {
               </span>
             </Link>
           </div>
-        </Reveal>
-      </div>
+        </div>
+      </Reveal>
     </section>
   )
 }
