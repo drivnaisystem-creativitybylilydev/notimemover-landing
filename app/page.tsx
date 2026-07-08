@@ -63,7 +63,7 @@ export default function Home() {
       <main className="min-h-screen bg-ink text-white">
         <Hero posts={posts} />
       </main>
-      <FaqSection faqs={HOME_FAQS} />
+      <FaqSection id="faq" faqs={HOME_FAQS} />
       <Footer />
     </>
   )

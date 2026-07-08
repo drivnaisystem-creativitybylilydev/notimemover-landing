@@ -6,7 +6,6 @@ import {
   useInView,
   useMotionValue,
   animate,
-  AnimatePresence,
 } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -17,8 +16,6 @@ import type { BlogPost } from '@/lib/blog'
 
 type PostSummary = Omit<BlogPost, 'content'>
 
-
-const SPRING = [0.32, 0.72, 0, 1] as const
 const EASE_OUT = [0.25, 0.1, 0.25, 1] as const
 
 /* ─────────────────────────────────────────────
@@ -50,33 +47,6 @@ function Reveal({
   )
 }
 
-
-const FAQ_ITEMS = [
-  {
-    q: 'How does your pricing work?',
-    a: 'You name the number before we ever pick up the phone. Fill out the quote form with your pickup address, dropoff address, home size, and a budget range you are comfortable with. We follow up within minutes to confirm availability and details. Most Boston local moves land between $400 and $900 depending on size and distance. Out-of-state jobs are scoped individually on a quick confirmation call — still no counter-offers, still no surprises.',
-  },
-  {
-    q: 'Do you charge for stairs or extra floors?',
-    a: 'No stair fees, no elevator fees, no long-carry fees. Boston walk-ups are the default — Back Bay brownstones, Allston three-deckers, Fenway buildings with no elevator. We know the city. Other companies use those charges to inflate the final bill after the job is done. The total you agreed to is what you pay, period.',
-  },
-  {
-    q: 'Are you insured?',
-    a: 'Yes, fully. NoTimeMover carries general liability insurance on every move. Your belongings are covered from the moment we load the first item to the moment we set down the last box. If your building requires a Certificate of Insurance before move day — common in Boston high-rises, managed properties, and university housing — contact us a few days ahead and we will have it ready.',
-  },
-  {
-    q: 'How quickly will I hear back after I submit?',
-    a: 'Within minutes during business hours, never more than a few hours. A real person reviews your request and reaches out by phone or text to confirm timing and details — not an automated drip sequence. If you submit Friday evening, expect a reply Saturday morning. We do not leave quote requests sitting.',
-  },
-  {
-    q: 'Do you handle Boston parking permits for the moving truck?',
-    a: 'Yes, and you should not skip this step. Boston requires a moving truck permit on most residential streets, applied through the city at least 10 to 14 business days before your move date. We will tell you exactly which streets need permits and how to file, or coordinate it directly with you. Unpermitted trucks in Boston get ticketed fast — sometimes towed. Do not leave this to the week before.',
-  },
-  {
-    q: 'How far in advance should I book?',
-    a: 'For weekday moves, three to five days notice usually works. For weekend moves — especially anything Friday through Sunday in September — book at least one to two weeks out. September 1 is the single busiest moving day in the entire country because of Boston lease cycles, and we fill up weeks ahead. Same-day moves are available on weekdays if you reach out before noon and we have crew available. When in doubt, book early. Dates can always be adjusted.',
-  },
-] as const
 
 /* ─────────────────────────────────────────────
    ANIMATED COUNTER
@@ -622,6 +592,54 @@ function TrustSection() {
 }
 
 /* ─────────────────────────────────────────────
+   FREE CHECKLIST — lead-magnet banner
+───────────────────────────────────────────── */
+
+function ChecklistPromoSection() {
+  return (
+    <section className="w-full py-16 sm:py-20">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10">
+        <Reveal from="bottom" amount={0.15}>
+          <div
+            className="rounded-[1.75rem] border border-white/[0.08] p-8 sm:p-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8"
+            style={{
+              background: 'linear-gradient(145deg, rgba(107,58,31,0.16) 0%, rgba(20,10,3,0.42) 60%, rgba(5,5,5,0.6) 100%)',
+              boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06)',
+            }}
+          >
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.28em] text-coffee-light font-semibold mb-3">Free download</p>
+              <h2 className="text-[clamp(24px,4vw,34px)] font-semibold tracking-tight text-white leading-tight mb-3">
+                The Homeowner's{' '}
+                <span className="font-serif italic text-coffee-shimmer">Moving Checklist.</span>
+              </h2>
+              <p className="text-[14px] sm:text-[15px] text-white/45 leading-relaxed max-w-md">
+                Every task from 8 weeks out through move day and after — insurance, utilities, permits, closing dates. Read it free, no email required.
+              </p>
+            </div>
+            <Link
+              href="/moving-checklist"
+              className="group inline-flex items-center gap-3 pl-7 pr-2 py-2 rounded-full bg-white text-ink font-medium shrink-0 active:scale-[0.97]"
+              style={{ transition: 'transform 500ms cubic-bezier(0.32,0.72,0,1)' }}
+            >
+              <span className="text-[15px] tracking-tight whitespace-nowrap">Get the checklist</span>
+              <span
+                className="w-11 h-11 rounded-full bg-ink/10 flex items-center justify-center group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
+                style={{ boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.5)', transition: 'transform 500ms cubic-bezier(0.32,0.72,0,1)' }}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </span>
+            </Link>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+/* ─────────────────────────────────────────────
    TESTIMONIALS — real Google reviews
 ───────────────────────────────────────────── */
 
@@ -721,74 +739,6 @@ function TestimonialsSection() {
 
 
 /* ─────────────────────────────────────────────
-   FAQ — divider style, no glass cards
-───────────────────────────────────────────── */
-
-function FAQSection() {
-  const [open, setOpen] = useState<number | null>(null)
-
-  return (
-    <section id="faq" className="w-full py-16 sm:py-20">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10">
-      <Reveal from="right" distance={40} className="mb-10 sm:mb-12">
-        <h2 className="text-[clamp(26px,4.5vw,40px)] font-semibold tracking-tight text-white">
-          Common questions.
-        </h2>
-      </Reveal>
-
-      <div>
-        {FAQ_ITEMS.map((item, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.45, ease: EASE_OUT, delay: i * 0.04 }}
-            className="border-t border-white/[0.07]"
-          >
-            <button
-              type="button"
-              onClick={() => setOpen(open === i ? null : i)}
-              className="w-full flex items-center justify-between gap-6 py-5 sm:py-6 text-left cursor-pointer group"
-            >
-              <span className="text-[15px] sm:text-[16px] font-medium text-white group-hover:text-white/80 transition-colors duration-200">
-                {item.q}
-              </span>
-              <motion.span
-                animate={{ rotate: open === i ? 45 : 0 }}
-                transition={{ duration: 0.25, ease: SPRING }}
-                className="shrink-0 text-white/30 group-hover:text-white/50 transition-colors duration-200"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-                  <path d="M12 5v14M5 12h14" />
-                </svg>
-              </motion.span>
-            </button>
-            <AnimatePresence initial={false}>
-              {open === i && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.28, ease: SPRING }}
-                  className="overflow-hidden"
-                >
-                  <p className="pb-6 text-[14px] text-white/40 leading-relaxed max-w-2xl">
-                    {item.a}
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        ))}
-        <div className="border-t border-white/[0.07]" />
-      </div>
-      </div>
-    </section>
-  )
-}
-
-/* ─────────────────────────────────────────────
    MAIN EXPORT
 ───────────────────────────────────────────── */
 
@@ -820,6 +770,10 @@ export default function LandingSections({ onOpenBooking, posts = [] }: { onOpenB
 
       <div className="border-t border-white/[0.05]">
         <TrustSection />
+      </div>
+
+      <div className="border-t border-white/[0.05]">
+        <ChecklistPromoSection />
       </div>
 
       {/* Service Areas */}
@@ -877,11 +831,6 @@ export default function LandingSections({ onOpenBooking, posts = [] }: { onOpenB
 
       {/* Blog magazine */}
       {posts.length > 0 && <BlogMagazineSection posts={posts} />}
-
-      {/* FAQ */}
-      <div className="border-t border-white/[0.05]">
-        <FAQSection />
-      </div>
 
       {/* Final CTA */}
       <motion.div

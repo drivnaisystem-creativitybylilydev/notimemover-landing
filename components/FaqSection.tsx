@@ -11,17 +11,19 @@ interface FaqSectionProps {
   faqs: FaqItem[]
   eyebrow?: string
   heading?: string
+  id?: string
 }
 
 export default function FaqSection({
   faqs,
   eyebrow = 'FAQ',
   heading = 'Common questions.',
+  id,
 }: FaqSectionProps) {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <section>
+    <section id={id}>
       <div className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-24">
         <div className="mb-12">
           <p

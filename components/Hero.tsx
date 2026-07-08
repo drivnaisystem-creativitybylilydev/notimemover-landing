@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion'
+import Link from 'next/link'
 import LandingSections from '@/components/LandingSections'
 import type { BlogPost } from '@/lib/blog'
+import { getLocationsByRegion } from '@/lib/locations'
 
 type PostSummary = Omit<BlogPost, 'content'>
 
@@ -89,13 +91,134 @@ function ServiceModePicker() {
 
 const NAV_LINKS = [
   { label: 'How it works', href: '#how-it-works' },
-  { label: 'Service areas', href: '#areas' },
+  { label: 'Service areas', menu: 'areas' },
   { label: 'FAQ', href: '#faq' },
-  { label: 'Blog', href: '/blog' },
+  { label: 'Blog', menu: 'blog' },
+  { label: 'Free checklist', href: '/moving-checklist' },
   { label: 'Contact', href: '/contact' },
 ] as const
 
-function FloatingNav({ onCta }: { onCta: () => void }) {
+const REGIONS = getLocationsByRegion()
+
+function ChevronIcon({ open }: { open: boolean }) {
+  return (
+    <motion.svg
+      width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+      animate={{ rotate: open ? 180 : 0 }}
+      transition={{ duration: 0.2, ease: SPRING }}
+      className="ml-1 shrink-0 opacity-60"
+    >
+      <path d="M6 9l6 6 6-6" />
+    </motion.svg>
+  )
+}
+
+function NavDropdownPanel({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.18, ease: SPRING }}
+      className="absolute left-1/2 -translate-x-1/2 top-full mt-2 rounded-2xl border border-white/[0.08] p-5 z-50"
+      style={{
+        background: 'rgba(10,8,6,0.98)',
+        backdropFilter: 'blur(20px)',
+        boxShadow: '0 20px 50px -12px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.06)',
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function ServiceAreasMenu({ onNavigate }: { onNavigate: () => void }) {
+  return (
+    <NavDropdownPanel>
+      <div className="grid grid-cols-3 gap-6 w-[620px] max-w-[80vw]">
+        {REGIONS.map(({ region, locations }) => (
+          <div key={region}>
+            <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-coffee-light mb-3">
+              {region}
+            </p>
+            <div className="flex flex-col gap-0.5 max-h-64 overflow-y-auto pr-1">
+              {locations.map((loc) => (
+                <Link
+                  key={loc.slug}
+                  href={`/${loc.slug}`}
+                  onClick={onNavigate}
+                  className="text-[13px] text-white/50 hover:text-white/90 py-1 rounded transition-colors duration-150"
+                >
+                  {loc.city}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="border-t border-white/[0.07] mt-4 pt-4">
+        <a
+          href="/#areas"
+          onClick={onNavigate}
+          className="text-[13px] font-medium text-coffee-shimmer hover:text-white transition-colors duration-150"
+        >
+          View all service areas →
+        </a>
+      </div>
+    </NavDropdownPanel>
+  )
+}
+
+function BlogMenu({ posts, onNavigate }: { posts: PostSummary[]; onNavigate: () => void }) {
+  return (
+    <NavDropdownPanel>
+      <div className="flex flex-col gap-0.5 w-[340px] max-w-[85vw]">
+        {posts.map((post) => (
+          <Link
+            key={post.slug}
+            href={`/blog/${post.slug}`}
+            onClick={onNavigate}
+            className="text-[13px] text-white/60 hover:text-white/95 py-2 leading-snug rounded transition-colors duration-150"
+          >
+            {post.title}
+          </Link>
+        ))}
+      </div>
+      <div className="border-t border-white/[0.07] mt-3 pt-4">
+        <Link
+          href="/blog"
+          onClick={onNavigate}
+          className="text-[13px] font-medium text-coffee-shimmer hover:text-white transition-colors duration-150"
+        >
+          View all posts →
+        </Link>
+      </div>
+    </NavDropdownPanel>
+  )
+}
+
+function FloatingNav({ onCta, posts }: { onCta: () => void; posts: PostSummary[] }) {
+  const [openMenu, setOpenMenu] = useState<'areas' | 'blog' | null>(null)
+  const navRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (!openMenu) return
+    const handleClick = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setOpenMenu(null)
+      }
+    }
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpenMenu(null)
+    }
+    document.addEventListener('mousedown', handleClick)
+    document.addEventListener('keydown', handleKey)
+    return () => {
+      document.removeEventListener('mousedown', handleClick)
+      document.removeEventListener('keydown', handleKey)
+    }
+  }, [openMenu])
+
   return (
     <motion.header
       className="fixed inset-x-0 top-0 z-40"
@@ -120,16 +243,42 @@ function FloatingNav({ onCta }: { onCta: () => void }) {
         </a>
 
         {/* Nav links — desktop center */}
-        <div className="hidden sm:flex items-center gap-0.5 flex-1 justify-center">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="inline-flex items-center h-9 px-3.5 text-[13px] font-medium text-white/45 hover:text-white/90 transition-colors duration-200 tracking-tight leading-none rounded-full hover:bg-white/[0.05]"
-            >
-              {link.label}
-            </a>
-          ))}
+        <div ref={navRef} className="hidden sm:flex items-center gap-0.5 flex-1 justify-center">
+          {NAV_LINKS.map((link) => {
+            if ('menu' in link) {
+              const isOpen = openMenu === link.menu
+              return (
+                <div key={link.label} className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setOpenMenu(isOpen ? null : link.menu)}
+                    aria-expanded={isOpen}
+                    className="inline-flex items-center h-9 px-3.5 text-[13px] font-medium text-white/45 hover:text-white/90 transition-colors duration-200 tracking-tight leading-none rounded-full hover:bg-white/[0.05]"
+                  >
+                    {link.label}
+                    <ChevronIcon open={isOpen} />
+                  </button>
+                  <AnimatePresence>
+                    {isOpen && link.menu === 'areas' && (
+                      <ServiceAreasMenu onNavigate={() => setOpenMenu(null)} />
+                    )}
+                    {isOpen && link.menu === 'blog' && (
+                      <BlogMenu posts={posts} onNavigate={() => setOpenMenu(null)} />
+                    )}
+                  </AnimatePresence>
+                </div>
+              )
+            }
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                className="inline-flex items-center h-9 px-3.5 text-[13px] font-medium text-white/45 hover:text-white/90 transition-colors duration-200 tracking-tight leading-none rounded-full hover:bg-white/[0.05]"
+              >
+                {link.label}
+              </a>
+            )
+          })}
         </div>
 
         {/* CTA — right */}
@@ -305,7 +454,7 @@ export default function Hero({ posts = [] }: { posts?: PostSummary[] }) {
           <div className="absolute inset-x-0 top-0 h-40" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%)' }} />
         </div>
 
-        <FloatingNav onCta={() => setBookingOpen(true)} />
+        <FloatingNav onCta={() => setBookingOpen(true)} posts={posts} />
 
         {/* Center content (z-10) */}
         <div className="relative z-10 flex-1 flex flex-col justify-start sm:justify-center items-center text-center px-5 sm:px-8 pt-[calc(env(safe-area-inset-top,0px)+6rem)] sm:pt-36">

@@ -53,6 +53,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     {
+      url: 'https://notimemover.com/moving-checklist',
+      lastModified: fileModified('lib/checklist-data.ts'),
+      changeFrequency: 'monthly' as const,
+      priority: 0.75,
+    },
+    {
       url: 'https://notimemover.com/blog',
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
