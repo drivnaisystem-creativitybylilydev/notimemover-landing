@@ -597,23 +597,22 @@ function TrustSection() {
 
 function ChecklistPromoSection() {
   return (
-    <section className="w-full py-16 sm:py-20">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10">
+    <section
+      className="w-full py-16 sm:py-20"
+      style={{
+        background: 'linear-gradient(145deg, rgba(107,58,31,0.16) 0%, rgba(20,10,3,0.42) 60%, rgba(5,5,5,0.6) 100%)',
+      }}
+    >
+      <div className="w-full px-6 sm:px-10">
         <Reveal from="bottom" amount={0.15}>
-          <div
-            className="rounded-[1.75rem] border border-white/[0.08] p-8 sm:p-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8"
-            style={{
-              background: 'linear-gradient(145deg, rgba(107,58,31,0.16) 0%, rgba(20,10,3,0.42) 60%, rgba(5,5,5,0.6) 100%)',
-              boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06)',
-            }}
-          >
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
             <div>
               <p className="text-[10px] uppercase tracking-[0.28em] text-coffee-light font-semibold mb-3">Free download</p>
               <h2 className="text-[clamp(24px,4vw,34px)] font-semibold tracking-tight text-white leading-tight mb-3">
                 The Homeowner's{' '}
                 <span className="font-serif italic text-coffee-shimmer">Moving Checklist.</span>
               </h2>
-              <p className="text-[14px] sm:text-[15px] text-white/45 leading-relaxed max-w-md">
+              <p className="text-[14px] sm:text-[15px] text-white leading-relaxed max-w-md">
                 Every task from 8 weeks out through move day and after — insurance, utilities, permits, closing dates. Read it free, no email required.
               </p>
             </div>
@@ -772,10 +771,6 @@ export default function LandingSections({ onOpenBooking, posts = [] }: { onOpenB
         <TrustSection />
       </div>
 
-      <div className="border-t border-white/[0.05]">
-        <ChecklistPromoSection />
-      </div>
-
       {/* Service Areas */}
       <div className="border-t border-white/[0.05]">
         <section id="areas" className="relative w-full py-16 sm:py-24 overflow-hidden">
@@ -831,6 +826,10 @@ export default function LandingSections({ onOpenBooking, posts = [] }: { onOpenB
 
       {/* Blog magazine */}
       {posts.length > 0 && <BlogMagazineSection posts={posts} />}
+
+      <div className="border-t border-white/[0.05]">
+        <ChecklistPromoSection />
+      </div>
 
       {/* Final CTA */}
       <motion.div
