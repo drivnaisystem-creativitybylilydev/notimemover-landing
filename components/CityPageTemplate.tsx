@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Footer from '@/components/Footer'
 import FaqSection from '@/components/FaqSection'
 import { getLocationByCityName, type Location } from '@/lib/locations'
+import { getService } from '@/lib/services'
 
 // Derived from the real housingStock text already written per location —
 // not a new fact, just a signal used to pick which copy fits better.
@@ -88,6 +89,26 @@ function cityFaqPool(loc: Location) {
       q: `Do you know the parking and loading situation in ${city}?`,
       a: `Yes. ${city} is mostly ${housingLower}, and our crews already know what that means for parking, loading dock access, and building rules in the area — it's factored into the timing estimate we give you, not treated as a surprise on move day.`,
     },
+    {
+      q: `Can you move heavy or bulky furniture in ${city}?`,
+      a: `Yes — pianos, large sectionals, appliances, whatever it is. Just flag it when you submit your ${city} quote so we bring the right crew size and equipment rather than figuring it out on the truck.`,
+    },
+    {
+      q: `Do you charge a cancellation or rescheduling fee in ${city}?`,
+      a: `No cancellation fee for reasonable notice. If your ${city} move date shifts, tell us as early as you can and we'll move your slot — the budget you locked in stays the same.`,
+    },
+    {
+      q: `What forms of payment do you accept for ${city} moves?`,
+      a: `Card, and other standard payment methods. We confirm the exact amount before move day, so there's no ambiguity about what you owe once the truck pulls away from your ${city} address.`,
+    },
+    {
+      q: `Can I combine a ${city} move with a stop in ${neighborhoods[1]}?`,
+      a: `Yes — plenty of our jobs are exactly that: a pickup in ${city} and a drop somewhere in ${nearBy}. Mention both addresses when you submit your quote and we'll price it as one move, not two.`,
+    },
+    {
+      q: `Do you help with elevator or loading dock reservations in ${city}?`,
+      a: `Where buildings require it, yes. ${city} is mostly ${housingLower}, and we're used to coordinating reservation windows with building management ahead of move day rather than showing up and hoping the elevator's free.`,
+    },
   ]
 }
 
@@ -132,10 +153,21 @@ function getBenefits(loc: Location) {
   ]
 }
 
+// Local Moving fits every location; Same-Day suits dense/urban housing stock
+// where short-notice walk-up moves are common, Long-Distance suits the
+// larger, further-out homes more likely to be relocating out of state.
+function getRelatedServices(suburban: boolean) {
+  const slugs = suburban
+    ? ['local-moving', 'long-distance-moving']
+    : ['local-moving', 'same-day-moving']
+  return slugs.map((slug) => getService(slug)).filter(Boolean) as NonNullable<ReturnType<typeof getService>>[]
+}
+
 export default function CityPageTemplate({ loc }: { loc: Location }) {
   const faqs = cityFaqs(loc)
   const suburban = isSuburbanCharacter(loc.housingStock)
   const benefits = getBenefits(loc)
+  const relatedServices = getRelatedServices(suburban)
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -371,6 +403,25 @@ export default function CityPageTemplate({ loc }: { loc: Location }) {
                     {benefit.body}
                   </p>
                 </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="max-w-5xl mx-auto px-5 sm:px-8 pb-10 sm:pb-14">
+            <div className="flex flex-wrap items-center gap-4">
+              <p className="text-[13px] text-white/40">
+                Also moving in {loc.city}:
+              </p>
+              {relatedServices.map((service) => (
+                <Link
+                  key={service.slug}
+                  href={`/${service.slug}`}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-4 py-2 text-[13px] font-medium text-white/70 hover:text-white hover:border-white/[0.2] hover:bg-white/[0.06] transition-colors duration-200"
+                >
+                  {service.name}
+                </Link>
               ))}
             </div>
           </div>
