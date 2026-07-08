@@ -5,6 +5,8 @@ export interface ServiceFaq {
 
 export interface Service {
   slug: string
+  /** ISO date (YYYY-MM-DD) this entry's own content was last edited — bump when editing this specific service, not the whole file. Drives per-page sitemap lastmod. */
+  lastUpdated: string
   name: string
   eyebrow: string
   headline: string
@@ -20,6 +22,7 @@ export interface Service {
 export const services: Service[] = [
   {
     slug: 'local-moving',
+    lastUpdated: '2026-07-07',
     name: 'Local Moving',
     eyebrow: 'Local Moving',
     headline: 'Local moving in Massachusetts, on your terms.',
@@ -56,6 +59,7 @@ export const services: Service[] = [
   },
   {
     slug: 'long-distance-moving',
+    lastUpdated: '2026-07-07',
     name: 'Long-Distance Moving',
     eyebrow: 'Long-Distance Moving',
     headline: 'Long-distance moving from Boston — your price, our truck.',
@@ -99,6 +103,7 @@ export const services: Service[] = [
   },
   {
     slug: 'same-day-moving',
+    lastUpdated: '2026-07-07',
     name: 'Same-Day Moving',
     eyebrow: 'Same-Day Moving',
     headline: 'Need to move today? We\'re ready.',

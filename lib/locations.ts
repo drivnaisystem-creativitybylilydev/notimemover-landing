@@ -1,5 +1,7 @@
 export interface Location {
   slug: string
+  /** ISO date (YYYY-MM-DD) this entry's own content was last edited — bump when editing this specific location, not the whole file. Drives per-page sitemap lastmod. */
+  lastUpdated: string
   city: string
   headline: string
   description: string
@@ -17,6 +19,7 @@ export const locations: Location[] = [
   // ── Inner Boston neighborhoods ────────────────────────────────────────────
   {
     slug: 'movers-allston-ma',
+    lastUpdated: '2026-07-07',
     city: 'Allston',
     headline: 'Allston moves on your terms.',
     description: 'Allston is one of the densest rental markets in Greater Boston — high turnover, tight hallways, and September 1st chaos. NoTimeMover handles it all. Set your budget before we reach out.',
@@ -34,6 +37,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-back-bay-ma',
+    lastUpdated: '2026-07-07',
     city: 'Back Bay',
     headline: 'Back Bay moves on your terms.',
     description: 'Back Bay brownstones, narrow staircases, and street parking make every move a logistics challenge. NoTimeMover knows the neighborhood. Tell us your budget and we handle the rest.',
@@ -51,6 +55,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-brighton-ma',
+    lastUpdated: '2026-07-07',
     city: 'Brighton',
     headline: 'Brighton moves on your terms.',
     description: 'Brighton is packed with students, young professionals, and apartment buildings that turn over every September. NoTimeMover is built for this market. Set your budget, we do the rest.',
@@ -68,6 +73,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-charlestown-ma',
+    lastUpdated: '2026-07-07',
     city: 'Charlestown',
     headline: 'Charlestown moves on your terms.',
     description: 'Charlestown townhouses, Navy Yard condos, and the historic streets between — NoTimeMover moves them all. Tell us your budget, we confirm what it covers.',
@@ -85,6 +91,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-dorchester-ma',
+    lastUpdated: '2026-07-07',
     city: 'Dorchester',
     headline: 'Dorchester moves on your terms.',
     description: 'Dorchester is Boston\'s largest neighborhood and one of its most active moving markets. Whether you\'re moving within Dot or heading out, NoTimeMover has you covered.',
@@ -102,6 +109,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-east-boston-ma',
+    lastUpdated: '2026-07-07',
     city: 'East Boston',
     headline: 'East Boston moves on your terms.',
     description: 'Eastie is growing fast — new builds, renovated triple-deckers, and a steady stream of new residents. NoTimeMover serves East Boston with fully insured crews and same-day response.',
@@ -119,6 +127,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-fenway-ma',
+    lastUpdated: '2026-07-07',
     city: 'Fenway',
     headline: 'Fenway moves on your terms.',
     description: 'Fenway\'s dense student population and high apartment turnover make it one of Boston\'s busiest moving zones. NoTimeMover is ready — tell us your budget, we show up.',
@@ -136,6 +145,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-jamaica-plain-ma',
+    lastUpdated: '2026-07-07',
     city: 'Jamaica Plain',
     headline: 'Jamaica Plain moves on your terms.',
     description: 'JP\'s mix of Victorian homes, condos, and apartments draws a steady flow of movers year-round. NoTimeMover covers the whole neighborhood and beyond.',
@@ -153,6 +163,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-south-boston-ma',
+    lastUpdated: '2026-07-07',
     city: 'South Boston',
     headline: 'South Boston moves on your terms.',
     description: 'Southie has one of the highest apartment turnover rates in the city — especially September 1st. NoTimeMover handles Seaport condos and triple-deckers equally.',
@@ -170,6 +181,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-south-end-ma',
+    lastUpdated: '2026-07-07',
     city: 'South End',
     headline: 'South End moves on your terms.',
     description: 'The South End\'s Victorian rowhouses and converted brownstones are beautiful — and a challenge to move in and out of. NoTimeMover\'s crew knows the drill.',
@@ -187,6 +199,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-roxbury-ma',
+    lastUpdated: '2026-07-07',
     city: 'Roxbury',
     headline: 'Roxbury moves on your terms.',
     description: 'Roxbury is central Boston — close to everything, dense, and active. NoTimeMover serves Roxbury and the surrounding neighborhoods with a fully insured crew.',
@@ -204,6 +217,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-mission-hill-ma',
+    lastUpdated: '2026-07-07',
     city: 'Mission Hill',
     headline: 'Mission Hill moves on your terms.',
     description: 'Mission Hill\'s steep streets and dense apartments are home to one of Boston\'s biggest student populations. NoTimeMover handles walk-ups and tight spaces without charging extra.',
@@ -221,6 +235,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-hyde-park-ma',
+    lastUpdated: '2026-07-07',
     city: 'Hyde Park',
     headline: 'Hyde Park moves on your terms.',
     description: 'Hyde Park is one of Boston\'s most residential neighborhoods — larger homes, more furniture, and longer drives. NoTimeMover handles it all without surprise fees.',
@@ -238,6 +253,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-roslindale-ma',
+    lastUpdated: '2026-07-07',
     city: 'Roslindale',
     headline: 'Roslindale moves on your terms.',
     description: 'Roslindale\'s quiet streets and family homes don\'t move as chaotically as inner Boston — but they still need a crew that shows up on time and works clean.',
@@ -255,6 +271,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-west-roxbury-ma',
+    lastUpdated: '2026-07-07',
     city: 'West Roxbury',
     headline: 'West Roxbury moves on your terms.',
     description: 'West Roxbury\'s single-family homes and tree-lined streets are some of Boston\'s most sought-after real estate. NoTimeMover handles residential moves with care.',
@@ -272,6 +289,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-beacon-hill-ma',
+    lastUpdated: '2026-07-08',
     city: 'Beacon Hill',
     headline: 'Beacon Hill moves on your terms.',
     description: "Gas lamps, brick sidewalks, and streets too narrow for a standard moving truck. Beacon Hill is one of Boston's toughest neighborhoods to move into — NoTimeMover knows how to work around the constraints without passing the headache on to you.",
@@ -289,6 +307,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-north-end-ma',
+    lastUpdated: '2026-07-08',
     city: 'North End',
     headline: 'North End moves on your terms.',
     description: "Boston's North End runs on one of the oldest street grids in the country — narrow alleys, essentially no parking, and walk-up apartments that haven't changed much since the 1800s. NoTimeMover handles North End moves without stair fees or surprise charges.",
@@ -306,6 +325,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-seaport-ma',
+    lastUpdated: '2026-07-08',
     city: 'Seaport',
     headline: 'Seaport moves on your terms.',
     description: "The Seaport District is one of Boston's newest neighborhoods — wide streets, modern loading docks, and luxury towers built for convenience. NoTimeMover handles Seaport condos and apartments without the luxury markup on the moving side.",
@@ -323,6 +343,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-chinatown-ma',
+    lastUpdated: '2026-07-07',
     city: 'Chinatown',
     headline: 'Chinatown moves on your terms.',
     description: "Boston's Chinatown is dense and compact — a mix of walk-up apartments, mid-rises, and older buildings packed in between the South End, Downtown, and the Theater District. NoTimeMover serves Chinatown without stair fees or minimum charges.",
@@ -340,6 +361,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-downtown-boston-ma',
+    lastUpdated: '2026-07-08',
     city: 'Downtown Boston',
     headline: 'Downtown Boston moves on your terms.',
     description: "Downtown Boston has a growing condo market with strict building management rules to match. NoTimeMover is fully insured and can provide a certificate of liability for any building that requires one — no back-and-forth, no delay on move day.",
@@ -357,6 +379,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-mattapan-ma',
+    lastUpdated: '2026-07-07',
     city: 'Mattapan',
     headline: 'Mattapan moves on your terms.',
     description: "Mattapan is one of Boston's largest residential neighborhoods — triple-deckers, single-family homes, and a steady flow of renters and owners who just need a reliable crew. NoTimeMover serves Mattapan with the same fully insured team it sends anywhere in Boston.",
@@ -374,6 +397,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-kenmore-square-ma',
+    lastUpdated: '2026-07-08',
     city: 'Kenmore Square',
     headline: 'Kenmore Square moves on your terms.',
     description: "Kenmore Square sits right between BU, Fenway Park, and the Green Line — one of Boston's busiest student neighborhoods. September 1st is the biggest moving day of the year here. NoTimeMover has handled it before and is ready for it again.",
@@ -391,6 +415,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-longwood-ma',
+    lastUpdated: '2026-07-08',
     city: 'Longwood',
     headline: 'Longwood moves on your terms.',
     description: "The Longwood Medical Area draws a steady stream of medical students, residents, and staff who need flexible, no-fuss moving. NoTimeMover serves Longwood with same-day response and a fully insured crew — no matter how short the lease or how tight the timeline.",
@@ -409,6 +434,7 @@ export const locations: Location[] = [
   // ── Greater Boston suburbs ────────────────────────────────────────────────
   {
     slug: 'movers-boston-ma',
+    lastUpdated: '2026-07-07',
     city: 'Boston',
     headline: 'Boston moves on your terms.',
     description: 'Boston\'s busiest moving day is September 1st — but NoTimeMover is ready year-round. Set your budget before we contact you, skip the surprise quotes, and get moving.',
@@ -426,6 +452,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-cambridge-ma',
+    lastUpdated: '2026-07-07',
     city: 'Cambridge',
     headline: 'Cambridge moves on your terms.',
     description: 'Home to Harvard, MIT, and one of the densest apartment markets in New England. Cambridge triple-deckers, high-rises, and student moves are NoTimeMover\'s specialty.',
@@ -443,6 +470,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-somerville-ma',
+    lastUpdated: '2026-07-07',
     city: 'Somerville',
     headline: 'Somerville moves on your terms.',
     description: 'Somerville is one of the most densely populated cities in the US — triple-deckers stacked on top of each other, Green Line stops, and a thriving arts crowd that moves often.',
@@ -460,6 +488,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-brookline-ma',
+    lastUpdated: '2026-07-07',
     city: 'Brookline',
     headline: 'Brookline moves on your terms.',
     description: 'Brookline\'s leafy streets, large homes, and proximity to Boston make it one of Greater Boston\'s most active moving markets. NoTimeMover serves Brookline with a fully insured crew.',
@@ -477,6 +506,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-newton-ma',
+    lastUpdated: '2026-07-07',
     city: 'Newton',
     headline: 'Newton moves on your terms.',
     description: 'Newton\'s 13 villages and large residential homes mean bigger moves, more furniture, and more logistics. NoTimeMover handles Newton moves without hourly billing surprises.',
@@ -494,6 +524,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-quincy-ma',
+    lastUpdated: '2026-07-07',
     city: 'Quincy',
     headline: 'Quincy moves on your terms.',
     description: 'Quincy is one of the fastest-growing cities south of Boston — new condos downtown, family neighborhoods further out. NoTimeMover covers all of Quincy and the South Shore.',
@@ -511,6 +542,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-medford-ma',
+    lastUpdated: '2026-07-07',
     city: 'Medford',
     headline: 'Medford moves on your terms.',
     description: 'Medford sits right at the crossroads of several major commuter corridors — close to Somerville, Cambridge, and Malden. NoTimeMover serves Medford with a fully insured crew.',
@@ -528,6 +560,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-malden-ma',
+    lastUpdated: '2026-07-07',
     city: 'Malden',
     headline: 'Malden moves on your terms.',
     description: 'Malden is one of Greater Boston\'s most diverse and active rental markets — affordable, Orange Line connected, and always moving. NoTimeMover is built for this.',
@@ -545,6 +578,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-everett-ma',
+    lastUpdated: '2026-07-07',
     city: 'Everett',
     headline: 'Everett moves on your terms.',
     description: 'Everett has transformed rapidly over the past few years — new developments, a booming restaurant scene, and a steady flow of residents coming and going.',
@@ -562,6 +596,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-revere-ma',
+    lastUpdated: '2026-07-07',
     city: 'Revere',
     headline: 'Revere moves on your terms.',
     description: 'Revere Beach is the backdrop, but the city itself is a dense, growing rental market with strong demand for reliable movers. NoTimeMover serves Revere and the North Shore.',
@@ -579,6 +614,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-chelsea-ma',
+    lastUpdated: '2026-07-07',
     city: 'Chelsea',
     headline: 'Chelsea moves on your terms.',
     description: 'Chelsea is one of Greater Boston\'s most affordable cities — but it\'s changing fast. NoTimeMover serves Chelsea\'s apartments and condos with a fully insured crew.',
@@ -596,6 +632,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-waltham-ma',
+    lastUpdated: '2026-07-07',
     city: 'Waltham',
     headline: 'Waltham moves on your terms.',
     description: 'Waltham is a dense suburb with Brandeis University, a massive biotech corridor, and a steady flow of apartments turning over every year. NoTimeMover covers it all.',
@@ -613,6 +650,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-watertown-ma',
+    lastUpdated: '2026-07-07',
     city: 'Watertown',
     headline: 'Watertown moves on your terms.',
     description: 'Watertown sits between Cambridge, Newton, and Waltham — a convenient spot for commuters and a growing condo market. NoTimeMover has you covered.',
@@ -630,6 +668,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-arlington-ma',
+    lastUpdated: '2026-07-07',
     city: 'Arlington',
     headline: 'Arlington moves on your terms.',
     description: 'Arlington is one of the most desirable towns between Cambridge and Lexington — family-friendly, great schools, and a constant flow of new residents each year.',
@@ -647,6 +686,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-belmont-ma',
+    lastUpdated: '2026-07-07',
     city: 'Belmont',
     headline: 'Belmont moves on your terms.',
     description: 'Belmont is a quiet residential town with large homes and an affluent commuter base. NoTimeMover handles Belmont moves with the care they deserve — no surprise fees.',
@@ -664,6 +704,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-needham-ma',
+    lastUpdated: '2026-07-07',
     city: 'Needham',
     headline: 'Needham moves on your terms.',
     description: 'Needham\'s high home values and large floor plans mean bigger moves. NoTimeMover handles full house moves, condo relocations, and everything in between — tell us your budget.',
@@ -681,6 +722,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-dedham-ma',
+    lastUpdated: '2026-07-07',
     city: 'Dedham',
     headline: 'Dedham moves on your terms.',
     description: 'Dedham is a growing suburb southwest of Boston — easy highway access, solid schools, and a steady housing market that keeps movers busy year-round.',
@@ -698,6 +740,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-braintree-ma',
+    lastUpdated: '2026-07-07',
     city: 'Braintree',
     headline: 'Braintree moves on your terms.',
     description: 'Braintree is the southern anchor of the Red Line — great highway access, solid neighborhoods, and a mix of condos and single-family homes that turn over regularly.',
@@ -715,6 +758,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-milton-ma',
+    lastUpdated: '2026-07-07',
     city: 'Milton',
     headline: 'Milton moves on your terms.',
     description: 'Milton sits between Boston and Quincy — quiet, suburban, and full of large family homes. NoTimeMover handles residential moves in Milton without hourly billing surprises.',
@@ -732,6 +776,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-lynn-ma',
+    lastUpdated: '2026-07-07',
     city: 'Lynn',
     headline: 'Lynn moves on your terms.',
     description: 'Lynn is one of the North Shore\'s most affordable cities and one of its most active rental markets. NoTimeMover serves Lynn with a fully insured crew and same-day response.',
@@ -749,6 +794,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-winthrop-ma',
+    lastUpdated: '2026-07-07',
     city: 'Winthrop',
     headline: 'Winthrop moves on your terms.',
     description: 'Winthrop is a small peninsula town east of Boston with a tight-knit community and a limited supply of housing that drives steady moving demand.',
@@ -766,6 +812,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-woburn-ma',
+    lastUpdated: '2026-07-07',
     city: 'Woburn',
     headline: 'Woburn moves on your terms.',
     description: 'Woburn is a fast-growing suburb north of Boston — close to Route 128, with new apartment complexes and established neighborhoods all moving regularly.',
@@ -783,6 +830,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-burlington-ma',
+    lastUpdated: '2026-07-07',
     city: 'Burlington',
     headline: 'Burlington moves on your terms.',
     description: 'Burlington is a thriving Route 128 suburb — lots of new apartment development, proximity to tech campuses, and a steady flow of residents moving in and out.',
@@ -800,6 +848,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-lexington-ma',
+    lastUpdated: '2026-07-07',
     city: 'Lexington',
     headline: 'Lexington moves on your terms.',
     description: 'Lexington is one of Greater Boston\'s most prestigious suburbs — large homes, top-rated schools, and a housing market that keeps movers busy. NoTimeMover handles it with care.',
@@ -817,6 +866,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-framingham-ma',
+    lastUpdated: '2026-07-07',
     city: 'Framingham',
     headline: 'Framingham moves on your terms.',
     description: 'Framingham is a hub city along Route 9 — a mix of apartments, condos, and single-family homes that makes it one of MetroWest\'s busiest moving markets.',
@@ -834,6 +884,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-natick-ma',
+    lastUpdated: '2026-07-07',
     city: 'Natick',
     headline: 'Natick moves on your terms.',
     description: 'Natick is a growing MetroWest town with a mix of new condos, classic New England homes, and a steady flow of residents relocating to and from Greater Boston.',
@@ -851,6 +902,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-wellesley-ma',
+    lastUpdated: '2026-07-07',
     city: 'Wellesley',
     headline: 'Wellesley moves on your terms.',
     description: 'Wellesley is one of the most desirable towns in Greater Boston — large homes, Wellesley College, and a housing market that demands a crew you can trust.',
@@ -868,6 +920,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-marlborough-ma',
+    lastUpdated: '2026-07-07',
     city: 'Marlborough',
     headline: 'Marlborough moves on your terms.',
     description: 'Marlborough sits along the Route 20/I-495 corporate corridor — apartment complexes, corporate relocations, and a historic downtown that all turn over regularly. NoTimeMover covers Marlborough and the rest of MetroWest.',
@@ -885,6 +938,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-peabody-ma',
+    lastUpdated: '2026-07-07',
     city: 'Peabody',
     headline: 'Peabody moves on your terms.',
     description: 'Peabody is one of the North Shore\'s largest cities — affordable housing, good highway access, and a steady rental market. NoTimeMover serves Peabody with same-day response.',
@@ -902,6 +956,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-salem-ma',
+    lastUpdated: '2026-07-07',
     city: 'Salem',
     headline: 'Salem moves on your terms.',
     description: 'Salem is one of the most vibrant cities on the North Shore — historic, dense, and growing. NoTimeMover handles Salem\'s Victorian homes, condos, and apartments alike.',
@@ -919,6 +974,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-beverly-ma',
+    lastUpdated: '2026-07-07',
     city: 'Beverly',
     headline: 'Beverly moves on your terms.',
     description: 'Beverly is a growing North Shore city with a mix of commuters, artists, and families. NoTimeMover serves Beverly with a fully insured crew and no-nonsense pricing.',
@@ -937,6 +993,7 @@ export const locations: Location[] = [
   // ── Extended MA ───────────────────────────────────────────────────────────
   {
     slug: 'movers-worcester-ma',
+    lastUpdated: '2026-07-07',
     city: 'Worcester',
     headline: 'Worcester moves on your terms.',
     description: 'Worcester is Massachusetts\' second-largest city — home to Clark, WPI, Holy Cross, and a large apartment market. NoTimeMover handles Worcester moves without hourly billing surprises.',
@@ -954,6 +1011,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-lowell-ma',
+    lastUpdated: '2026-07-07',
     city: 'Lowell',
     headline: 'Lowell moves on your terms.',
     description: 'Lowell is a diverse, growing city along the Merrimack — UMass Lowell, a revitalized downtown, and a large rental market. NoTimeMover serves Lowell with same-day response.',
@@ -971,6 +1029,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-springfield-ma',
+    lastUpdated: '2026-07-07',
     city: 'Springfield',
     headline: 'Springfield moves on your terms.',
     description: 'Springfield is the anchor of Western Massachusetts — the biggest city for 100 miles in any direction and a major hub for both local and out-of-state moves.',
@@ -988,6 +1047,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-lawrence-ma',
+    lastUpdated: '2026-07-07',
     city: 'Lawrence',
     headline: 'Lawrence moves on your terms.',
     description: 'Lawrence is a dense Merrimack Valley city with one of the most active rental markets in the region. NoTimeMover handles Lawrence moves quickly and without surprise fees.',
@@ -1005,6 +1065,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-haverhill-ma',
+    lastUpdated: '2026-07-07',
     city: 'Haverhill',
     headline: 'Haverhill moves on your terms.',
     description: 'Haverhill is a growing Merrimack Valley city with a revitalized downtown and an active housing market. NoTimeMover serves Haverhill with fully insured crews.',
@@ -1022,6 +1083,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-brockton-ma',
+    lastUpdated: '2026-07-07',
     city: 'Brockton',
     headline: 'Brockton moves on your terms.',
     description: 'Brockton is one of the most populous cities in southeastern Massachusetts — a large, diverse rental market with steady moving demand year-round.',
@@ -1039,6 +1101,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-new-bedford-ma',
+    lastUpdated: '2026-07-07',
     city: 'New Bedford',
     headline: 'New Bedford moves on your terms.',
     description: 'New Bedford is the largest city on the SouthCoast — a historic whaling city with a large working-class rental market and strong moving demand throughout the year.',
@@ -1056,6 +1119,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-fall-river-ma',
+    lastUpdated: '2026-07-07',
     city: 'Fall River',
     headline: 'Fall River moves on your terms.',
     description: 'Fall River sits right on the Rhode Island border — close enough to Providence for out-of-state demand and large enough for a thriving local rental market.',
@@ -1073,6 +1137,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-taunton-ma',
+    lastUpdated: '2026-07-07',
     city: 'Taunton',
     headline: 'Taunton moves on your terms.',
     description: 'Taunton is a growing city at the crossroads of southeastern Massachusetts — midway between Boston, Providence, and New Bedford, with a steady housing market.',
@@ -1090,6 +1155,7 @@ export const locations: Location[] = [
   },
   {
     slug: 'movers-plymouth-ma',
+    lastUpdated: '2026-07-07',
     city: 'Plymouth',
     headline: 'Plymouth moves on your terms.',
     description: 'Plymouth is America\'s hometown and one of the fastest-growing towns on the South Shore — new construction, waterfront condos, and a busy seasonal moving market.',

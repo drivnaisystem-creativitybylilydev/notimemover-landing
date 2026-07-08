@@ -1,5 +1,7 @@
 export interface OosRoute {
   slug: string
+  /** ISO date (YYYY-MM-DD) this entry's own content was last edited — bump when editing this specific route, not the whole file. Drives per-page sitemap lastmod. */
+  lastUpdated: string
   destination: string
   destinationState: string
   headline: string
@@ -15,6 +17,7 @@ export interface OosRoute {
 export const oosRoutes: OosRoute[] = [
   {
     slug: 'boston-to-new-york-movers',
+    lastUpdated: '2026-06-12',
     destination: 'New York',
     destinationState: 'NY',
     headline: 'Boston to New York. Your price, our truck.',
@@ -34,6 +37,7 @@ export const oosRoutes: OosRoute[] = [
   },
   {
     slug: 'boston-to-new-jersey-movers',
+    lastUpdated: '2026-06-12',
     destination: 'New Jersey',
     destinationState: 'NJ',
     headline: 'Boston to New Jersey. Fully insured, no surprises.',
@@ -53,6 +57,7 @@ export const oosRoutes: OosRoute[] = [
   },
   {
     slug: 'boston-to-connecticut-movers',
+    lastUpdated: '2026-06-12',
     destination: 'Connecticut',
     destinationState: 'CT',
     headline: 'Boston to Connecticut. Short distance, done right.',
@@ -72,6 +77,7 @@ export const oosRoutes: OosRoute[] = [
   },
   {
     slug: 'boston-to-philadelphia-movers',
+    lastUpdated: '2026-06-12',
     destination: 'Philadelphia',
     destinationState: 'PA',
     headline: 'Boston to Philadelphia. One move, handled.',
@@ -91,6 +97,7 @@ export const oosRoutes: OosRoute[] = [
   },
   {
     slug: 'boston-to-washington-dc-movers',
+    lastUpdated: '2026-06-12',
     destination: 'Washington DC',
     destinationState: 'DC',
     headline: 'Boston to Washington DC. Distance handled.',
@@ -110,6 +117,7 @@ export const oosRoutes: OosRoute[] = [
   },
   {
     slug: 'boston-to-florida-movers',
+    lastUpdated: '2026-06-12',
     destination: 'Florida',
     destinationState: 'FL',
     headline: 'Boston to Florida. The full move, fully covered.',
