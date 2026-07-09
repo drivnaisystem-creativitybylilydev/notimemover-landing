@@ -18,22 +18,22 @@ export default function Footer() {
               <span className="text-[17px] font-semibold tracking-tight text-white">NoTime</span>
               <span className="text-[17px] font-semibold tracking-tight text-coffee-light">Mover</span>
             </Link>
-            <p className="text-[13px] text-white/35 leading-relaxed max-w-[200px] mb-6">
+            <p className="text-[13px] text-white/50 leading-relaxed max-w-[200px] mb-6">
               Fully insured Boston movers. Tell us your budget — we confirm same day.
             </p>
             <div className="flex flex-col gap-2.5">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.18em] text-white/25 font-semibold mb-1">Business</p>
-                <p className="text-[13px] text-white/40 font-medium">NoTimeMover</p>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-white/50 font-semibold mb-1">Business</p>
+                <p className="text-[13px] text-white/50 font-medium">NoTimeMover</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-[0.18em] text-white/25 font-semibold mb-1">Service Area</p>
-                <p className="text-[13px] text-white/40">Greater Boston, MA</p>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-white/50 font-semibold mb-1">Service Area</p>
+                <p className="text-[13px] text-white/50">Greater Boston, MA</p>
               </div>
-              <a href="tel:+12039194098" className="text-[13px] text-white/40 hover:text-white/70 transition-colors duration-200 font-medium">
+              <a href="tel:+12039194098" className="text-[13px] text-white/50 hover:text-white/70 transition-colors duration-200 font-medium">
                 (203) 919-4098
               </a>
-              <a href="mailto:contact@notimemover.com" className="text-[12px] text-white/40 hover:text-white/70 transition-colors duration-200">
+              <a href="mailto:contact@notimemover.com" className="text-[12px] text-white/50 hover:text-white/70 transition-colors duration-200">
                 contact@notimemover.com
               </a>
             </div>
@@ -41,7 +41,7 @@ export default function Footer() {
 
           {/* Navigation column */}
           <div>
-            <p className="text-[10px] uppercase tracking-[0.22em] text-white/25 font-semibold mb-4">Navigation</p>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-white/50 font-semibold mb-4">Navigation</p>
             <ul className="flex flex-col gap-2.5">
               {[
                 { label: 'How it works', href: '/#how-it-works' },
@@ -51,7 +51,7 @@ export default function Footer() {
                 { label: 'Contact', href: '/contact' },
               ].map(({ label, href }) => (
                 <li key={href}>
-                  <Link href={href} className="text-[13px] text-white/40 hover:text-white/80 transition-colors duration-200">
+                  <Link href={href} className="text-[13px] text-white/50 hover:text-white/80 transition-colors duration-200">
                     {label}
                   </Link>
                 </li>
@@ -61,7 +61,7 @@ export default function Footer() {
 
           {/* Services column */}
           <div>
-            <p className="text-[10px] uppercase tracking-[0.22em] text-white/25 font-semibold mb-4">Services</p>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-white/50 font-semibold mb-4">Services</p>
             <ul className="flex flex-col gap-2.5">
               {[
                 { label: 'Local moving', href: '/local-moving' },
@@ -72,7 +72,7 @@ export default function Footer() {
                 { label: 'Boston → Connecticut', href: '/boston-to-connecticut-movers' },
               ].map(({ label, href }) => (
                 <li key={href}>
-                  <Link href={href} className="text-[13px] text-white/40 hover:text-white/80 transition-colors duration-200">
+                  <Link href={href} className="text-[13px] text-white/50 hover:text-white/80 transition-colors duration-200">
                     {label}
                   </Link>
                 </li>
@@ -82,13 +82,13 @@ export default function Footer() {
 
           {/* Blog column */}
           <div>
-            <p className="text-[10px] uppercase tracking-[0.22em] text-white/25 font-semibold mb-4">Blog</p>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-white/50 font-semibold mb-4">Blog</p>
             <ul className="flex flex-col gap-2.5">
               {posts.slice(0, 4).map((post) => (
                 <li key={post.slug}>
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="text-[13px] text-white/40 hover:text-white/80 transition-colors duration-200 leading-snug block"
+                    className="text-[13px] text-white/50 hover:text-white/80 transition-colors duration-200 leading-snug block"
                   >
                     {post.title}
                   </Link>
@@ -108,13 +108,13 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-white/[0.05]">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[11px] text-white/25 uppercase tracking-[0.18em] font-medium">
+          <p className="text-[11px] text-white/50 uppercase tracking-[0.18em] font-medium">
             © {new Date().getFullYear()} NoTimeMover &nbsp;·&nbsp; Fully Insured &nbsp;·&nbsp; Boston, MA
           </p>
           <div className="flex items-center gap-5">
-            <Link href="/privacy" className="text-[11px] uppercase tracking-[0.18em] text-white/25 hover:text-white/55 transition-colors font-medium">Privacy</Link>
-            <Link href="/terms" className="text-[11px] uppercase tracking-[0.18em] text-white/25 hover:text-white/55 transition-colors font-medium">Terms</Link>
-            <Link href="/contact" className="text-[11px] uppercase tracking-[0.18em] text-white/25 hover:text-white/55 transition-colors font-medium">Contact</Link>
+            <Link href="/privacy" className="text-[11px] uppercase tracking-[0.18em] text-white/50 hover:text-white/70 transition-colors font-medium">Privacy</Link>
+            <Link href="/terms" className="text-[11px] uppercase tracking-[0.18em] text-white/50 hover:text-white/70 transition-colors font-medium">Terms</Link>
+            <Link href="/contact" className="text-[11px] uppercase tracking-[0.18em] text-white/50 hover:text-white/70 transition-colors font-medium">Contact</Link>
           </div>
         </div>
       </div>

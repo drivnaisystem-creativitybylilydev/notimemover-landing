@@ -24,7 +24,7 @@ export default function FaqSection({
 
   return (
     <section id={id}>
-      <div className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-24">
+      <div className="max-w-5xl mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-16 sm:pb-24">
         <div className="mb-12">
           <p
             className="text-[11px] sm:text-[12px] uppercase tracking-[0.24em] font-semibold mb-4"

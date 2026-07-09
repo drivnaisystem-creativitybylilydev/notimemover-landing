@@ -257,7 +257,7 @@ export default function OurWorkSection({ onOpenBooking }: { onOpenBooking: () =>
                 className="font-semibold tracking-tight leading-[1.1]"
                 style={{ fontSize: 'clamp(22px, 2.8vw, 40px)' }}
               >
-                <span style={{ color: 'rgba(255,255,255,0.32)' }}>
+                <span style={{ color: 'rgba(255,255,255,0.5)' }}>
                   across Greater Boston.
                 </span>
               </p>
@@ -265,10 +265,10 @@ export default function OurWorkSection({ onOpenBooking }: { onOpenBooking: () =>
                 className="font-semibold tracking-tight leading-[1.1]"
                 style={{ fontSize: 'clamp(22px, 2.8vw, 40px)' }}
               >
-                <span style={{ color: 'rgba(255,255,255,0.32)' }}>
+                <span style={{ color: 'rgba(255,255,255,0.5)' }}>
                   No staging, no stock{' '}
                 </span>
-                <span style={{ color: 'rgba(255,255,255,0.32)' }}>photos.</span>
+                <span style={{ color: 'rgba(255,255,255,0.5)' }}>photos.</span>
               </p>
             </div>
 

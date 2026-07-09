@@ -58,7 +58,7 @@ export default function BlogMagazineSection({ posts }: { posts: PostSummary[] })
           </div>
           <Link
             href="/blog"
-            className="hidden sm:inline-flex items-center gap-2 text-[12px] font-medium text-white/35 hover:text-white/75 transition-colors duration-300 shrink-0 mb-1"
+            className="hidden sm:inline-flex items-center gap-2 text-[12px] font-medium text-white/50 hover:text-white/75 transition-colors duration-300 shrink-0 mb-1"
           >
             All guides <ArrowIcon />
           </Link>
@@ -114,8 +114,8 @@ export default function BlogMagazineSection({ posts }: { posts: PostSummary[] })
                   >
                     {featured.category}
                   </span>
-                  <span className="text-[11px] text-white/25">{featured.readTime}</span>
-                  <span className="text-[11px] text-white/20">
+                  <span className="text-[11px] text-white/50">{featured.readTime}</span>
+                  <span className="text-[11px] text-white/50">
                     {new Date(featured.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}
                   </span>
                 </div>
@@ -173,7 +173,7 @@ export default function BlogMagazineSection({ posts }: { posts: PostSummary[] })
                     />
 
                     {/* Index number */}
-                    <span className="text-[10px] font-semibold text-white/15 tabular-nums tracking-widest">
+                    <span className="text-[10px] font-semibold text-white/50 tabular-nums tracking-widest">
                       0{i + 1}
                     </span>
 
@@ -185,7 +185,7 @@ export default function BlogMagazineSection({ posts }: { posts: PostSummary[] })
                       >
                         {post.category}
                       </span>
-                      <span className="text-[10px] text-white/20">{post.readTime}</span>
+                      <span className="text-[10px] text-white/50">{post.readTime}</span>
                     </div>
 
                     {/* Title + description with gradient fade */}
@@ -234,7 +234,7 @@ export default function BlogMagazineSection({ posts }: { posts: PostSummary[] })
                   />
 
                   {/* Index number */}
-                  <span className="text-[10px] font-semibold text-white/15 tabular-nums tracking-widest">
+                  <span className="text-[10px] font-semibold text-white/50 tabular-nums tracking-widest">
                     0{i + 1}
                   </span>
 
@@ -246,7 +246,7 @@ export default function BlogMagazineSection({ posts }: { posts: PostSummary[] })
                     >
                       {post.category}
                     </span>
-                    <span className="text-[10px] text-white/20">{post.readTime}</span>
+                    <span className="text-[10px] text-white/50">{post.readTime}</span>
                   </div>
 
                   {/* Title */}
@@ -255,7 +255,7 @@ export default function BlogMagazineSection({ posts }: { posts: PostSummary[] })
                   </p>
 
                   {/* Promote hint */}
-                  <p className="text-[11px] text-white/20 group-hover:text-coffee-light transition-colors duration-300 flex items-center gap-1.5">
+                  <p className="text-[11px] text-white/50 group-hover:text-coffee-light transition-colors duration-300 flex items-center gap-1.5">
                     <span>View</span>
                     <span className="group-hover:translate-x-0.5 transition-transform duration-200 inline-block">
                       <ArrowIcon />
@@ -270,7 +270,7 @@ export default function BlogMagazineSection({ posts }: { posts: PostSummary[] })
 
         {/* Mobile "all guides" */}
         <div className="mt-6 sm:hidden flex justify-center">
-          <Link href="/blog" className="text-[12px] text-white/35 hover:text-white/70 transition-colors duration-300 flex items-center gap-2">
+          <Link href="/blog" className="text-[12px] text-white/50 hover:text-white/70 transition-colors duration-300 flex items-center gap-2">
             See all guides <ArrowIcon />
           </Link>
         </div>
