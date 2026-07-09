@@ -509,28 +509,29 @@ export default function Hero({ posts = [] }: { posts?: PostSummary[] }) {
                 className="hidden sm:inline-block h-[14px] w-px shrink-0 bg-white/[0.14]"
                 aria-hidden="true"
               />
-              <a
-                href="https://www.google.com/maps/place/NoTimeMover/@42.340288,-71.0250365,11z/data=!4m6!3m5!1s0x223ebce33c8b2c21:0x17a114d1bb1cdcd9!8m2!3d42.340288!4d-71.0250365!16s%2Fg%2F11zkxt0k38"
-                target="_blank"
-                rel="noopener noreferrer"
-                role="listitem"
-                className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.035] px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-[13px] font-semibold text-white/[0.88] leading-none shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)]"
-              >
-                <svg width="14" height="14" viewBox="0 0 48 48" aria-hidden="true" className="shrink-0 sm:w-4 sm:h-4">
-                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
-                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
-                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
-                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
-                </svg>
-                <span className="tracking-[0.02em]">5.0</span>
-                <span className="inline-flex items-center gap-[1px]" style={{ color: '#FFC107' }} aria-hidden="true">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <svg key={i} width="9" height="9" viewBox="0 0 24 24" fill="currentColor" className="sm:w-[10px] sm:h-[10px]">
-                      <path d="M12 2.5l2.9 6.4 6.98.7-5.24 4.77 1.53 6.9L12 17.6l-6.17 3.67 1.53-6.9L2.12 9.6l6.98-.7L12 2.5z" />
-                    </svg>
-                  ))}
-                </span>
-              </a>
+              <span role="listitem">
+                <a
+                  href="https://www.google.com/maps/place/NoTimeMover/@42.340288,-71.0250365,11z/data=!4m6!3m5!1s0x223ebce33c8b2c21:0x17a114d1bb1cdcd9!8m2!3d42.340288!4d-71.0250365!16s%2Fg%2F11zkxt0k38"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.035] px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-[13px] font-semibold text-white/[0.88] leading-none shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)]"
+                >
+                  <svg width="14" height="14" viewBox="0 0 48 48" aria-hidden="true" className="shrink-0 sm:w-4 sm:h-4">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+                  </svg>
+                  <span className="tracking-[0.02em]">5.0</span>
+                  <span className="inline-flex items-center gap-[1px]" style={{ color: '#FFC107' }} aria-hidden="true">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <svg key={i} width="9" height="9" viewBox="0 0 24 24" fill="currentColor" className="sm:w-[10px] sm:h-[10px]">
+                        <path d="M12 2.5l2.9 6.4 6.98.7-5.24 4.77 1.53 6.9L12 17.6l-6.17 3.67 1.53-6.9L2.12 9.6l6.98-.7L12 2.5z" />
+                      </svg>
+                    ))}
+                  </span>
+                </a>
+              </span>
             </div>
           </motion.div>
 
