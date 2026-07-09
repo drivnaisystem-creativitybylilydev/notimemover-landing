@@ -75,6 +75,7 @@ function PhotoCard({ photo, index }: { photo: Photo; index: number }) {
           src={photo.src}
           alt={photo.alt}
           fill
+          quality={68}
           draggable={false}
           sizes="30vw"
           className="object-cover select-none pointer-events-none"

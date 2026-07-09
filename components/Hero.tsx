@@ -396,9 +396,14 @@ function CyclingPoints() {
 
 export default function Hero({ posts = [] }: { posts?: PostSummary[] }) {
   const [bookingOpen, setBookingOpen] = useState(false)
+  const [hasOpenedBooking, setHasOpenedBooking] = useState(false)
   const [initialConfirm, setInitialConfirm] = useState<'instate' | 'oos' | undefined>()
   const [initialStep, setInitialStep] = useState<'pricing' | undefined>()
   const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (bookingOpen) setHasOpenedBooking(true)
+  }, [bookingOpen])
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] })
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08])
@@ -584,7 +589,9 @@ export default function Hero({ posts = [] }: { posts?: PostSummary[] }) {
 
       <LandingSections onOpenBooking={() => setBookingOpen(true)} posts={posts} />
 
-      <BookingFlow isOpen={bookingOpen} onClose={() => setBookingOpen(false)} initialConfirm={initialConfirm} initialStep={initialStep} />
+      {hasOpenedBooking && (
+        <BookingFlow isOpen={bookingOpen} onClose={() => setBookingOpen(false)} initialConfirm={initialConfirm} initialStep={initialStep} />
+      )}
     </>
   )
 }
