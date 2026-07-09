@@ -135,7 +135,7 @@ export default function BlogIndexClient({ posts }: { posts: PostSummary[] }) {
                   </span>
                   <span className="text-[11px] text-white/25">{featured.readTime}</span>
                   <span className="text-[11px] text-white/20">
-                    {new Date(featured.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    {new Date(featured.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}
                   </span>
                 </div>
 

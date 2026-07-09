@@ -123,7 +123,7 @@ export default async function BlogPostPage({
             <span className="text-white/25 text-[11px]">{post.readTime}</span>
             <span className="text-white/[0.12]">·</span>
             <span className="text-white/25 text-[11px]">
-              {new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+              {new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}
             </span>
           </div>
 

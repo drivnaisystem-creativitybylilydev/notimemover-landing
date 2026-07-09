@@ -1,11 +1,11 @@
 # GSC Manual Indexing Progress Tracker
-**Last updated:** 2026-07-08 (evening)
+**Last updated:** 2026-07-09
 **Total location pages:** 64
 **Method:** Google Search Console → URL Inspection → "Request Indexing" (daily quota ~10-12 requests, resets ~midnight)
 
 ---
 
-## ✅ Already Submitted (27 pages, confirmed)
+## ✅ Already Submitted (28 pages, confirmed)
 
 **From URL inspection history (date unknown, prior session):**
 - movers-back-bay-ma
@@ -42,15 +42,17 @@
 - movers-downtown-boston-ma
 - movers-mattapan-ma
 
+**Batch B, partial (2026-07-09) — quota hit after 1:**
+- movers-kenmore-square-ma
+
 ---
 
-## ⏳ Remaining (37 pages) — Split Into Daily Batches
+## ⏳ Remaining (36 pages) — Split Into Daily Batches
 
 Quota resets roughly at midnight Pacific (Google's internal reset, not always aligned to local midnight — if a batch fails immediately in the morning, wait a few hours and retry). Submit ~10/day via GSC → URL Inspection → paste URL → Request Indexing.
 
-### Batch B — Submit Next (Day 2)
+### Batch B remainder — TO BE DONE (submit next, quota reset)
 ```
-https://notimemover.com/movers-kenmore-square-ma
 https://notimemover.com/movers-longwood-ma
 https://notimemover.com/movers-boston-ma
 https://notimemover.com/movers-cambridge-ma

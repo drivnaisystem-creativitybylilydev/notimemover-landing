@@ -149,6 +149,7 @@ export default function BlogTeaserSection({ posts }: { posts: PostSummary[] }) {
                         month: 'short',
                         day: 'numeric',
                         year: 'numeric',
+                        timeZone: 'UTC',
                       })}
                     </span>
                     <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-coffee-light group-hover:text-white/70 transition-colors duration-300">
