@@ -732,6 +732,14 @@ const TESTIMONIALS = [
     quote: 'good on timing, great guys. good price, better than other companies. great efficiency when was on a time crunch to move out. definitely would recommend someone to use in the future.',
     name: 'TJ Levisee',
   },
+  {
+    quote: 'Jermaine made what could have been a stressful move genuinely smooth. He was communicative leading up to the day, showed up on time, and handled everything with care and professionalism.',
+    name: 'Kimberly Caraveo',
+  },
+  {
+    quote: "Jermaine was extremely helpful for my move, I couldn't have done it without him! I would absolutely recommend to a friend. Responsive, considerate, careful, and communicative are the first words that come to mind when thinking about him and his work ethic. Would give an extra star if I could!",
+    name: 'Brooke Parker',
+  },
 ] as const
 
 function StarRow() {
@@ -771,7 +779,7 @@ function TestimonialsSection() {
                 </svg>
               ))}
             </span>
-            <span className="text-white/50 font-medium">&middot; 7 reviews</span>
+            <span className="text-white/50 font-medium">&middot; 9 reviews</span>
           </a>
           <h2 className="text-[clamp(28px,5vw,44px)] font-semibold tracking-tight text-white leading-tight">
             What Massachusetts{' '}
@@ -779,11 +787,24 @@ function TestimonialsSection() {
           </h2>
         </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.name} from="bottom" delay={i * 0.06} amount={0.15}>
+      </div>
+
+      <Reveal from="bottom" amount={0.15}>
+        <div
+          className="relative w-full overflow-hidden"
+          style={{
+            WebkitMaskImage: 'linear-gradient(to right, transparent, black 6%, black 94%, transparent)',
+            maskImage: 'linear-gradient(to right, transparent, black 6%, black 94%, transparent)',
+          }}
+        >
+          <div
+            className="flex w-max gap-4 px-6 sm:px-10 animate-review-marquee-reverse hover:[animation-play-state:paused]"
+            style={{ willChange: 'transform' }}
+          >
+            {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
               <div
-                className="h-full rounded-2xl border border-white/[0.08] p-6 sm:p-7 flex flex-col gap-4"
+                key={i}
+                className="w-[300px] sm:w-[340px] shrink-0 rounded-2xl border border-white/[0.08] p-6 sm:p-7 flex flex-col gap-4"
                 style={{
                   background: 'linear-gradient(145deg, rgba(107,58,31,0.10) 0%, rgba(20,10,3,0.40) 60%, rgba(5,5,5,0.55) 100%)',
                   boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06)',
@@ -797,10 +818,10 @@ function TestimonialsSection() {
                   {t.name}
                 </p>
               </div>
-            </Reveal>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }
